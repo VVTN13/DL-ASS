@@ -24,10 +24,24 @@ a:hover { text-decoration: underline; }
 
 .back { margin: 0 0 24px; font-size: 0.9rem; }
 
-header.site-header,
 header.assignment-header {
   border-bottom: 2px solid #1a4b8c;
   padding-bottom: 20px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #1a4b8c;
+}
+
+.header-logo {
+  height: 56px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .institution, .faculty {
@@ -67,7 +81,7 @@ th, td {
   border-bottom: 1px solid #eee;
   font-size: 0.95rem;
 }
-th { color: #555; font-weight: 600; }
+th { color: #555; font-weight: 600; border-bottom: 1px solid #ddd; }
 
 .repo-link { margin-top: 14px; font-size: 0.95rem; }
 
