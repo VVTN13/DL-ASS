@@ -184,19 +184,8 @@ section { margin-top: 40px; }
 }
 
 @media (max-width: 640px) {
-  .milestones-card { padding: 20px 16px; }
-  .milestones-track-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 6px;
-    margin: 0 -16px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .milestones-track {
-    grid-template-columns: repeat(9, minmax(70px, 1fr));
-    min-width: 630px;
-  }
+  .milestones-track { grid-template-columns: repeat(5, 1fr); row-gap: 24px; }
+  .ms-line, .ms-line-fill { display: none; }
 }
 
 h2 {
