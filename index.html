@@ -3,47 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CO3133 — Group [GROUP ID] — Deep Learning and Its Applications</title>
+  <title>CO3133 — Deep Learning and Its Applications</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page">
 
     <header class="site-header">
-      <p class="institution">Ho Chi Minh City University of Technology (HCMUT), VNU-HCM</p>
-      <p class="faculty">Faculty of Computer Science and Engineering</p>
+      <div class="header-top">
+        <img class="header-logo" src="pics/hcmut-logo.png" alt="HCMUT logo" />
+        <div class="header-text">
+          <p class="institution">VIETNAM NATIONAL UNIVERSITY HO CHI MINH CITY</p>
+          <p class="faculty">HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY</p>
+        </div>
+      </div>
       <h1>Deep Learning and Its Applications</h1>
       <p class="course-meta">CO3133 &middot; Semester 261 &middot; Instructor: Lê Thành Sách</p>
     </header>
 
+    <section class="milestones">
+      <div class="milestones-summary">
+        <p class="ms-today">Today: <strong id="ms-today-date">&nbsp;</strong></p>
+        <p class="ms-upcoming">Upcoming: <strong id="ms-upcoming">&nbsp;</strong></p>
+      </div>
+      <div class="milestones-track-scroll">
+        <div class="milestones-track">
+          <div class="ms-line"></div>
+          <div class="ms-line-fill" id="ms-line-fill"></div>
+          <div class="ms-today-marker" id="ms-today-marker" hidden>
+            <span class="ms-today-marker-date" id="ms-today-marker-date"></span>
+            <span class="ms-today-marker-dot"></span>
+          </div>
+          <div class="ms-point" data-date="2026-09-09">
+            <span class="ms-dot"></span>
+            <span class="ms-date">09 Sep</span>
+            <span class="ms-label">Pages<br>skeleton</span>
+          </div>
+          <div class="ms-point" data-date="2026-09-23">
+            <span class="ms-dot"></span>
+            <span class="ms-date">23 Sep</span>
+            <span class="ms-label">A1 M1<br>Draft</span>
+          </div>
+          <div class="ms-point" data-date="2026-10-07">
+            <span class="ms-dot"></span>
+            <span class="ms-date">07 Oct</span>
+            <span class="ms-label">A2 M1<br>Proposal</span>
+          </div>
+          <div class="ms-point" data-date="2026-10-21">
+            <span class="ms-dot"></span>
+            <span class="ms-date">21 Oct</span>
+            <span class="ms-label">A1 M2<br>Final</span>
+          </div>
+          <div class="ms-point" data-date="2026-10-28">
+            <span class="ms-dot"></span>
+            <span class="ms-date">28 Oct</span>
+            <span class="ms-label">A2 M2<br>Draft</span>
+          </div>
+          <div class="ms-point" data-date="2026-11-11">
+            <span class="ms-dot"></span>
+            <span class="ms-date">11 Nov</span>
+            <span class="ms-label">A2 M3<br>Final</span>
+          </div>
+          <div class="ms-point" data-date="2026-11-18">
+            <span class="ms-dot"></span>
+            <span class="ms-date">18 Nov</span>
+            <span class="ms-label">A3 M1<br>Proposal</span>
+          </div>
+          <div class="ms-point" data-date="2026-11-25">
+            <span class="ms-dot"></span>
+            <span class="ms-date">25 Nov</span>
+            <span class="ms-label">A3 M2<br>Draft</span>
+          </div>
+          <div class="ms-point" data-date="2026-12-02">
+            <span class="ms-dot"></span>
+            <span class="ms-date">02 Dec</span>
+            <span class="ms-label">A3 M3<br>Final</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="group-info">
-      <h2>Group [GROUP ID]</h2>
+      <h2>Group Members</h2>
       <table>
         <thead>
           <tr><th>Name</th><th>Student ID</th><th>Main role</th><th>GitHub</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td>[Full name]</td>
-            <td>[Student ID]</td>
-            <td>[e.g. data pipeline]</td>
-            <td><a href="#">[github.com/username]</a></td>
+            <td>Lê Phước Vũ</td>
+            <td>2353341</td>
+            <td>Data pipeline, preprocessing &amp; EDA</td>
+            <td><a href="https://github.com/VVTN13">github.com/VVTN13</a></td>
           </tr>
           <tr>
-            <td>[Full name]</td>
-            <td>[Student ID]</td>
-            <td>[e.g. model implementation]</td>
-            <td><a href="#">[github.com/username]</a></td>
+            <td>Nguyễn Vũ Long</td>
+            <td>2352696</td>
+            <td>Model implementation &amp; hyperparameter tuning</td>
+            <td><a href="https://github.com/so1vanlaso1">github.com/so1vanlaso1</a></td>
           </tr>
           <tr>
-            <td>[Full name]</td>
-            <td>[Student ID]</td>
-            <td>[e.g. experiments &amp; report]</td>
-            <td><a href="#">[github.com/username]</a></td>
+            <td>Nguyễn Hoàng Quốc</td>
+            <td>2353027</td>
+            <td>Experiments, evaluation &amp; report</td>
+            <td><a href="https://github.com/quocthescaredycat">github.com/quocthescaredycat</a></td>
           </tr>
         </tbody>
       </table>
-      <p class="repo-link">Code repository: <a href="#">[link to group's GitHub repo]</a></p>
+      <p class="repo-link">Code repository: <a href="https://github.com/VVTN13/DL-Assignment">github.com/VVTN13/DL-Assignment</a></p>
     </section>
 
     <section class="assignments">
@@ -67,21 +134,90 @@
     <section class="ai-disclosure">
       <h2>AI usage disclosure</h2>
       <p>
-        This section summarizes generative AI use across all three assignments for Group [GROUP ID].
+        The group used a generative AI tool (Claude) to scaffold the base structure of this
+        project site — page layout, header styling, and the milestone timeline.
+      </p>
+      <p>
         Full per-tool logs are kept in
         <a href="https://github.com/">AI_USAGE.md</a> in the repository, and each assignment page
         has its own assignment-specific disclosure.
       </p>
-      <p class="todo">
-        TODO: replace this with a real summary once work begins, or state plainly:
-        "The group declares that no generative AI tool was used in this assignment."
-      </p>
     </section>
 
     <footer>
-      <p>Last updated: [date]</p>
+      <p>Last updated: 08/09/2026</p>
     </footer>
 
   </div>
+
+  <script>
+    (function () {
+      var points = Array.prototype.slice.call(document.querySelectorAll('.ms-point'));
+      if (!points.length) return;
+
+      var dates = points.map(function (p) {
+        var parts = p.dataset.date.split('-').map(Number);
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+      });
+      var n = dates.length;
+
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      var todayLabel = document.getElementById('ms-today-date');
+      todayLabel.textContent = today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      var progress;
+      var todayIndex = -1;
+      points.forEach(function (p, i) {
+        if (dates[i].getTime() === today.getTime()) {
+          p.classList.add('is-today');
+          todayIndex = i;
+        } else if (dates[i].getTime() < today.getTime()) {
+          p.classList.add('is-past');
+        }
+      });
+
+      if (todayIndex !== -1) {
+        progress = todayIndex;
+      } else if (today < dates[0]) {
+        progress = 0;
+      } else if (today > dates[n - 1]) {
+        progress = n - 1;
+      } else {
+        progress = n - 1;
+        for (var i = 0; i < n - 1; i++) {
+          if (dates[i] < today && today < dates[i + 1]) {
+            progress = i + (today - dates[i]) / (dates[i + 1] - dates[i]);
+            break;
+          }
+        }
+      }
+      var posPct = ((progress + 0.5) / n) * 100;
+      document.getElementById('ms-line-fill').style.width = posPct + '%';
+
+      if (todayIndex === -1) {
+        var marker = document.getElementById('ms-today-marker');
+        document.getElementById('ms-today-marker-date').textContent = todayLabel.textContent.replace(/ \d{4}$/, '');
+        marker.style.left = posPct + '%';
+        marker.hidden = false;
+      }
+
+      var upcomingText = document.getElementById('ms-upcoming');
+      var next = null, nextDate = null;
+      for (var j = 0; j < n; j++) {
+        if (dates[j] > today) { next = points[j]; nextDate = dates[j]; break; }
+      }
+      if (next) {
+        var days = Math.round((nextDate - today) / 86400000);
+        var rel = days === 1 ? 'tomorrow' : ('in ' + days + ' days');
+        var code = next.querySelector('.ms-date').textContent;
+        var label = next.querySelector('.ms-label').innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/\s+/g, ' ').trim();
+        upcomingText.textContent = code + ' — ' + label + ' (' + rel + ')';
+      } else {
+        upcomingText.textContent = 'All milestones complete';
+      }
+    })();
+  </script>
 </body>
 </html>

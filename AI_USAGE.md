@@ -1,4 +1,4 @@
-# AI Usage Disclosure — Group [GROUP ID]
+# AI Usage Disclosure
 
 If no AI tool was used for a given assignment, state plainly under that section:
 

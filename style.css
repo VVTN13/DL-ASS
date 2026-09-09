@@ -1,19 +1,24 @@
 /* CO3133 course project site — plain, functional styling */
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #222;
-  background: #ffffff;
+  background: #fffaf0;
   line-height: 1.55;
 }
 
 .page {
   max-width: 720px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
+  margin: 40px auto;
+  padding: 48px 40px 64px;
+  background: #fffdf7;
+  border: 1px solid #e6d7b8;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
 }
 
 a {
@@ -24,30 +29,202 @@ a:hover { text-decoration: underline; }
 
 .back { margin: 0 0 24px; font-size: 0.9rem; }
 
-header.site-header,
 header.assignment-header {
   border-bottom: 2px solid #1a4b8c;
   padding-bottom: 20px;
 }
 
-.institution, .faculty {
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #1a4b8c;
+}
+
+.header-logo {
+  height: 56px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.institution {
   margin: 0;
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
   font-size: 0.95rem;
+  color: #222;
+}
+
+.faculty {
+  margin: 0;
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.9rem;
   color: #555;
 }
 
 header h1 {
-  font-size: 1.6rem;
-  margin: 10px 0 6px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 800;
+  font-size: 2.1rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #1a1a1a;
+  margin: 14px 0 6px;
 }
 
 .course-meta, .sub {
   margin: 0;
-  color: #555;
-  font-size: 0.95rem;
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1a4b8c;
+  font-size: 0.8rem;
 }
 
 section { margin-top: 40px; }
+
+.milestones-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed #ddd;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.9rem;
+}
+
+.ms-today { margin: 0; color: #222; }
+.ms-today strong { font-weight: 700; }
+
+.ms-upcoming { margin: 0; color: #1a4b8c; }
+.ms-upcoming strong { font-weight: 700; }
+
+.milestones-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  margin-top: 34px;
+}
+
+.ms-line {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ddd;
+}
+
+.ms-line-fill {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 2px;
+  background: #1a4b8c;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.ms-today-marker {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.ms-today-marker-date {
+  position: absolute;
+  bottom: 22px;
+  white-space: nowrap;
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #b3261e;
+}
+
+.ms-today-marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #1a4b8c;
+  border: 2px solid #1a4b8c;
+  box-shadow: 0 0 0 4px rgba(26, 75, 140, 0.18);
+}
+
+.ms-point {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ms-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 2px solid #c7c7c7;
+  margin-bottom: 10px;
+}
+
+.ms-date {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #555;
+}
+
+.ms-label {
+  font-size: 0.72rem;
+  color: #999;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.ms-point.is-past .ms-dot {
+  background: #1a4b8c;
+  border-color: #1a4b8c;
+}
+
+.ms-point.is-today .ms-dot {
+  background: #1a4b8c;
+  border-color: #1a4b8c;
+  box-shadow: 0 0 0 4px rgba(26, 75, 140, 0.18);
+}
+
+.ms-point.is-today .ms-date {
+  color: #b3261e;
+}
+
+@media (max-width: 640px) {
+  .milestones-track-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 30px;
+    padding-bottom: 6px;
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .milestones-track {
+    grid-template-columns: repeat(9, minmax(70px, 1fr));
+    min-width: 630px;
+    margin-top: 0;
+  }
+}
 
 h2 {
   font-size: 1.1rem;
@@ -67,7 +244,7 @@ th, td {
   border-bottom: 1px solid #eee;
   font-size: 0.95rem;
 }
-th { color: #555; font-weight: 600; }
+th { color: #555; font-weight: 600; border-bottom: 1px solid #ddd; }
 
 .repo-link { margin-top: 14px; font-size: 0.95rem; }
 
