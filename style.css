@@ -8,7 +8,7 @@ body {
   margin: 0;
   font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #222;
-  background: #ffffff;
+  background: #f0e2c8;
   line-height: 1.55;
 }
 
@@ -16,9 +16,9 @@ body {
   max-width: 720px;
   margin: 40px auto;
   padding: 48px 40px 64px;
-  background: #f6ecdd;
+  background: #fffdf7;
   border: 1px solid #e6d7b8;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
 }
 
 a {
@@ -175,7 +175,7 @@ section { margin-top: 40px; }
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #f6ecdd;
+  background: #fffdf7;
   border: 2px solid #c7c7c7;
   margin-bottom: 10px;
 }
