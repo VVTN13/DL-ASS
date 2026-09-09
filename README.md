@@ -1,4 +1,4 @@
-# CO3133 — Group [GROUP ID]
+# CO3133
 
 Deep Learning and Its Applications, Semester 261, HCMUT. Course project site for
 Assignments 1–3 (instructor: Lê Thành Sách).
@@ -21,7 +21,7 @@ AI_USAGE.md          detailed AI-tool usage log
    then pick branch `main`, folder `/ (root)`, and save.
 3. The site will be live at `https://<username>.github.io/<repo-name>/` within a few minutes.
 4. Replace every `[bracketed placeholder]` in the HTML files with real group info
-   (group ID, member names, student IDs, roles, GitHub profiles, repo link) before
+   (member names, student IDs, roles, GitHub profiles, repo link) before
    the Week 3 skeleton deadline (09 Sep 2026, 23:59 GMT+7).
 
 ## Before each milestone deadline
