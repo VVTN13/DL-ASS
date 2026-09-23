@@ -280,8 +280,8 @@ footer {
 }
 
 figure { margin: 20px 0; }
-figure img { display: block; max-width: 100%; height: auto; border: 1px solid #eee; }
-figcaption { margin-top: 6px; font-size: 0.85rem; color: #777; }
+figure img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid #eee; }
+figcaption { margin-top: 6px; text-align: center; font-size: 0.85rem; color: #777; }
 
 pre.pipeline {
   overflow-x: auto;
