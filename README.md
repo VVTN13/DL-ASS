@@ -11,7 +11,9 @@ assignment1.html     Assignment 1 page
 assignment2.html     Assignment 2 page
 assignment3.html     Assignment 3 page
 style.css            shared stylesheet
+pics/                images for the site (logo)
 AI_USAGE.md          detailed AI-tool usage log
+A1/                  Assignment 1 code: a1/ package, configs/, runs/, notebook, docs/, figures/
 ```
 
 ## Publish with GitHub Pages

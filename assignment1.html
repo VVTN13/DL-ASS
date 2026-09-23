@@ -12,6 +12,7 @@
 
     <header class="assignment-header">
       <h1>Assignment 1 — Foundations of Deep Learning Pipelines and Architectures</h1>
+      <p class="sub">Status: M1 Draft (23 Sep 2026) &middot; M2 Final due 21 Oct 2026</p>
     </header>
 
     <section>
@@ -21,49 +22,148 @@
 
     <section>
       <h2>Problem statement</h2>
-      <p class="todo">TODO: real-world motivation, input/output, prediction unit, main difficulties.</p>
+      <p>
+        We classify a single 28&times;28 grayscale clothing image into one of 10 product
+        categories (T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag,
+        Ankle boot). The same kind of task appears in retail catalogues, where product photos
+        need to be sorted automatically.
+      </p>
+      <ul>
+        <li><strong>Input:</strong> one 28&times;28 grayscale image, raw <code>uint8</code> pixels 0–255.</li>
+        <li><strong>Output:</strong> 10 class logits, and the predicted label is the argmax.</li>
+        <li><strong>Prediction unit:</strong> one image.</li>
+        <li><strong>Main difficulties:</strong> low resolution and no colour; upper-body garments
+          (T-shirt, Pullover, Coat, Shirt) have very similar silhouettes; there is noticeable
+          variation within each class.</li>
+      </ul>
     </section>
 
     <section>
       <h2>Dataset description and EDA</h2>
-      <p class="todo">TODO: MNIST (debug only), Fashion-MNIST (main comparison), CIFAR-10 (optional extension) — source, split, seed, class distribution, sample counts.</p>
+      <p>
+        <strong>Fashion-MNIST</strong> (Zalando, MIT license) is the main comparison dataset.
+        We load it with <code>torchvision.datasets.FashionMNIST</code>. It has 60,000 official
+        training images and 10,000 official test images. MNIST is used only for debugging.
+      </p>
+      <table>
+        <thead><tr><th>Partition</th><th>Images</th><th>Per class</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Train</td><td>54,000</td><td>5,400</td><td>official train, stratified 90%</td></tr>
+          <tr><td>Validation</td><td>6,000</td><td>600</td><td>official train, stratified 10%</td></tr>
+          <tr><td>Test</td><td>10,000</td><td>—</td><td>official test (held out until M2)</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>The split uses seed 42 and is stored in <code>split_cache.json</code>. Train and validation indices do not overlap, and no exact duplicate images appear in both.</li>
+        <li>The classes are perfectly balanced: the max/min ratio is 1.000 and each class is 10% of every subset.</li>
+        <li>Training pixels have a mean of 72.98/255 and a standard deviation of 90.06/255. 50.2% of pixels are zero, and no image is entirely blank.</li>
+        <li>Mean brightness depends strongly on the class, from about 34.9 for Sandal to 98.1 for Coat, and so does foreground coverage.</li>
+      </ul>
+      <figure>
+        <img src="A1/figures/samples_per_class.png" alt="One representative training image per class" />
+        <figcaption>One training image per class.</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/figures/class_average.png" alt="Class-average training images" />
+        <figcaption>Class-average images. The upper-body garment classes have very similar silhouettes.</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/figures/brightness_by_class.png" alt="Per-image brightness and foreground fraction by class" />
+        <figcaption>Per-image brightness and non-zero pixel fraction by class (training split only).</figcaption>
+      </figure>
     </section>
 
     <section>
       <h2>Methodology</h2>
-      <p class="todo">TODO: pipeline diagram; Linear/softmax, MLP, CNN, LSTM/GRU, Transformer — architecture, loss, params.</p>
+      <pre class="pipeline">Fashion-MNIST image (28×28, uint8)
+  → ToTensor (float32, 0–1)
+  → normalize with train-only stats (mean 0.2862, std 0.3532)
+  → representation: flatten (784) | image (1×28×28) | row/col sequence (28×28) | patch sequence (49×16)
+  → model → 10 logits → CrossEntropyLoss</pre>
+      <table>
+        <thead><tr><th>Model</th><th>Architecture</th><th>Params</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Linear / softmax</td><td>Linear(784, 10)</td><td>7,850</td><td>M1 done</td></tr>
+          <tr><td>MLP</td><td>784→256→128→10, ReLU, Dropout 0.2</td><td>235,146</td><td>M1 done</td></tr>
+          <tr><td>CNN</td><td>—</td><td>—</td><td>M2</td></tr>
+          <tr><td>LSTM / GRU</td><td>—</td><td>—</td><td>M2</td></tr>
+          <tr><td>Transformer</td><td>—</td><td>—</td><td>M2</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Both M1 models return raw logits because <code>CrossEntropyLoss</code> applies the softmax internally.
+        The image and sequence representations are already implemented in <code>a1/data.py</code> for the M2 models.
+      </p>
     </section>
 
     <section>
       <h2>Experimental setup</h2>
-      <p class="todo">TODO: optimizer, learning rate, batch size, epochs, seed, hardware, checkpoint criterion.</p>
+      <table>
+        <tbody>
+          <tr><th>Optimizer</th><td>Adam, learning rate 0.001</td></tr>
+          <tr><th>Batch size / epochs</th><td>128 / 10</td></tr>
+          <tr><th>Seed</th><td>42 (same split and normalization for every model)</td></tr>
+          <tr><th>Augmentation</th><td>off in M1 (optional horizontal flip and ±10° rotation, train split only)</td></tr>
+          <tr><th>Checkpoint rule</th><td>epoch with the lowest validation loss</td></tr>
+          <tr><th>Metrics</th><td>loss, accuracy, macro-F1</td></tr>
+          <tr><th>Hardware</th><td>Apple Silicon (MPS), macOS 26.6</td></tr>
+          <tr><th>Software</th><td>Python 3.14.7, PyTorch 2.14.0, torchvision 0.29.0, scikit-learn 1.9.1</td></tr>
+          <tr><th>Config</th><td><a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/configs/m1.json"><code>A1/configs/m1.json</code></a></td></tr>
+        </tbody>
+      </table>
     </section>
 
     <section>
       <h2>Results</h2>
-      <p class="todo">TODO: accuracy, macro-F1, parameter counts, training/inference time, curves, confusion matrix.</p>
+      <p>These are M1 validation results from one seed and one split. They are not test results.</p>
+      <table>
+        <thead><tr><th>Model</th><th>Best epoch</th><th>Val loss</th><th>Val accuracy</th><th>Val macro-F1</th><th>Params</th><th>Train time</th></tr></thead>
+        <tbody>
+          <tr><td>Linear</td><td>9</td><td>0.3932</td><td>0.8648</td><td>0.8641</td><td>7,850</td><td>27.6 s</td></tr>
+          <tr><td>MLP</td><td>8</td><td>0.2825</td><td>0.8987</td><td>0.8985</td><td>235,146</td><td>28.1 s</td></tr>
+        </tbody>
+      </table>
+      <figure>
+        <img src="A1/figures/m1_learning_curves.png" alt="Loss, validation accuracy and macro-F1 by epoch for Linear and MLP" />
+        <figcaption>Learning curves. Dashed lines show training loss and solid lines show validation loss.</figcaption>
+      </figure>
+      <p class="todo">TODO (M2): test-set metrics, CNN/RNN/Transformer results, inference time, confusion matrices.</p>
     </section>
 
     <section>
       <h2>Comparison and discussion</h2>
-      <p class="todo">TODO: which model is better and by how much, and why — not accuracy alone.</p>
+      <p>
+        The MLP scores about 3.4 points higher than the linear baseline in both validation accuracy
+        (0.8987 vs 0.8648) and macro-F1 (0.8985 vs 0.8641). It has about 30&times; more parameters,
+        but training time is almost the same (about 28 s for 10 epochs on MPS). The linear model's validation
+        loss levels off at about 0.39 by epoch 5, so it is limited by capacity. The MLP's training loss keeps
+        falling after its validation loss bottoms out at epoch 8, which is an early sign of overfitting.
+        With only one seed, these differences are preliminary.
+      </p>
+      <p class="todo">TODO (M2): full five-model comparison covering accuracy, macro-F1, parameters, and training and inference time.</p>
     </section>
 
     <section>
       <h2>Error analysis</h2>
-      <p class="todo">TODO: error groups, frequency, examples, hypothesized causes.</p>
+      <p class="todo">TODO (M2): confusion matrix and misclassified examples. The EDA suggests that most errors will come from the similar upper-body garment classes (T-shirt, Pullover, Coat, Shirt).</p>
     </section>
 
     <section>
       <h2>Limitations and conclusion</h2>
-      <p class="todo">TODO: data/method/experiment limits, generalization, future work.</p>
+      <ul>
+        <li>We have only one seed and one validation split, and we have not measured variance yet.</li>
+        <li>The official test set has not been evaluated yet (planned for M2).</li>
+        <li>The M1 models use flattened pixels and ignore spatial structure. The CNN, sequence, and Transformer models in M2 will address this.</li>
+      </ul>
     </section>
 
     <section>
       <h2>Links</h2>
       <ul>
         <li>Source code: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1">github.com/VVTN13/DL-ASS/tree/main/A1</a></li>
-        <li>Checkpoints / reproduction instructions: <a href="#">[link]</a></li>
+        <li>EDA and training notebook: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/dl1-261.ipynb">A1/dl1-261.ipynb</a></li>
+        <li>Checkpoints: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m1">A1/runs/m1</a> &middot; reproduction instructions: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/README.md">A1/README.md</a></li>
+        <li>Pipeline notes: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/docs/M1_ARCHITECTURE.md">A1/docs/M1_ARCHITECTURE.md</a></li>
         <li>Report / slides: <a href="#">[link]</a></li>
         <li>YouTube presentation: <a href="#">[link]</a></li>
       </ul>
@@ -71,11 +171,11 @@
 
     <section>
       <h2>AI usage disclosure</h2>
-      <p class="todo">TODO: assignment-specific disclosure, or "The group declares that no generative AI tool was used in this assignment."</p>
+      <p class="todo">TODO: assignment-specific disclosure (see <a href="https://github.com/VVTN13/DL-ASS/blob/main/AI_USAGE.md">AI_USAGE.md</a>), or "The group declares that no generative AI tool was used in this assignment."</p>
     </section>
 
     <footer>
-      <p>Last updated: 08/09/2026</p>
+      <p>Last updated: 23/09/2026</p>
     </footer>
   </div>
 </body>
