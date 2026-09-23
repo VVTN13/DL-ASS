@@ -6,7 +6,7 @@ and an MLP. The official test set is saved for the final milestone.
 
 ## Setup
 
-We used Python 3.14. From the repository root, run:
+We used Python 3.14. From the `A1/` folder, run:
 
 ```sh
 python3 -m venv .venv
@@ -49,7 +49,8 @@ so the models do not have to be trained again every time the notebook opens.
 - `configs/m1.json`: experiment settings
 - `runs/m1/`: checkpoints, histories, and result summaries
 - `docs/M1_ARCHITECTURE.md`: short explanation of the M1 pipeline
-- `AI_USAGE.md`: AI-use disclosure
+- `figures/`: plots exported from the notebook (used on the GitHub Pages site)
+- `../AI_USAGE.md`: AI-use disclosure (repository root)
 
 ## Current results
 
