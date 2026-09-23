@@ -278,3 +278,18 @@ footer {
   font-size: 0.85rem;
   color: #999;
 }
+
+figure { margin: 20px 0; }
+figure img { display: block; max-width: 100%; height: auto; border: 1px solid #eee; }
+figcaption { margin-top: 6px; font-size: 0.85rem; color: #777; }
+
+pre.pipeline {
+  overflow-x: auto;
+  padding: 12px 14px;
+  background: #f7f3ea;
+  border: 1px solid #e6d7b8;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+code { font-size: 0.9em; }
