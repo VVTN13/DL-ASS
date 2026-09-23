@@ -1,0 +1,42 @@
+{
+  "model": "linear",
+  "best_epoch": 9,
+  "best_val_loss": 0.39323659030596414,
+  "best_val_accuracy": 0.8648333333333333,
+  "best_val_macro_f1": 0.8641346709449446,
+  "parameters": 7850,
+  "training_seconds": 27.56240079199779,
+  "train_samples": 54000,
+  "val_samples": 6000,
+  "device": "mps",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "data_dir": "data",
+    "split_cache_path": "split_cache.json",
+    "output_dir": "runs/m1",
+    "val_ratio": 0.1,
+    "batch_size": 128,
+    "epochs": 10,
+    "learning_rate": 0.001,
+    "augment_train": false,
+    "num_workers": 0,
+    "device": "auto"
+  },
+  "config_sha256": "4dc91c01fcbff4bdf7e2d7ac154dbcc4a643d703837c3755e33c7143aeb51e4d",
+  "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+  "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+  "train_mean": 0.28620901297676965,
+  "train_std": 0.3531597492723218,
+  "checkpoint": "runs/m1/linear/best.pt",
+  "history": "runs/m1/linear/history.csv",
+  "versions": {
+    "python": "3.14.7",
+    "torch": "2.14.0",
+    "torchvision": "0.29.0",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "processor": "arm"
+  }
+}
