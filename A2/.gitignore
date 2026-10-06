@@ -1,0 +1,19 @@
+# Local Python environments
+.venv/
+venv/
+
+# Downloaded datasets and generated caches
+data/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Local logs and temporary files
+*.log
+tmp/
+
