@@ -1,0 +1,21 @@
+{
+  "method": "StratifiedGroupKFold",
+  "n_splits": 5,
+  "shuffle": true,
+  "random_state": 42,
+  "sklearn_version": "1.9.1",
+  "test_participants": [
+    "SC403",
+    "SC404",
+    "SC411",
+    "SC413",
+    "SC414",
+    "SC417",
+    "SC428",
+    "SC431",
+    "SC435",
+    "SC455",
+    "SC472",
+    "SC481"
+  ]
+}
