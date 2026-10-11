@@ -1,4 +1,4 @@
-"""Train and validate the linear and MLP Fashion-MNIST models."""
+"""Train Fashion-MNIST classifiers and select checkpoints on validation loss."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from sklearn.metrics import accuracy_score, f1_score
 from torch import nn
 
 from .data import build_dataloaders, set_seed
-from .models import build_model, count_parameters
+from .models import build_model, count_parameters, input_mode
 
 
 def _device(choice: str):
@@ -114,6 +114,19 @@ def _versions():
     }
 
 
+def _hardware(device):
+    info = {"device": str(device), "processor": platform.processor()}
+    if device.type == "cuda":
+        properties = torch.cuda.get_device_properties(device)
+        info.update({
+            "gpu": properties.name,
+            "gpu_memory_bytes": properties.total_memory,
+            "cuda_runtime": torch.version.cuda,
+            "cudnn": torch.backends.cudnn.version(),
+        })
+    return info
+
+
 def _save_history(path, history):
     with path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=list(history[0]))
@@ -122,7 +135,7 @@ def _save_history(path, history):
 
 
 def load_checkpoint(path, device="cpu"):
-    """Load a trained M1 model and its run metadata."""
+    """Load a trained classifier and its run metadata."""
     checkpoint = torch.load(path, map_location=device, weights_only=True)
     model = build_model(checkpoint["model_name"])
     model.load_state_dict(checkpoint["state_dict"])
@@ -135,7 +148,7 @@ def run_experiment(model_name, config_path="configs/m1.json", *, reuse_existing=
     device = _device(config["device"])
     set_seed(config["seed"])
     train_loader, val_loader, _ = build_dataloaders(
-        mode="flatten", batch_size=config["batch_size"], val_ratio=config["val_ratio"],
+        mode=input_mode(model_name), batch_size=config["batch_size"], val_ratio=config["val_ratio"],
         seed=config["seed"], augment_train=config["augment_train"],
         data_dir=config["data_dir"], num_workers=config["num_workers"],
         split_cache_path=config["split_cache_path"],
@@ -204,6 +217,7 @@ def run_experiment(model_name, config_path="configs/m1.json", *, reuse_existing=
                 "split_sha256": train_loader.split_sha256,
                 "train_mean": train_loader.dataset.mean,
                 "train_std": train_loader.dataset.std,
+                "input_mode": input_mode(model_name),
             }
             torch.save(checkpoint, checkpoint_path)
     _synchronize(device)
@@ -232,14 +246,17 @@ def run_experiment(model_name, config_path="configs/m1.json", *, reuse_existing=
         "checkpoint": str(checkpoint_path),
         "history": str(history_path),
         "versions": _versions(),
+        "hardware": _hardware(device),
+        "input_mode": input_mode(model_name),
+        "checkpoint_rule": "lowest validation loss",
     }
     summary_path.write_text(json.dumps(summary, indent=2) + "\n")
     return summary
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train an Assignment 1 M1 model")
-    parser.add_argument("--model", choices=("linear", "mlp"), required=True)
+    parser = argparse.ArgumentParser(description="Train an Assignment 1 classifier")
+    parser.add_argument("--model", choices=("linear", "mlp", "cnn"), required=True)
     parser.add_argument("--config", default="configs/m1.json")
     parser.add_argument("--reuse-existing", action="store_true", help="Validate and reuse a matching completed run")
     args = parser.parse_args()

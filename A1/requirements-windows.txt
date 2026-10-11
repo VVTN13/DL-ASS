@@ -1,0 +1,11 @@
+# Python 3.12; CUDA 12.8 wheels include their own CUDA runtime.
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.9.1+cu128
+torchvision==0.24.1+cu128
+numpy==2.2.6
+pandas==2.3.3
+scikit-learn==1.7.2
+matplotlib==3.10.7
+nbformat==5.10.4
+nbclient==0.10.2
+ipykernel==6.30.1

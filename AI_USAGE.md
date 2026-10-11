@@ -20,6 +20,17 @@ Otherwise, log every use with the fields below (handbook Sec. 5.2).
 | Member responsible for final verification | Nguyễn Vũ Long, Lê Phước Vũ |
 | Sources used for verification | `A1/runs/m1/linear/summary.json`, `A1/runs/m1/mlp/summary.json`, `history.csv` files, `A1/dl1-261.ipynb` outputs, `A1/configs/m1.json`, [Fashion-MNIST repository](https://github.com/zalandoresearch/fashion-mnist), [torchvision FashionMNIST docs](https://docs.pytorch.org/vision/stable/generated/torchvision.datasets.FashionMNIST.html) |
 
+### Assignment 1 CNN work, 11 October 2026
+
+| Field | Value |
+|---|---|
+| Tool | OpenAI Codex |
+| Requested scope | Set up a local virtual environment, implement the custom CNN, train it, and test it locally. |
+| Affected files | `A1/a1/models.py`, `data.py`, `train.py`, `evaluate.py`; CNN config, Windows requirements, tests, documentation, run artifacts, and Assignment 1 page. |
+| Representative request | "A custom CNN. do this for me first, setup a local .venv and do the CNN complete and then tested it yourself, make sure to do it in a human like way." |
+| Verification | Automated checks, full Fashion-MNIST training/test evaluation, checkpoint reload, artifact checks, and figure inspection are recorded in `A1/docs/CNN.md`. |
+| Human review | Group members must review the implementation, explanations and results before submission. |
+
 ## Assignment 2
 
 | Field | Value |

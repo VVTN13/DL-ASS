@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "split_matches_m1": true,
+  "checkpoint_validation_metrics": {
+    "loss": 0.2000607706308365,
+    "accuracy": 0.9328333333333333,
+    "macro_f1": 0.9322623978999574,
+    "samples": 6000
+  },
+  "checkpoint_epoch": 10,
+  "test_prediction_rows": 10000,
+  "test_metrics_and_confusion_recomputed": true,
+  "cpu_reload_batch_samples": 128,
+  "cpu_device_max_logit_difference": 1.0728836059570312e-05,
+  "cpu_device_predictions_match": true,
+  "png_files_valid": 4
+}

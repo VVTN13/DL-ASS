@@ -1,0 +1,52 @@
+{
+  "model": "cnn",
+  "best_epoch": 10,
+  "best_val_loss": 0.2000607706308365,
+  "best_val_accuracy": 0.9328333333333333,
+  "best_val_macro_f1": 0.9322623978999574,
+  "parameters": 421642,
+  "training_seconds": 105.02982789999805,
+  "train_samples": 54000,
+  "val_samples": 6000,
+  "device": "cuda",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "data_dir": "data",
+    "split_cache_path": "split_cache.json",
+    "output_dir": "runs/m2",
+    "val_ratio": 0.1,
+    "batch_size": 128,
+    "epochs": 10,
+    "learning_rate": 0.001,
+    "augment_train": false,
+    "num_workers": 0,
+    "device": "auto"
+  },
+  "config_sha256": "8e3db03d2b8c76d6e3b5f3434aa1e288b341621ee4d65d2d2b0532db1b17ef68",
+  "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+  "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+  "train_mean": 0.28620901297676965,
+  "train_std": 0.3531597492723218,
+  "checkpoint": "runs\\m2\\cnn\\best.pt",
+  "history": "runs\\m2\\cnn\\history.csv",
+  "versions": {
+    "python": "3.12.10",
+    "torch": "2.9.1+cu128",
+    "torchvision": "0.24.1+cu128",
+    "numpy": "2.2.6",
+    "scikit_learn": "1.7.2",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+  },
+  "hardware": {
+    "device": "cuda",
+    "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+    "gpu_memory_bytes": 6442123264,
+    "cuda_runtime": "12.8",
+    "cudnn": 91002
+  },
+  "input_mode": "image",
+  "checkpoint_rule": "lowest validation loss"
+}

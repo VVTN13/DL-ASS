@@ -12,7 +12,7 @@
 
     <header class="assignment-header">
       <h1>Assignment 1 — Foundations of Deep Learning Pipelines and Architectures</h1>
-      <p class="sub">Status: M1 Draft (23 Sep 2026) &middot; M2 Final due 21 Oct 2026</p>
+      <p class="sub">Status: M2 in progress (custom CNN complete) &middot; M2 Final due 21 Oct 2026</p>
     </header>
 
     <section>
@@ -50,7 +50,7 @@
         <tbody>
           <tr><td>Train</td><td>54,000</td><td>5,400</td><td>official train, stratified 90%</td></tr>
           <tr><td>Validation</td><td>6,000</td><td>600</td><td>official train, stratified 10%</td></tr>
-          <tr><td>Test</td><td>10,000</td><td>—</td><td>official test (held out until M2)</td></tr>
+          <tr><td>Test</td><td>10,000</td><td>1,000</td><td>official test (CNN evaluated after validation selection)</td></tr>
         </tbody>
       </table>
       <ul>
@@ -85,7 +85,7 @@
         <tbody>
           <tr><td>Linear / softmax</td><td>Linear(784, 10)</td><td>7,850</td><td>M1 done</td></tr>
           <tr><td>MLP</td><td>784→256→128→10, ReLU, Dropout 0.2</td><td>235,146</td><td>M1 done</td></tr>
-          <tr><td>CNN</td><td>—</td><td>—</td><td>M2</td></tr>
+          <tr><td>CNN</td><td>Conv 1→32→64, ReLU + max pooling; 3136→128→10, Dropout 0.2</td><td>421,642</td><td>Trained and tested</td></tr>
           <tr><td>LSTM / GRU</td><td>—</td><td>—</td><td>M2</td></tr>
           <tr><td>Transformer</td><td>—</td><td>—</td><td>M2</td></tr>
         </tbody>
@@ -93,6 +93,12 @@
       <p>
         Both M1 models return raw logits because <code>CrossEntropyLoss</code> applies the softmax internally.
         The image and sequence representations are already implemented in <code>a1/data.py</code> for the M2 models.
+      </p>
+      <p>
+        The custom CNN uses two 3&times;3 convolutions with shared local filters. Each produces feature maps,
+        followed by ReLU and 2&times;2 max pooling. The resulting 64&times;7&times;7 features feed a small
+        classifier. It is trained from scratch and returns raw logits. See the
+        <a href="A1/docs/CNN.md">CNN experiment notes</a> for layer shapes and explanations.
       </p>
     </section>
 
@@ -127,7 +133,31 @@
         <img src="A1/figures/m1_learning_curves.png" alt="Loss, validation accuracy and macro-F1 by epoch for Linear and MLP" />
         <figcaption>Learning curves. Dashed lines show training loss and solid lines show validation loss.</figcaption>
       </figure>
-      <p class="todo">TODO (M2): test-set metrics, CNN/RNN/Transformer results, inference time, confusion matrices.</p>
+      <h3>Custom CNN — M2 results, 11 October 2026</h3>
+      <p>
+        The CNN uses the same seed, split, normalization, Adam learning rate, batch size and 10-epoch budget
+        as M1, with augmentation off. Epoch 10 had the lowest validation loss and was selected before test
+        evaluation. This run used a GTX 1660 SUPER (6 GiB), Windows 11, Python 3.12.10,
+        PyTorch 2.9.1+cu128 and torchvision 0.24.1+cu128.
+      </p>
+      <table>
+        <thead><tr><th>Partition</th><th>Loss</th><th>Accuracy</th><th>Macro-F1</th><th>Images</th></tr></thead>
+        <tbody>
+          <tr><td>Validation</td><td>0.2001</td><td>93.28%</td><td>0.9323</td><td>6,000</td></tr>
+          <tr><td>Test</td><td>0.2366</td><td>91.94%</td><td>0.9189</td><td>10,000</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Training and validation took 105.03 s. A device-resident batch of 128 images averaged 1.074 ms
+        per forward pass after 10 warmup batches over 100 timed batches (0.00839 ms per image, amortized).
+        This excludes loading and host transfers. The complete test pass, including loading, transfers,
+        loss and predictions, took 1.382 s. These CUDA times cannot be directly ranked against the M1 MPS times.
+      </p>
+      <figure>
+        <img src="A1/runs/m2/cnn/learning_curves.png" alt="CNN training and validation loss, accuracy and macro-F1 over 10 epochs" />
+        <figcaption>CNN training and validation curves; checkpoint selected by validation loss.</figcaption>
+      </figure>
+      <p class="todo">TODO (M2): RNN/Transformer experiments, remaining models' test evaluation, and the complete five-model comparison.</p>
     </section>
 
     <section>
@@ -141,19 +171,45 @@
         With only one seed, these differences are preliminary.
       </p>
       <p class="todo">TODO (M2): full five-model comparison covering accuracy, macro-F1, parameters, and training and inference time.</p>
+      <p>
+        CNN validation accuracy is about 3.42 percentage points above the saved MLP result on the same split.
+        The CNN uses local spatial features and shared convolution filters, and has about 1.79 times as many
+        parameters as the MLP. These changes occur together, so this is not an isolated test of spatial bias.
+        The CNN's final training loss (0.1289) is below validation loss (0.2001), suggesting some overfitting.
+      </p>
     </section>
 
     <section>
       <h2>Error analysis</h2>
-      <p class="todo">TODO (M2): confusion matrix and misclassified examples. The EDA suggests that most errors will come from the similar upper-body garment classes (T-shirt, Pullover, Coat, Shirt).</p>
+      <p>
+        The CNN makes 806 test errors. Shirt has the lowest recall (71.8%) and F1 (0.7518).
+        Of 1,000 true shirts, 103 are predicted as Coat, 95 as T-shirt/top and 47 as Pullover.
+        There are also 94 true T-shirt/top images predicted as Shirt. These errors support the EDA
+        observation that upper-body garments are difficult to distinguish at this resolution.
+        High confidence can still be wrong: test image 902 is a Sandal predicted as Ankle boot at 96.7% confidence.
+      </p>
+      <figure>
+        <img src="A1/runs/m2/cnn/confusion_matrix.png" alt="CNN confusion matrix on the 10,000-image official test set" />
+        <figcaption>Counts by true class (rows) and predicted class (columns).</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/runs/m2/cnn/correct_examples.png" alt="Twelve reproducibly sampled correct CNN test predictions" />
+        <figcaption>Correct test examples, sampled with seed 42.</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/runs/m2/cnn/incorrect_examples.png" alt="Twelve reproducibly sampled incorrect CNN test predictions" />
+        <figcaption>Incorrect test examples. Softmax confidence has not been calibrated.</figcaption>
+      </figure>
+      <p class="todo">TODO (M2): error analysis for the remaining four models.</p>
     </section>
 
     <section>
       <h2>Limitations and conclusion</h2>
       <ul>
         <li>We have only one seed and one validation split, and we have not measured variance yet.</li>
-        <li>The official test set has not been evaluated yet (planned for M2).</li>
-        <li>The M1 models use flattened pixels and ignore spatial structure. The CNN, sequence, and Transformer models in M2 will address this.</li>
+        <li>The CNN has test results; the remaining four models still need their final test evaluations.</li>
+        <li>The CNN uses spatial features. Sequence and Transformer models remain to be implemented and compared.</li>
+        <li>Run times were measured on different machines for M1 and CNN; a fair speed comparison needs one shared machine.</li>
       </ul>
     </section>
 
@@ -164,6 +220,7 @@
         <li>EDA and training notebook: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/dl1-261.ipynb">A1/dl1-261.ipynb</a></li>
         <li>Checkpoints: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m1">A1/runs/m1</a> &middot; reproduction instructions: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/README.md">A1/README.md</a></li>
         <li>Pipeline notes: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/docs/M1_ARCHITECTURE.md">A1/docs/M1_ARCHITECTURE.md</a></li>
+        <li>CNN notes: <a href="A1/docs/CNN.md">A1/docs/CNN.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m2/cnn">A1/runs/m2/cnn</a></li>
         <li>Report / slides: <a href="#">[link]</a></li>
         <li>YouTube presentation: <a href="#">[link]</a></li>
       </ul>
@@ -180,10 +237,15 @@
         <li>Fixing code and environment issues, such as MPS/CUDA/CPU device selection and library version errors.</li>
       </ul>
       <p>The group reviewed all AI output before including it. The full log is in <a href="https://github.com/VVTN13/DL-ASS/blob/main/AI_USAGE.md">AI_USAGE.md</a>.</p>
+      <p>
+        For the CNN work on 11 October 2026, OpenAI Codex helped set up the local environment,
+        implement and test the CNN, run training/evaluation, and write these results.
+        Group members must review this work before submission. The local checks are recorded in the CNN notes.
+      </p>
     </section>
 
     <footer>
-      <p>Last updated: 23/09/2026</p>
+      <p>Last updated: 11/10/2026</p>
     </footer>
   </div>
 </body>
