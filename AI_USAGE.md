@@ -31,6 +31,17 @@ Otherwise, log every use with the fields below (handbook Sec. 5.2).
 | Verification | Automated checks, full Fashion-MNIST training/test evaluation, checkpoint reload, artifact checks, and figure inspection are recorded in `A1/docs/CNN.md`. |
 | Human review | Group members must review the implementation, explanations and results before submission. |
 
+### Assignment 1 LSTM work, 11 October 2026
+
+| Field | Value |
+|---|---|
+| Tool | OpenAI Codex |
+| Requested scope | Implement LSTM next, with a clearly explained image-to-sequence representation. |
+| Affected files | `A1/a1/models.py`, `data.py`, `train.py`, `plot_sequence.py`; LSTM config, tests, documentation, diagram, notebook appendix, run artifacts, and Assignment 1 page. |
+| Representative request | "LSTM with a clearly explained image-to-sequence representation. Do this next" |
+| Verification | Pixel-coordinate and normalization tests, recurrent-gradient and independent-state checks, full 10-epoch CUDA training, validation-selected test evaluation, checkpoint reload and artifact checks. Evidence and limitations are recorded in `A1/docs/LSTM.md`. Layer/state semantics were checked against the PyTorch 2.9 LSTM documentation. |
+| Human review | Group members must review the implementation, explanation and measured results before submission. |
+
 ## Assignment 2
 
 | Field | Value |

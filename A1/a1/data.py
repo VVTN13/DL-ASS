@@ -140,11 +140,19 @@ def prepare_split(train_full, *, val_ratio=VAL_RATIO, seed=SEED, split_cache_pat
 
 
 def to_representation(image: torch.Tensor, mode: str = "flatten", patch_size: int = 4):
+    """Convert one normalized image to the model's input layout.
+
+    For row_seq, (1, H, W) becomes (steps=H, features=W), with
+    sequence[t, j] == image[0, t, j]. No pixels are reordered or discarded.
+    col_seq instead walks columns left to right, transposing those axes.
+    """
     if mode == "flatten":
         return image.reshape(-1)
     if mode == "image":
         return image
     if mode == "row_seq":
+        if image.ndim != 3 or image.shape[0] != 1:
+            raise ValueError("row_seq expects a single-channel image with shape (1, H, W)")
         return image.squeeze(0)
     if mode == "col_seq":
         return image.squeeze(0).t().contiguous()

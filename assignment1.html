@@ -12,7 +12,7 @@
 
     <header class="assignment-header">
       <h1>Assignment 1 — Foundations of Deep Learning Pipelines and Architectures</h1>
-      <p class="sub">Status: M2 in progress (custom CNN complete) &middot; M2 Final due 21 Oct 2026</p>
+      <p class="sub">Status: M2 in progress (CNN and LSTM complete) &middot; M2 Final due 21 Oct 2026</p>
     </header>
 
     <section>
@@ -50,7 +50,7 @@
         <tbody>
           <tr><td>Train</td><td>54,000</td><td>5,400</td><td>official train, stratified 90%</td></tr>
           <tr><td>Validation</td><td>6,000</td><td>600</td><td>official train, stratified 10%</td></tr>
-          <tr><td>Test</td><td>10,000</td><td>1,000</td><td>official test (CNN evaluated after validation selection)</td></tr>
+          <tr><td>Test</td><td>10,000</td><td>1,000</td><td>official test (CNN and LSTM evaluated after validation selection)</td></tr>
         </tbody>
       </table>
       <ul>
@@ -86,7 +86,7 @@
           <tr><td>Linear / softmax</td><td>Linear(784, 10)</td><td>7,850</td><td>M1 done</td></tr>
           <tr><td>MLP</td><td>784→256→128→10, ReLU, Dropout 0.2</td><td>235,146</td><td>M1 done</td></tr>
           <tr><td>CNN</td><td>Conv 1→32→64, ReLU + max pooling; 3136→128→10, Dropout 0.2</td><td>421,642</td><td>Trained and tested</td></tr>
-          <tr><td>LSTM / GRU</td><td>—</td><td>—</td><td>M2</td></tr>
+          <tr><td>LSTM</td><td>28 row steps &times; 28 features; LSTM hidden 128; final hidden &rarr; Dropout 0.2 &rarr; Linear(128, 10)</td><td>82,186</td><td>Trained and tested</td></tr>
           <tr><td>Transformer</td><td>—</td><td>—</td><td>M2</td></tr>
         </tbody>
       </table>
@@ -99,6 +99,29 @@
         followed by ReLU and 2&times;2 max pooling. The resulting 64&times;7&times;7 features feed a small
         classifier. It is trained from scratch and returns raw logits. See the
         <a href="A1/docs/CNN.md">CNN experiment notes</a> for layer shapes and explanations.
+      </p>
+      <h3>LSTM: image-to-sequence representation</h3>
+      <p>
+        Each normalized image has shape <code>(1, 28, 28)</code>. Removing the channel axis gives
+        <code>(28 steps, 28 features)</code>: step 1 is the top row's 28 pixels from left to right,
+        step 2 is the next row, and step 28 is the bottom row. All 784 pixels remain.
+        A batch has shape <code>(B, 28, 28)</code>, where the second axis is ordered rows and the
+        third is pixel features. The exact mapping is <code>S[b, r, c] = Z[b, 0, r, c]</code>.
+        The steps describe spatial order in a static image.
+      </p>
+      <figure>
+        <img src="A1/figures/lstm_row_sequence.png" alt="Training image converted to 28 top-to-bottom row steps of 28 pixel features, then LSTM hidden state and 10 logits" />
+        <figcaption>Image row 12 (zero-based) becomes step 13 (one-based). Normalization changes values; row conversion preserves every pixel and its order.</figcaption>
+      </figure>
+      <p>
+        One forward LSTM layer carries 128-value hidden and cell states between rows of each image.
+        Its gates learn which earlier information to keep, write and expose. The states start at zero
+        for each image and are never shared between images or batches. After all rows, the final hidden
+        state <code>h_n[-1]</code> feeds Dropout(0.2) and Linear(128, 10), producing raw logits.
+        Dropout is disabled for evaluation. See the <a href="A1/docs/LSTM.md">LSTM notes</a> for
+        layer shapes, parameter calculations, checks and limitations, and the
+        <a href="https://docs.pytorch.org/docs/2.9/generated/torch.nn.LSTM.html">PyTorch LSTM reference</a>
+        for state and gate definitions.
       </p>
     </section>
 
@@ -157,7 +180,33 @@
         <img src="A1/runs/m2/cnn/learning_curves.png" alt="CNN training and validation loss, accuracy and macro-F1 over 10 epochs" />
         <figcaption>CNN training and validation curves; checkpoint selected by validation loss.</figcaption>
       </figure>
-      <p class="todo">TODO (M2): RNN/Transformer experiments, remaining models' test evaluation, and the complete five-model comparison.</p>
+      <h3>LSTM &mdash; M2 results, 11 October 2026</h3>
+      <p>
+        The LSTM uses the same split, seed, normalization and 10-epoch training settings as the CNN,
+        on the same Windows/CUDA environment and GTX 1660 SUPER. Epoch 9 has the lowest validation
+        loss and was selected before test evaluation. Epoch 8 has slightly higher validation accuracy;
+        the checkpoint rule consistently uses loss.
+      </p>
+      <table>
+        <thead><tr><th>Partition</th><th>Loss</th><th>Accuracy</th><th>Macro-F1</th><th>Images</th></tr></thead>
+        <tbody>
+          <tr><td>Validation</td><td>0.2832</td><td>89.80%</td><td>0.8967</td><td>6,000</td></tr>
+          <tr><td>Test</td><td>0.3254</td><td>88.48%</td><td>0.8835</td><td>10,000</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Training and validation took 122.12 s. A device-resident batch of 128 averaged 1.189 ms
+        over 100 passes after 10 warmups (0.00929 ms per image, amortized), excluding loading/transfers.
+        The complete test pass took 1.237 s. Checkpoint reload reproduces all 10,000 saved test predictions;
+        CPU/CUDA labels agree on a 128-image batch. Evidence is in the
+        <a href="A1/docs/LSTM.md">experiment notes</a> and
+        <a href="A1/runs/m2/lstm/verification.json">verification record</a>.
+      </p>
+      <figure>
+        <img src="A1/runs/m2/lstm/learning_curves.png" alt="LSTM training and validation loss, accuracy and macro-F1 over 10 epochs" />
+        <figcaption>LSTM curves. Validation loss reaches its minimum at epoch 9, then rises slightly.</figcaption>
+      </figure>
+      <p class="todo">TODO (M2): Transformer experiment, Linear/MLP test evaluation, and the complete five-model comparison.</p>
     </section>
 
     <section>
@@ -176,6 +225,15 @@
         The CNN uses local spatial features and shared convolution filters, and has about 1.79 times as many
         parameters as the MLP. These changes occur together, so this is not an isolated test of spatial bias.
         The CNN's final training loss (0.1289) is below validation loss (0.2001), suggesting some overfitting.
+      </p>
+      <p>
+        CNN test accuracy is 3.46 percentage points above LSTM (91.94% vs 88.48%). The LSTM has
+        about 19.5% of the CNN's parameters but took longer to train in these individual runs
+        (122.12 s vs 105.03 s). Fewer parameters do not remove the cost of reading 28 dependent steps.
+        Rows preserve horizontal feature positions but impose a top-to-bottom order and summarize
+        earlier rows in a fixed state. CNN filters share weights across local image neighborhoods.
+        Architecture and parameter count change together, so this comparison does not isolate one
+        cause of the accuracy difference. There are no repeated-seed or repeated-timing estimates yet.
       </p>
     </section>
 
@@ -200,15 +258,34 @@
         <img src="A1/runs/m2/cnn/incorrect_examples.png" alt="Twelve reproducibly sampled incorrect CNN test predictions" />
         <figcaption>Incorrect test examples. Softmax confidence has not been calibrated.</figcaption>
       </figure>
-      <p class="todo">TODO (M2): error analysis for the remaining four models.</p>
+      <h3>LSTM errors</h3>
+      <p>
+        The LSTM makes 1,152 test errors. Shirt has the lowest recall (61.8%) and F1 (0.6784).
+        Of 1,000 shirts, 181 become T-shirt/top, 83 become Coat and 80 become Pullover.
+        Pullover/Coat confusion appears in both directions (87 and 77 images respectively).
+        Trouser recall is 97.0% and Bag recall is 96.9%. These are measured counts from the selected checkpoint.
+      </p>
+      <figure>
+        <img src="A1/runs/m2/lstm/confusion_matrix.png" alt="LSTM confusion counts on the 10,000-image official test set" />
+        <figcaption>LSTM test confusion matrix: true classes in rows, predicted classes in columns.</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/runs/m2/lstm/correct_examples.png" alt="Twelve correct LSTM test predictions sampled with seed 42" />
+        <figcaption>Correct LSTM examples, sampled with seed 42.</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/runs/m2/lstm/incorrect_examples.png" alt="Twelve incorrect LSTM test predictions sampled with seed 42" />
+        <figcaption>Incorrect LSTM examples; confidence is not calibrated.</figcaption>
+      </figure>
+      <p class="todo">TODO (M2): error analysis for Linear, MLP and Transformer.</p>
     </section>
 
     <section>
       <h2>Limitations and conclusion</h2>
       <ul>
         <li>We have only one seed and one validation split, and we have not measured variance yet.</li>
-        <li>The CNN has test results; the remaining four models still need their final test evaluations.</li>
-        <li>The CNN uses spatial features. Sequence and Transformer models remain to be implemented and compared.</li>
+        <li>CNN and LSTM have test results; Linear, MLP and Transformer still need their final test evaluations.</li>
+        <li>The LSTM reads rows in one direction; other sequence orders and architectures have not been tested. Transformer remains to be implemented.</li>
         <li>Run times were measured on different machines for M1 and CNN; a fair speed comparison needs one shared machine.</li>
       </ul>
     </section>
@@ -221,6 +298,7 @@
         <li>Checkpoints: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m1">A1/runs/m1</a> &middot; reproduction instructions: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/README.md">A1/README.md</a></li>
         <li>Pipeline notes: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/docs/M1_ARCHITECTURE.md">A1/docs/M1_ARCHITECTURE.md</a></li>
         <li>CNN notes: <a href="A1/docs/CNN.md">A1/docs/CNN.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m2/cnn">A1/runs/m2/cnn</a></li>
+        <li>LSTM notes: <a href="A1/docs/LSTM.md">A1/docs/LSTM.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m2/lstm">A1/runs/m2/lstm</a></li>
         <li>Report / slides: <a href="#">[link]</a></li>
         <li>YouTube presentation: <a href="#">[link]</a></li>
       </ul>
@@ -241,6 +319,12 @@
         For the CNN work on 11 October 2026, OpenAI Codex helped set up the local environment,
         implement and test the CNN, run training/evaluation, and write these results.
         Group members must review this work before submission. The local checks are recorded in the CNN notes.
+      </p>
+      <p>
+        For the LSTM work on 11 October 2026, OpenAI Codex helped implement the model, explain and
+        illustrate the row-sequence representation, run training/evaluation and checks, and update the
+        notebook and page. Group members must review this work before submission. Evidence is in the
+        LSTM notes and the AI usage log.
       </p>
     </section>
 

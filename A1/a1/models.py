@@ -55,11 +55,35 @@ class CNNClassifier(nn.Module):
         return self.classifier(self.features(x))
 
 
+class LSTMClassifier(nn.Module):
+    """Read 28 image rows top to bottom, then classify the final hidden state.
+
+    Input is (batch, rows=28, pixel_features=28), supplied by ``row_seq``.
+    A fresh zero hidden/cell state is used for each image on every forward call.
+    """
+
+    def __init__(self, num_classes=10):
+        super().__init__()
+        self.lstm = nn.LSTM(input_size=28, hidden_size=128, batch_first=True)
+        # Single-layer LSTMs have no inter-layer dropout; apply it to the readout.
+        self.dropout = nn.Dropout(0.2)
+        self.classifier = nn.Linear(128, num_classes)
+
+    def forward(self, x):
+        if x.ndim != 3 or x.shape[1:] != (28, 28):
+            raise ValueError("LSTM expects (batch, 28 rows, 28 pixel features) from row_seq")
+        _, (hidden, _) = self.lstm(x)
+        # hidden: (layers=1, batch, 128), even with batch_first=True.
+        return self.classifier(self.dropout(hidden[-1]))
+
+
 def input_mode(name: str):
     if name == "cnn":
         return "image"
     if name in {"linear", "mlp"}:
         return "flatten"
+    if name == "lstm":
+        return "row_seq"
     raise ValueError(f"Unknown model {name!r}")
 
 
@@ -70,7 +94,9 @@ def build_model(name: str, num_classes: int = 10):
         return MLPClassifier(num_classes)
     if name == "cnn":
         return CNNClassifier(num_classes)
-    raise ValueError(f"Unknown model {name!r}; choose 'linear', 'mlp', or 'cnn'")
+    if name == "lstm":
+        return LSTMClassifier(num_classes)
+    raise ValueError(f"Unknown model {name!r}; choose 'linear', 'mlp', 'cnn', or 'lstm'")
 
 
 def count_parameters(model):
