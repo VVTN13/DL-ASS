@@ -5,7 +5,8 @@
 We use Fashion-MNIST from `torchvision`. It contains 60,000 training images and
 10,000 test images. For M1, the official training set is split into 54,000
 training images and 6,000 validation images using stratification and seed 42.
-The official test set is not used yet.
+The official test set was held out during M1. The saved checkpoints were later
+evaluated for M2 on 19 October 2026; see [baseline test notes](BASELINE_TEST.md).
 
 The processing steps are:
 
@@ -62,7 +63,9 @@ enabled for these M1 runs.
 
 The MLP performs better on this validation split, but it also has many more
 parameters. These results come from one seed, so they are only preliminary.
-The held-out test set and the full five-model comparison are M2 work.
+Final test accuracy is 84.26% for Linear and 88.50% for MLP. Test macro-F1 is
+0.841694 and 0.884585, respectively, over all 10,000 official test images.
+The full five-model comparison remains M2 work.
 
 ## Reproducing the runs
 

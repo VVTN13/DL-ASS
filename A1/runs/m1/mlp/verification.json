@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "model": "mlp",
+  "input_mode": "flatten",
+  "split_matches_m1": true,
+  "test_predictions_match_checkpoint": true,
+  "test_dataset_sha256_matches": true,
+  "checkpoint_validation_metrics": {
+    "loss": 0.2825455941756566,
+    "accuracy": 0.8986666666666666,
+    "macro_f1": 0.8984659039421331,
+    "samples": 6000
+  },
+  "checkpoint_epoch": 8,
+  "test_prediction_rows": 10000,
+  "test_metrics_and_confusion_recomputed": true,
+  "cpu_reload_batch_samples": 128,
+  "cpu_device_max_logit_difference": 4.291534423828125e-06,
+  "cpu_device_predictions_match": true,
+  "png_files_valid": 4
+}

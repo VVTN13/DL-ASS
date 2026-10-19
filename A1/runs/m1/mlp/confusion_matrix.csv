@@ -1,0 +1,11 @@
+true/predicted,T-shirt/top,Trouser,Pullover,Dress,Coat,Sandal,Shirt,Sneaker,Bag,Ankle boot
+T-shirt/top,860,2,16,14,3,5,95,0,5,0
+Trouser,4,966,2,21,2,1,1,0,2,1
+Pullover,14,1,832,10,82,0,60,0,1,0
+Dress,27,7,9,878,40,5,31,0,3,0
+Coat,1,1,109,23,819,0,44,0,3,0
+Sandal,0,0,0,0,0,955,0,24,1,20
+Shirt,130,1,95,22,81,1,662,0,8,0
+Sneaker,0,0,0,0,0,18,0,951,0,31
+Bag,4,0,3,2,4,8,5,6,968,0
+Ankle boot,1,0,0,0,0,7,0,33,0,959

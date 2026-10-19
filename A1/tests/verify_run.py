@@ -1,4 +1,4 @@
-"""Verify a saved M2 run against its checkpoint, data and predictions."""
+"""Verify a saved run against its checkpoint, data and predictions."""
 
 import csv
 import hashlib
@@ -20,7 +20,8 @@ from a1.train import _config_hash, _device, load_checkpoint, run_epoch
 
 
 def main(model_name="cnn"):
-    run_dir = Path("runs/m2") / model_name
+    legacy_baseline = model_name in {"linear", "mlp"}
+    run_dir = Path("runs/m1" if legacy_baseline else "runs/m2") / model_name
     summary = json.loads((run_dir / "summary.json").read_text())
     test = json.loads((run_dir / "test_summary.json").read_text())
     config = summary["config"]
@@ -41,7 +42,16 @@ def main(model_name="cnn"):
     device = _device("auto")
     model, checkpoint = load_checkpoint(run_dir / "best.pt", device)
     assert checkpoint["model_name"] == summary["model"] == test["model"] == model_name
-    assert checkpoint["input_mode"] == summary["input_mode"] == input_mode(model_name)
+    # The original M1 files predate the input_mode metadata field. Infer only
+    # for these two legacy models; keep the explicit metadata check for M2.
+    expected_mode = input_mode(model_name)
+    if legacy_baseline:
+        assert checkpoint.get("input_mode", expected_mode) == expected_mode
+        assert summary.get("input_mode", expected_mode) == expected_mode
+        assert config == json.loads(Path("configs/m1.json").read_text())
+    else:
+        assert checkpoint["input_mode"] == summary["input_mode"] == expected_mode
+    assert test["input_mode"] == expected_mode
     assert checkpoint["config_sha256"] == summary["config_sha256"] == _config_hash(config, model_name)
     assert checkpoint["source_sha256"] == summary["source_sha256"] == test["source_sha256"] == val.source_sha256
     assert checkpoint["split_sha256"] == val.split_sha256
@@ -54,6 +64,20 @@ def main(model_name="cnn"):
         raw, _ = train.dataset.base[index]
         torch.testing.assert_close(sequence, ((raw - train.dataset.mean) / train.dataset.std)[0])
         assert tuple(sequence.shape) == (28, 28)
+    if model_name == "transformer":
+        assert config == json.loads(Path("configs/transformer.json").read_text())
+        patches, _ = train.dataset[0]
+        index = int(train.dataset.indices[0])
+        raw, _ = train.dataset.base[index]
+        normalized = (raw - train.dataset.mean) / train.dataset.std
+        assert tuple(patches.shape) == (49, 16)
+        for row in range(7):
+            for col in range(7):
+                torch.testing.assert_close(
+                    patches[7 * row + col].reshape(4, 4),
+                    normalized[0, 4 * row:4 * row + 4, 4 * col:4 * col + 4],
+                    rtol=0, atol=0,
+                )
     measured = run_epoch(model, val, nn.CrossEntropyLoss(), device)
     for metric in ("loss", "accuracy", "macro_f1"):
         assert abs(measured[metric] - summary[f"best_val_{metric}"]) < 1e-5
@@ -63,7 +87,7 @@ def main(model_name="cnn"):
     assert checkpoint["epoch"] == int(best["epoch"]) == summary["best_epoch"]
     assert len(history) == config["epochs"]
 
-    # A checkpoint trained on CUDA must also load and predict on CPU.
+    # Check portability, including original MPS-trained M1 checkpoints.
     torch.set_num_threads(4)
     cpu_model, _ = load_checkpoint(run_dir / "best.pt", "cpu")
     images, _ = next(iter(test_loader))
@@ -118,6 +142,9 @@ def main(model_name="cnn"):
         "cpu_device_max_logit_difference": (cpu_logits - gpu_logits).abs().max().item(),
         "cpu_device_predictions_match": True, "png_files_valid": 4,
     }
+    if model_name == "transformer":
+        verification["patch_order_checked"] = True
+        verification["encoder_layout"] = "sequence_first"
     (run_dir / "verification.json").write_text(json.dumps(verification, indent=2) + "\n")
     print(json.dumps(verification, indent=2))
 
@@ -125,5 +152,5 @@ def main(model_name="cnn"):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=("cnn", "lstm"), default="cnn")
+    parser.add_argument("--model", choices=("linear", "mlp", "cnn", "lstm", "transformer"), default="cnn")
     main(parser.parse_args().model)

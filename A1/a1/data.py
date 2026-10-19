@@ -145,6 +145,8 @@ def to_representation(image: torch.Tensor, mode: str = "flatten", patch_size: in
     For row_seq, (1, H, W) becomes (steps=H, features=W), with
     sequence[t, j] == image[0, t, j]. No pixels are reordered or discarded.
     col_seq instead walks columns left to right, transposing those axes.
+    patch_seq walks non-overlapping square patches in row-major order,
+    flattening the pixels within each patch in row-major order as well.
     """
     if mode == "flatten":
         return image.reshape(-1)
@@ -157,6 +159,8 @@ def to_representation(image: torch.Tensor, mode: str = "flatten", patch_size: in
     if mode == "col_seq":
         return image.squeeze(0).t().contiguous()
     if mode == "patch_seq":
+        if image.ndim != 3 or image.shape[0] != 1:
+            raise ValueError("patch_seq expects a single-channel image with shape (1, H, W)")
         _, height, width = image.shape
         if patch_size <= 0 or height % patch_size or width % patch_size:
             raise ValueError("patch_size must divide both image dimensions")

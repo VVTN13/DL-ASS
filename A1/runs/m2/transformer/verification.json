@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "model": "transformer",
+  "input_mode": "patch_seq",
+  "split_matches_m1": true,
+  "test_predictions_match_checkpoint": true,
+  "test_dataset_sha256_matches": true,
+  "checkpoint_validation_metrics": {
+    "loss": 0.3712691234747569,
+    "accuracy": 0.8643333333333333,
+    "macro_f1": 0.8617052960256968,
+    "samples": 6000
+  },
+  "checkpoint_epoch": 10,
+  "test_prediction_rows": 10000,
+  "test_metrics_and_confusion_recomputed": true,
+  "cpu_reload_batch_samples": 128,
+  "cpu_device_max_logit_difference": 1.9073486328125e-06,
+  "cpu_device_predictions_match": true,
+  "png_files_valid": 4,
+  "patch_order_checked": true,
+  "encoder_layout": "sequence_first"
+}
