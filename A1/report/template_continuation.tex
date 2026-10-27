@@ -1,0 +1,44 @@
+% Rebuild from A1/report with Tectonic or XeLaTeX.
+% build_template_continuation.py combines these pages with the supplied PDF.
+\documentclass[10pt,a4paper]{article}
+\usepackage[left=20mm,right=20mm,top=38mm,bottom=20mm,headheight=30pt,headsep=17pt,footskip=24pt]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,tabularx,array,float,placeins}
+\usepackage{fancyhdr,lastpage,enumitem,caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{1.5em}
+\renewcommand{\arraystretch}{1.18}
+\setlist{leftmargin=1.7em,itemsep=6pt,topsep=4pt}
+\captionsetup{font=small,labelsep=colon}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=11mm]{figures/hcmut-logo.png}\hspace{6mm}%
+\begin{minipage}[b]{130mm}\ttfamily\fontsize{10}{13}\selectfont
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY\\
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+\end{minipage}}
+\fancyfoot[L]{\ttfamily\fontsize{7}{9}\selectfont CO3133 -- HK261}
+\fancyfoot[R]{\ttfamily\fontsize{7}{9}\selectfont Page \thepage/\pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\graphicspath{{figures/}}
+\newcommand{\reportfigure}[4]{\begin{figure}[htbp]\centering
+\includegraphics[width=#2\linewidth]{#1.pdf}\caption{#3}\label{#4}\end{figure}}
+\input{generated/eda_values}
+\hypersetup{pdftitle={Assignment 1: Preprocessing and Key Findings},pdfauthor={Team G-09}}
+\begin{document}
+\setcounter{page}{9}
+\setcounter{section}{2}
+\setcounter{subsection}{3}
+\setcounter{equation}{3}
+\setcounter{table}{4}
+\setcounter{figure}{7}
+% The original figure and header are placed over the blank top region.
+\vspace*{354.32pt}
+\input{sections/024_preprocessing}
+\input{sections/025_key_findings}
+\end{document}

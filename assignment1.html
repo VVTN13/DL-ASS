@@ -157,51 +157,50 @@
           <tr><th>Augmentation</th><td>off in M1 (optional horizontal flip and ±10° rotation, train split only)</td></tr>
           <tr><th>Checkpoint rule</th><td>epoch with the lowest validation loss</td></tr>
           <tr><th>Metrics</th><td>loss, accuracy, macro-F1</td></tr>
-          <tr><th>Hardware</th><td>M1: Apple Silicon (MPS), macOS 26.6. M2 CNN/LSTM/Transformer: GTX 1660 SUPER (6 GiB), Windows 11.</td></tr>
-          <tr><th>Software</th><td>M1: Python 3.14.7, PyTorch 2.14.0, torchvision 0.29.0, scikit-learn 1.9.1. M2: Python 3.12.10, PyTorch 2.9.1+cu128, torchvision 0.24.1+cu128, scikit-learn 1.7.2.</td></tr>
-          <tr><th>Config</th><td><a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/configs/m1.json"><code>A1/configs/m1.json</code></a></td></tr>
+          <tr><th>Hardware</th><td>All five models: GTX 1660 SUPER (6 GiB), CUDA, Windows 11.</td></tr>
+          <tr><th>Software</th><td>Python 3.12.10, PyTorch 2.9.1+cu128, torchvision 0.24.1+cu128, scikit-learn 1.7.2.</td></tr>
+          <tr><th>Config</th><td><a href="https://github.com/VVTN13/DL-ASS/blob/branch/A1/configs/m1.json"><code>A1/configs/m1.json</code></a></td></tr>
         </tbody>
       </table>
     </section>
 
     <section>
       <h2>Results</h2>
-      <p>These are M1 validation results from one seed and one split. They are not test results.</p>
+      <p>These are CUDA baseline validation results from one seed and one split. They are not test results.</p>
       <table>
         <thead><tr><th>Model</th><th>Best epoch</th><th>Val loss</th><th>Val accuracy</th><th>Val macro-F1</th><th>Params</th><th>Train time</th></tr></thead>
         <tbody>
-          <tr><td>Linear</td><td>9</td><td>0.3932</td><td>0.8648</td><td>0.8641</td><td>7,850</td><td>27.6 s</td></tr>
-          <tr><td>MLP</td><td>8</td><td>0.2825</td><td>0.8987</td><td>0.8985</td><td>235,146</td><td>28.1 s</td></tr>
+          <tr><td>Linear</td><td>9</td><td>0.3932</td><td>0.8648</td><td>0.8641</td><td>7,850</td><td>90.85 s</td></tr>
+          <tr><td>MLP</td><td>9</td><td>0.2789</td><td>0.8973</td><td>0.8966</td><td>235,146</td><td>96.69 s</td></tr>
         </tbody>
       </table>
       <figure>
         <img src="A1/figures/m1_learning_curves.png" alt="Loss, validation accuracy and macro-F1 by epoch for Linear and MLP" />
         <figcaption>Learning curves. Dashed lines show training loss and solid lines show validation loss.</figcaption>
       </figure>
-      <h3>Linear and MLP &mdash; final test results, 19 October 2026</h3>
+      <h3>Linear and MLP &mdash; submitted CUDA test results</h3>
       <p>
-        The original M1 checkpoints were evaluated without retraining on all 10,000 official test images.
-        Linear uses epoch 9 and MLP epoch 8, selected by lowest validation loss. The split and train-only
-        normalization match M1; test data were not used for checkpoint or hyperparameter selection.
+        The submitted CUDA checkpoints were evaluated on all 10,000 official test images.
+        Both use epoch 9, selected by lowest validation loss. Test data were not used
+        for checkpoint or hyperparameter selection.
       </p>
       <table>
         <thead><tr><th>Model</th><th>Selected epoch</th><th>Test loss</th><th>Test accuracy</th><th>Test macro-F1</th><th>Errors</th></tr></thead>
         <tbody>
           <tr><td>Linear</td><td>9</td><td>0.445443</td><td>84.26%</td><td>0.841694</td><td>1,574</td></tr>
-          <tr><td>MLP</td><td>8</td><td>0.325145</td><td>88.50%</td><td>0.884585</td><td>1,150</td></tr>
+          <tr><td>MLP</td><td>9</td><td>0.330035</td><td>88.16%</td><td>0.880775</td><td>1,184</td></tr>
         </tbody>
       </table>
       <p>
         Both saved-run verifiers passed: all 10,000 predictions and confidences match checkpoint reload,
         metrics and confusion counts were recomputed, and CPU/CUDA labels agree on 128 images.
-        Evaluation used the GTX 1660 SUPER and the Windows M2 environment; original M1 training remains
-        recorded on MPS. All five saved inference measurements use the same CUDA hardware;
-        training times retain their original hardware labels in the comparison below.
-        See the <a href="A1/docs/BASELINE_TEST.md">baseline test notes</a>,
-        <a href="A1/runs/m1/linear/test_summary.json">Linear metrics</a>,
-        <a href="A1/runs/m1/mlp/test_summary.json">MLP metrics</a>, and
-        <a href="A1/runs/m1/linear/verification.json">Linear</a> /
-        <a href="A1/runs/m1/mlp/verification.json">MLP verification records</a>.
+        Training and evaluation used CUDA on GTX 1660 SUPER for all five models.
+        Each model's accuracy, error analysis and timing now come from the same submitted run.
+        See the <a href="A1/docs/overall.md">overall workflow</a>,
+        <a href="A1/runs/cuda_baselines/linear/test_summary.json">Linear metrics</a>,
+        <a href="A1/runs/cuda_baselines/mlp/test_summary.json">MLP metrics</a>, and
+        <a href="A1/runs/cuda_baselines/linear/verification.json">Linear</a> /
+        <a href="A1/runs/cuda_baselines/mlp/verification.json">MLP verification records</a>.
       </p>
       <h3>Custom CNN — M2 results, 11 October 2026</h3>
       <p>
@@ -221,7 +220,7 @@
         Training and validation took 105.03 s. A device-resident batch of 128 images averaged 1.074 ms
         per forward pass after 10 warmup batches over 100 timed batches (0.00839 ms per image, amortized).
         This excludes loading and host transfers. The complete test pass, including loading, transfers,
-        loss and predictions, took 1.382 s. These CUDA times cannot be directly ranked against the M1 MPS times.
+        loss and predictions, took 1.382 s. The baseline training and inference times also use CUDA on the same GPU.
       </p>
       <figure>
         <img src="A1/runs/m2/cnn/learning_curves.png" alt="CNN training and validation loss, accuracy and macro-F1 over 10 epochs" />
@@ -292,8 +291,8 @@
         <caption>Selected checkpoints on the official test set</caption>
         <thead><tr><th>Model</th><th>Epoch</th><th>Test accuracy</th><th>Test macro-F1</th><th>Parameters</th></tr></thead>
         <tbody>
-          <tr><td><a href="A1/runs/m1/linear/test_summary.json">Linear</a></td><td>9</td><td>84.26%</td><td>0.841694</td><td>7,850</td></tr>
-          <tr><td><a href="A1/runs/m1/mlp/test_summary.json">MLP</a></td><td>8</td><td>88.50%</td><td>0.884585</td><td>235,146</td></tr>
+          <tr><td><a href="A1/runs/cuda_baselines/linear/test_summary.json">Linear</a></td><td>9</td><td>84.26%</td><td>0.841694</td><td>7,850</td></tr>
+          <tr><td><a href="A1/runs/cuda_baselines/mlp/test_summary.json">MLP</a></td><td>9</td><td>88.16%</td><td>0.880775</td><td>235,146</td></tr>
           <tr><td><a href="A1/runs/m2/cnn/test_summary.json">CNN</a></td><td>10</td><td>91.94%</td><td>0.918886</td><td>421,642</td></tr>
           <tr><td><a href="A1/runs/m2/lstm/test_summary.json">LSTM</a></td><td>9</td><td>88.48%</td><td>0.883496</td><td>82,186</td></tr>
           <tr><td><a href="A1/runs/m2/transformer/test_summary.json">Transformer</a></td><td>10</td><td>85.55%</td><td>0.852387</td><td>71,946</td></tr>
@@ -303,8 +302,8 @@
         <caption>Recorded training times and shared-hardware inference measurements</caption>
         <thead><tr><th>Model</th><th>Training + validation</th><th>Forward / 128 images</th><th>Full test pass</th></tr></thead>
         <tbody>
-          <tr><td>Linear</td><td><a href="A1/runs/m1/linear/summary.json">27.56 s (MPS)</a></td><td>0.058 ms</td><td>1.150 s</td></tr>
-          <tr><td>MLP</td><td><a href="A1/runs/m1/mlp/summary.json">28.14 s (MPS)</a></td><td>0.247 ms</td><td>1.153 s</td></tr>
+          <tr><td>Linear</td><td><a href="A1/runs/cuda_baselines/linear/summary.json">90.85 s (CUDA)</a></td><td>0.060 ms</td><td>1.110 s</td></tr>
+          <tr><td>MLP</td><td><a href="A1/runs/cuda_baselines/mlp/summary.json">96.69 s (CUDA)</a></td><td>0.326 ms</td><td>1.410 s</td></tr>
           <tr><td>CNN</td><td><a href="A1/runs/m2/cnn/summary.json">105.03 s (CUDA)</a></td><td>1.074 ms</td><td>1.382 s</td></tr>
           <tr><td>LSTM</td><td><a href="A1/runs/m2/lstm/summary.json">122.12 s (CUDA)</a></td><td>1.189 ms</td><td>1.237 s</td></tr>
           <tr><td>Transformer</td><td><a href="A1/runs/m2/transformer/summary.json">139.45 s (CUDA)</a></td><td>2.061 ms</td><td>1.595 s</td></tr>
@@ -317,8 +316,8 @@
         timed loop; it excludes loading and transfers. Full-test timing includes loading,
         transfers, loss and predictions for 10,000 images. These are individual recorded
         measurements from separate evaluation runs, without repeated-run uncertainty estimates.
-        Training times cover ten training/validation epochs on the labelled device; the MPS
-        and CUDA training times cannot establish a five-model training-speed ranking.
+        Training times cover ten training/validation epochs on CUDA using the same GPU;
+        separate sessions can still differ in system load and GPU clocks.
       </p>
     </section>
 
@@ -326,21 +325,19 @@
       <h2>Comparison and discussion</h2>
       <p>
         The CNN has the highest measured test accuracy (91.94%) and macro-F1 (0.918886).
-        It makes 344 fewer errors than MLP, a 3.44-percentage-point accuracy improvement,
+        It makes 378 fewer errors than MLP, a 3.78-percentage-point accuracy improvement,
         and 768 fewer than Linear. Local convolution filters and pooling provide a plausible
         advantage for clothing silhouettes, but the CNN also has about 1.79 times the MLP's
         parameters. Architecture and capacity change together, so this comparison does not
         isolate the contribution of spatial weight sharing.
       </p>
       <p>
-        The MLP improves on Linear by 4.24 test accuracy points and 0.042891 macro-F1,
-        reducing errors from 1,574 to 1,150. Its hidden nonlinear layers accompany about
-        30 times as many parameters. Linear's validation loss levels off near 0.39, consistent
-        with limited representational capacity; MLP training loss keeps falling after its
-        validation minimum at epoch 8, suggesting some overfitting. The MLP and LSTM differ
-        by only two correct test predictions (88.50% versus 88.48%). This single run does
-        not establish a reliable accuracy advantage between them. LSTM uses about 35% of
-        the MLP's parameters, while the MLP's recorded CUDA forward pass is shorter.
+        The CUDA MLP improves on Linear by 3.90 test accuracy points and 0.039081 macro-F1,
+        reducing errors from 1,574 to 1,184. Its hidden nonlinear layers accompany about
+        30 times as many parameters. Validation loss selects epoch 9 for both baselines.
+        LSTM exceeds MLP by 32 correct test predictions (88.48% versus 88.16%). One seed
+        does not establish a stable ranking. LSTM uses about 35% of the MLP's parameters,
+        while the MLP's recorded CUDA forward pass is shorter.
       </p>
       <p>
         Transformer test accuracy is 6.39 points below CNN and 2.93 below LSTM, while
@@ -380,7 +377,7 @@
         <thead><tr><th>Model</th><th>Total errors</th><th>Missed shirts / 1,000</th><th>Shirt recall</th><th>Shirt F1</th></tr></thead>
         <tbody>
           <tr><td>Linear</td><td>1,574</td><td>434</td><td>56.6%</td><td>0.5859</td></tr>
-          <tr><td>MLP</td><td>1,150</td><td>338</td><td>66.2%</td><td>0.6976</td></tr>
+          <tr><td>MLP</td><td>1,184</td><td>363</td><td>63.7%</td><td>0.6838</td></tr>
           <tr><td>CNN</td><td>806</td><td>282</td><td>71.8%</td><td>0.7518</td></tr>
           <tr><td>LSTM</td><td>1,152</td><td>382</td><td>61.8%</td><td>0.6784</td></tr>
           <tr><td>Transformer</td><td>1,445</td><td>511</td><td>48.9%</td><td>0.5920</td></tr>
@@ -482,44 +479,33 @@
         the observed errors; the images alone do not prove their cause.
       </p>
       <figure>
-        <img src="A1/runs/m1/linear/confusion_matrix.png" alt="Linear confusion counts on all 10,000 official test images" />
+        <img src="A1/runs/cuda_baselines/linear/confusion_matrix.png" alt="Linear confusion counts on all 10,000 official test images" />
         <figcaption>Linear confusion matrix: true classes in rows, predictions in columns.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/m1/linear/correct_examples.png" alt="Twelve correct Linear test predictions sampled with seed 42" />
+        <img src="A1/runs/cuda_baselines/linear/correct_examples.png" alt="Twelve correct Linear test predictions sampled with seed 42" />
         <figcaption>Correct Linear examples, sampled with seed 42.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/m1/linear/incorrect_examples.png" alt="Twelve incorrect Linear test predictions sampled with seed 42" />
+        <img src="A1/runs/cuda_baselines/linear/incorrect_examples.png" alt="Twelve incorrect Linear test predictions sampled with seed 42" />
         <figcaption>Incorrect Linear examples; softmax confidence is not calibrated.</figcaption>
       </figure>
       <h3>MLP errors</h3>
-      <p>
-        MLP makes 1,150 test errors. Shirt has the lowest recall (66.2%) and F1 (0.6976).
-        There are 130 shirts predicted as T-shirt/top, 95 shirts as Pullover and 109 coats as Pullover.
-        The MLP makes 424 fewer errors than Linear (a 26.9% reduction), and correctly recognizes
-        96 more shirts. Shirt precision improves to 73.7%. Bag recall is 96.8% and Trouser recall
-        is 96.6%, but 730 errors still occur within the four upper-body categories. Nonlinear
-        hidden layers and increased capacity improve the measured result together; this is not
-        an isolated test of nonlinearity.
-      </p>
-      <p>
-        The sampled mistakes include coats 6297, 905 and 9632 predicted as Pullover, matching
-        the matrix's recurring Coat/Pullover confusion. Image 965 is a T-shirt/top predicted as
-        Shirt at 59.4%, illustrating the reverse direction of garment confusion. Errors also
-        extend beyond clothing tops: Sandal 6718 is predicted as Sneaker at 94.4%. The MLP
-        reduces the overall error count without eliminating either garment overlap or confident mistakes.
-      </p>
+      <p>The CUDA MLP makes 1,184 errors. Shirt has its lowest recall (63.7%) and F1 (0.6838).
+        It predicts 177 shirts as T-shirt/top and 64 as Pullover, and 71 coats as Pullover.
+        It makes 390 fewer errors than Linear; 759 errors occur between the four upper-body labels.
+        Architecture and capacity change together, so this does not isolate nonlinearity.</p>
+      <p>Image 4159 is Pullover predicted as T-shirt/top (84.0% confidence). Image 930 is T-shirt/top predicted as Shirt (52.8% confidence). Image 7442 is Pullover predicted as Coat (55.4% confidence). Softmax confidence is uncalibrated.</p>
       <figure>
-        <img src="A1/runs/m1/mlp/confusion_matrix.png" alt="MLP confusion counts on all 10,000 official test images" />
+        <img src="A1/runs/cuda_baselines/mlp/confusion_matrix.png" alt="MLP confusion counts on all 10,000 official test images" />
         <figcaption>MLP confusion matrix: true classes in rows, predictions in columns.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/m1/mlp/correct_examples.png" alt="Twelve correct MLP test predictions sampled with seed 42" />
+        <img src="A1/runs/cuda_baselines/mlp/correct_examples.png" alt="Twelve correct MLP test predictions sampled with seed 42" />
         <figcaption>Correct MLP examples, sampled with seed 42.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/m1/mlp/incorrect_examples.png" alt="Twelve incorrect MLP test predictions sampled with seed 42" />
+        <img src="A1/runs/cuda_baselines/mlp/incorrect_examples.png" alt="Twelve incorrect MLP test predictions sampled with seed 42" />
         <figcaption>Incorrect MLP examples; softmax confidence is not calibrated.</figcaption>
       </figure>
     </section>
@@ -527,19 +513,19 @@
     <section>
       <h2>Limitations and conclusion</h2>
       <ul>
-        <li>One seed and one validation split give no estimate of training variance or statistical significance; the two-image MLP/LSTM difference is especially inconclusive.</li>
+        <li>One seed and one validation split give no estimate of training variance or statistical significance; the 32-image MLP/LSTM difference needs repeated-seed evaluation.</li>
         <li>The same ten-epoch Adam budget supports a controlled protocol, but does not establish that each architecture is equally well tuned or converged. Parameter counts, representations and architectures also differ.</li>
-        <li>All inference timings use the same CUDA hardware and protocol, but come from individual runs. Original Linear/MLP training used MPS; a common-hardware training-speed ranking is unavailable.</li>
+        <li>All training and inference timings use CUDA on the same GTX 1660 SUPER, but come from separate sessions without repeated-session uncertainty estimates.</li>
         <li>The LSTM reads rows in one direction and the Transformer uses fixed 4&times;4 patches and mean pooling. Alternative sequence orders, patch sizes, pooling methods and training schedules have not been compared.</li>
         <li>Softmax confidence is uncalibrated. Fashion-MNIST is balanced and standardized; performance on real retail photos, colour images or shifted distributions has not been tested.</li>
       </ul>
       <p>
         Under the recorded protocol, the CNN is the strongest model for predictive accuracy:
         91.94% test accuracy, 0.918886 macro-F1 and 806 errors. It improves accuracy by
-        7.68 points over Linear, 3.44 over MLP, 3.46 over LSTM and 6.39 over Transformer.
+        7.68 points over Linear, 3.78 over MLP, 3.46 over LSTM and 6.39 over Transformer.
         For this experiment, it is the preferred model when accuracy is the main criterion.
         Linear provides the smallest and fastest measured forward pass, while MLP reaches
-        88.50% accuracy with a shorter forward time than CNN. LSTM achieves similar accuracy
+        88.16% accuracy with a shorter forward time than CNN. LSTM achieves similar accuracy
         to MLP with fewer parameters. The small Transformer improves on Linear overall,
         but does not surpass the other nonlinear models within this training budget.
       </p>
@@ -557,15 +543,17 @@
     <section>
       <h2>Links</h2>
       <ul>
-        <li>Source code: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1">github.com/VVTN13/DL-ASS/tree/main/A1</a></li>
-        <li>EDA and training notebook: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/dl1-261.ipynb">A1/dl1-261.ipynb</a></li>
-        <li>Checkpoints: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m1">A1/runs/m1</a> &middot; reproduction instructions: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/README.md">A1/README.md</a></li>
-        <li>Pipeline notes: <a href="https://github.com/VVTN13/DL-ASS/blob/main/A1/docs/M1_ARCHITECTURE.md">A1/docs/M1_ARCHITECTURE.md</a></li>
-        <li>CNN notes: <a href="A1/docs/CNN.md">A1/docs/CNN.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m2/cnn">A1/runs/m2/cnn</a></li>
-        <li>LSTM notes: <a href="A1/docs/LSTM.md">A1/docs/LSTM.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/main/A1/runs/m2/lstm">A1/runs/m2/lstm</a></li>
+        <li>Generated five-model comparison: <a href="A1/runs/m2/comparison/comparison.md">table</a> &middot; <a href="A1/runs/m2/comparison/comparison.csv">CSV</a> &middot; <a href="A1/runs/m2/comparison/comparison.png">plot</a></li>
+        <li>Source code: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1">github.com/VVTN13/DL-ASS/tree/branch/A1</a></li>
+        <li>EDA and training notebook: <a href="https://github.com/VVTN13/DL-ASS/blob/branch/A1/dl1-261.ipynb">A1/dl1-261.ipynb</a></li>
+        <li>Checkpoints: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1/runs/cuda_baselines">A1/runs/cuda_baselines</a> &middot; reproduction instructions: <a href="https://github.com/VVTN13/DL-ASS/blob/branch/A1/README.md">A1/README.md</a></li>
+        <li>Pipeline notes: <a href="A1/docs/overall.md">A1/docs/overall.md</a></li>
+        <li>CNN notes: <a href="A1/docs/CNN.md">A1/docs/CNN.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1/runs/m2/cnn">A1/runs/m2/cnn</a></li>
+        <li>LSTM notes: <a href="A1/docs/LSTM.md">A1/docs/LSTM.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1/runs/m2/lstm">A1/runs/m2/lstm</a></li>
         <li>Transformer notes: <a href="A1/docs/TRANSFORMER.md">A1/docs/TRANSFORMER.md</a> &middot; checkpoint and results: <a href="A1/runs/m2/transformer/summary.json">run summary</a> &middot; <a href="A1/runs/m2/transformer/best.pt">checkpoint</a> &middot; <a href="A1/runs/m2/transformer/verification.json">verification</a></li>
-        <li>Report / slides: <a href="#">[link]</a></li>
-        <li>YouTube presentation: <a href="#">[link]</a></li>
+        <li>Report: <a href="A1/report-part3/complete-report/report.pdf">complete PDF</a> &middot; <a href="A1/report-part3/complete-report/report.html">HTML</a> &middot; <a href="A1/report-part3/complete-report/README.md">editable source and build instructions</a></li>
+        <li>Slides: not yet supplied.</li>
+        <li>YouTube presentation: URL not yet supplied.</li>
       </ul>
     </section>
 
@@ -579,11 +567,11 @@
         <li>Writing <code>A1/README.md</code> (setup and reproduction instructions) and <code>A1/docs/M1_ARCHITECTURE.md</code>.</li>
         <li>Fixing code and environment issues, such as MPS/CUDA/CPU device selection and library version errors.</li>
       </ul>
-      <p>The group reviewed all AI output before including it. The full log is in <a href="https://github.com/VVTN13/DL-ASS/blob/main/AI_USAGE.md">AI_USAGE.md</a>.</p>
+      <p>The group reviewed all AI output before including it. The full log is in <a href="https://github.com/VVTN13/DL-ASS/blob/branch/AI_USAGE.md">AI_USAGE.md</a>.</p>
     </section>
 
     <footer>
-      <p>Last updated: 19/10/2026</p>
+      <p>Last updated: 27/10/2026</p>
     </footer>
   </div>
 </body>

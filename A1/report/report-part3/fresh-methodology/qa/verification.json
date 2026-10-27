@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "pages": 5,
+  "saved_configuration_checks": {
+    "linear": {
+      "parameters": 7850,
+      "training_device": "mps",
+      "summary_sha256": "fcc1041ddab5b20a28281903271af4dcde3a28c6d8959570d4c3c1487b0d171c"
+    },
+    "mlp": {
+      "parameters": 235146,
+      "training_device": "mps",
+      "summary_sha256": "2d00173070dae43a85443e0ff34cad4577797c36445cf102067c8b63c4599efc"
+    },
+    "cnn": {
+      "parameters": 421642,
+      "training_device": "cuda",
+      "summary_sha256": "627ca395396b9db7e0d2a9d398458c366f4c9d6698b8b73342b66889f6ccfb30"
+    },
+    "lstm": {
+      "parameters": 82186,
+      "training_device": "cuda",
+      "summary_sha256": "db6c3022a9fa81433046e21a73c0cf429c800f467ab28194b97c816599f3a63a"
+    },
+    "transformer": {
+      "parameters": 71946,
+      "training_device": "cuda",
+      "summary_sha256": "aae8718e3f1e6e99d6229f0bebc1fad4f0c66d720394cd6ffe63e6e2d63a06af"
+    }
+  },
+  "common_split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+  "pdf_sha256": "52238534234f65f83929bccf7fa104c7c68febcbde37ea83ab85c0d2d29a78c2",
+  "prior_files_checked_unchanged": 47,
+  "AI_USAGE_sha256": "c1277689beda08b7174c75bfcf26b2e1b129238159629d71766ead9f73642886",
+  "code_sources": {
+    "models.py": "6185943b71aca3ebed15b97946acf161a61c9a796a091321c79b94ee1668debd",
+    "data.py": "b840ea8f029104742df1a08696702c723bee1201c709aec01671747667777deb",
+    "train.py": "57f486eb04710f0ca8a73cb2d29836d27def6d992d9ac38ae1dd1e0e879d897e",
+    "evaluate.py": "8094b6a6d66f1aa1f170b30b41a646b5648b1d1025e5e1f88a8b3b2881880b72"
+  },
+  "training_or_inference_rerun": false,
+  "visual_review": "All five pages inspected; tables, formulas, references and footers readable; no clipping or overlaps."
+}

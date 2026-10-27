@@ -17,3 +17,14 @@ __pycache__/
 *.log
 tmp/
 
+# LaTeX build intermediates (retain sources, PDFs and verification evidence)
+*.aux
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Retired MPS baseline copies are excluded from the CUDA submission.
+/runs/m1/
+

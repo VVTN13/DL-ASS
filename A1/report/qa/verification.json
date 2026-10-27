@@ -1,0 +1,175 @@
+{
+  "passed": true,
+  "pdf_sha256": "b996509551c9828a76962276f75e9ed61c05849017f009f1c6ba29854cd64141",
+  "pages": 18,
+  "figure_captions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "table_captions": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "required_subsections_present": [
+    "Background and Motivation",
+    "Problem Statement",
+    "Objectives and Scope",
+    "Proposed Approach",
+    "Dataset Description",
+    "Data Preparation and Splitting",
+    "Exploratory Data Analysis",
+    "Preprocessing",
+    "Key Findings and Implications for Methodology"
+  ],
+  "checks": {
+    "eda_checks_passed": true,
+    "cuda_execution_recorded": true,
+    "figure_hashes_match": true,
+    "protected_files_unchanged": true,
+    "section_headings_present": true,
+    "vietnamese_names_extract": true,
+    "bookmarks_target_correct_pages": true,
+    "no_unresolved_references_or_missing_glyphs": true,
+    "no_overfull_latex_boxes": true,
+    "text_within_page_bounds": true,
+    "all_pages_rendered": true
+  },
+  "page_details": [
+    {
+      "page": 1,
+      "text_characters": 507,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-01.png"
+    },
+    {
+      "page": 2,
+      "text_characters": 2319,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-02.png"
+    },
+    {
+      "page": 3,
+      "text_characters": 1596,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-03.png"
+    },
+    {
+      "page": 4,
+      "text_characters": 3166,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-04.png"
+    },
+    {
+      "page": 5,
+      "text_characters": 3214,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-05.png"
+    },
+    {
+      "page": 6,
+      "text_characters": 2830,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-06.png"
+    },
+    {
+      "page": 7,
+      "text_characters": 2838,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-07.png"
+    },
+    {
+      "page": 8,
+      "text_characters": 2163,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-08.png"
+    },
+    {
+      "page": 9,
+      "text_characters": 2533,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-09.png"
+    },
+    {
+      "page": 10,
+      "text_characters": 1956,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-10.png"
+    },
+    {
+      "page": 11,
+      "text_characters": 2007,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-11.png"
+    },
+    {
+      "page": 12,
+      "text_characters": 2199,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-12.png"
+    },
+    {
+      "page": 13,
+      "text_characters": 2973,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-13.png"
+    },
+    {
+      "page": 14,
+      "text_characters": 2863,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-14.png"
+    },
+    {
+      "page": 15,
+      "text_characters": 2677,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-15.png"
+    },
+    {
+      "page": 16,
+      "text_characters": 3534,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-16.png"
+    },
+    {
+      "page": 17,
+      "text_characters": 1390,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-17.png"
+    },
+    {
+      "page": 18,
+      "text_characters": 828,
+      "width_pt": 595.280029296875,
+      "height_pt": 841.8900146484375,
+      "render": "qa\\page-18.png"
+    }
+  ]
+}

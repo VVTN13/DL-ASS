@@ -1,0 +1,134 @@
+% Compile with Tectonic or XeLaTeX (twice) from this directory.
+\documentclass[10pt,a4paper]{article}
+\usepackage[left=20mm,right=20mm,top=30mm,bottom=22mm,headheight=28pt,headsep=12pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,graphicx}
+\usepackage{fancyhdr,microtype,enumitem,caption,float,placeins}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark,lastpage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\arraystretch}{1.17}
+\setlist{nosep,leftmargin=1.5em}
+\captionsetup{font=small,labelfont=bf,labelsep=period}
+\setcounter{tocdepth}{2}
+\graphicspath{{figures/}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\ttfamily HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY\\
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING}
+\fancyfoot[L]{\scriptsize\ttfamily CO3133 -- HK261 \quad Team G-09}
+\fancyfoot[R]{\scriptsize\ttfamily \thepage}
+\renewcommand{\headrulewidth}{.4pt}
+\renewcommand{\footrulewidth}{.4pt}
+\hypersetup{pdftitle={Fashion-MNIST Image Classification: A Comparison of Five Neural Models},
+pdfauthor={Nguyen Vu Long; Le Phuoc Vu; Nguyen Hoang Quoc},
+pdfsubject={CO3133 Assignment 1, complete report}}
+\makeatletter
+\newcommand{\tabledata}[1]{\@@input #1 }
+\makeatother
+\input{generated/derived_values}
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+{\large VIETNAM NATIONAL UNIVERSITY HO CHI MINH CITY\par}
+\vspace{4pt}
+{\large\bfseries HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY\par}
+\vspace{4pt}
+{\normalsize FACULTY OF COMPUTER SCIENCE AND ENGINEERING\par}
+\vspace{1.2cm}
+\includegraphics[width=2.7cm]{hcmut-logo.png}\par
+\vspace{1.1cm}
+{\large Deep Learning and Its Applications (CO3133)\par}
+\vspace{.6cm}
+{\Large\bfseries ASSIGNMENT 1\par}
+\vspace{.6cm}
+{\Huge\bfseries Fashion-MNIST\par}
+\vspace{.2cm}
+{\LARGE\bfseries Image Classification\par}
+\vspace{.5cm}
+{\large A Comparison of Five Neural Models\par}
+\vspace{1cm}
+\begin{tabular}{ll}
+\textbf{Lecturer} & Le Thanh Sach\\
+\textbf{Class / Team} & CC01 / G-09\\[9pt]
+\textbf{Student} & \textbf{Student ID}\\
+Nguyen Vu Long & 2352696\\
+Le Phuoc Vu & 2353341\\
+Nguyen Hoang Quoc & 2353027\\
+\end{tabular}
+\vfill
+{Ho Chi Minh City, October 2026\par}
+\end{titlepage}
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\phantomsection
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+This report compares five neural network configurations for Fashion-MNIST image
+classification: a Linear classifier, a multilayer perceptron (MLP), a convolutional
+neural network (CNN), a row-sequence LSTM and a patch-based Transformer.
+The models receive the same pixels, arranged as vectors, image grids, rows or
+patches. The study examines how these choices relate to predictive quality,
+training behavior and computational cost.
+
+The official training data is divided into 54,000 training and 6,000 validation
+images using a stratified split with seed 42. The official test set contains
+10,000 images. Normalization uses statistics from the training partition only.
+All five models use Adam with a learning rate of 0.001, batches of 128 and ten
+epochs, without data augmentation. The checkpoint with the lowest validation
+loss is evaluated on the test set.
+
+The CNN achieves the highest test accuracy, 91.94\%, and macro-F1, 0.9189.
+MLP and LSTM obtain 88.50\% and 88.48\% accuracy, followed by Transformer at
+85.55\% and Linear at 84.26\%. The CNN makes 806 errors, compared with
+1,150 for the MLP. It also has the most parameters, at 421,642. Under the recorded
+GTX 1660 SUPER inference measurement, the MLP takes 0.247 milliseconds per
+128-image forward batch and the CNN takes 1.074 milliseconds.
+
+Class-level analysis shows that upper-body garments remain the main difficulty.
+The CNN correctly identifies 71.8\% of Shirt images, compared with 98.8\% of
+Trouser images. Its mistakes often occur between Shirt, T-shirt/top, Pullover
+and Coat. These errors are consistent with the similar silhouettes observed
+in the training data, although that observation alone does not establish why
+an individual prediction failed.
+
+The results favor the implemented CNN for accuracy and show the MLP as a useful
+lower-cost alternative in the recorded batch timing. Conclusions are limited
+to one seed and the tested configurations. Model capacity differs, training
+hardware is not shared across all five runs, and the study does not estimate
+variation across repeated training runs.
+
+\vspace{8pt}
+\textbf{Keywords:} Fashion-MNIST; image classification; CNN; LSTM; Transformer;
+model comparison.
+
+\clearpage
+\begingroup
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+\clearpage
+\pagenumbering{arabic}
+\input{sections/01_introduction}
+\clearpage
+\input{sections/02_dataset}
+\clearpage
+\input{sections/03_methodology}
+\clearpage
+\input{sections/04_results}
+\clearpage
+\input{sections/05_errors}
+\clearpage
+\input{sections/06_discussion}
+\clearpage
+\input{sections/07_conclusion}
+\clearpage
+\input{references}
+\clearpage
+\appendix
+\input{sections/08_appendices}
+\end{document}

@@ -5,6 +5,10 @@ Assignments 1–3 (instructor: Lê Thành Sách).
 
 ## Site structure
 
+Assignment 1 setup, saved-result checks and reproduction commands are in
+[A1/README.md](A1/README.md). See the [A1 overall workflow](A1/docs/overall.md)
+for the shared data pipeline, training loop, and model guides.
+
 ```
 index.html          shared landing page (institution, course, group, AI disclosure)
 assignment1.html     Assignment 1 page

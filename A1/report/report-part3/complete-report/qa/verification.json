@@ -1,0 +1,133 @@
+{
+  "status": "passed",
+  "pages": 25,
+  "figures": 11,
+  "tables": 16,
+  "bookmarks_checked": 39,
+  "protected_files_unchanged": 238,
+  "ai_usage_sha256": "c1277689beda08b7174c75bfcf26b2e1b129238159629d71766ead9f73642886",
+  "saved_predictions_checked": 50000,
+  "compiler_warnings": [],
+  "cost_models_on_cuda": [
+    "linear",
+    "mlp",
+    "cnn",
+    "lstm",
+    "transformer"
+  ],
+  "baseline_cuda_predictions_verified": 20000,
+  "checks": {
+    "text_within_page_bounds": true,
+    "all_pages_rendered": true,
+    "no_empty_pages": true,
+    "no_unresolved_references": true,
+    "bookmark_destinations_checked": true,
+    "html_figures_embedded": 11,
+    "html_structure_and_links": true,
+    "markdown_figures_exist": true
+  },
+  "page_details": [
+    {
+      "page": 1,
+      "characters": 424
+    },
+    {
+      "page": 2,
+      "characters": 2263
+    },
+    {
+      "page": 3,
+      "characters": 3429
+    },
+    {
+      "page": 4,
+      "characters": 3218
+    },
+    {
+      "page": 5,
+      "characters": 2331
+    },
+    {
+      "page": 6,
+      "characters": 1656
+    },
+    {
+      "page": 7,
+      "characters": 2000
+    },
+    {
+      "page": 8,
+      "characters": 2768
+    },
+    {
+      "page": 9,
+      "characters": 2941
+    },
+    {
+      "page": 10,
+      "characters": 2624
+    },
+    {
+      "page": 11,
+      "characters": 2764
+    },
+    {
+      "page": 12,
+      "characters": 2995
+    },
+    {
+      "page": 13,
+      "characters": 2899
+    },
+    {
+      "page": 14,
+      "characters": 2530
+    },
+    {
+      "page": 15,
+      "characters": 2311
+    },
+    {
+      "page": 16,
+      "characters": 3189
+    },
+    {
+      "page": 17,
+      "characters": 1985
+    },
+    {
+      "page": 18,
+      "characters": 1554
+    },
+    {
+      "page": 19,
+      "characters": 2459
+    },
+    {
+      "page": 20,
+      "characters": 3617
+    },
+    {
+      "page": 21,
+      "characters": 2439
+    },
+    {
+      "page": 22,
+      "characters": 1092
+    },
+    {
+      "page": 23,
+      "characters": 1606
+    },
+    {
+      "page": 24,
+      "characters": 1919
+    },
+    {
+      "page": 25,
+      "characters": 3144
+    }
+  ],
+  "pdf_sha256": "372205b921b15da8d2328b62a0c82904328a59f67a5e7adc10fd33331eebf6c4",
+  "evidence_sha256": "49d94fbd708ad8e2461eff17d0cebfd8600c64e7f98fb453e51831021992be31"
+}

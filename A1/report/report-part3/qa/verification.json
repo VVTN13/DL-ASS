@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "methodology_pages": 8,
+  "combined_pages": 21,
+  "original_report_pages": 13,
+  "original_body_preserved": true,
+  "original_files_unchanged": true,
+  "AI_USAGE_unchanged": true,
+  "resolved_citations_and_references": true,
+  "all_new_pages_rendered": true,
+  "no_overfull_boxes_or_missing_glyphs": true,
+  "methodology_sha256": "ad655376396a1cdafe23703257780619e68037c2be67bfd567e0c3cba0515661",
+  "combined_sha256": "05dc402a53710264dd30d99c5fe67cfc8e454f80b00867ded1e29ac114f86573",
+  "training_rerun": false,
+  "new_sections": {
+    "3": "Methodology",
+    "3.1": "Overall System Architecture",
+    "3.2": "Baseline Approach",
+    "3.3": "Proposed Models / Algorithms",
+    "3.4": "Mathematical Formulation",
+    "3.5": "Training Strategy",
+    "3.6": "Evaluation Metrics"
+  },
+  "visual_review": "See review_notes.md"
+}

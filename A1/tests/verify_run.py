@@ -19,9 +19,9 @@ from a1.models import input_mode, count_parameters
 from a1.train import _config_hash, _device, load_checkpoint, run_epoch
 
 
-def main(model_name="cnn"):
-    legacy_baseline = model_name in {"linear", "mlp"}
-    run_dir = Path("runs/m1" if legacy_baseline else "runs/m2") / model_name
+def main(model_name="cnn", *, write_result=True):
+    baseline = model_name in {"linear", "mlp"}
+    run_dir = Path("runs/cuda_baselines" if baseline else "runs/m2") / model_name
     summary = json.loads((run_dir / "summary.json").read_text())
     test = json.loads((run_dir / "test_summary.json").read_text())
     config = summary["config"]
@@ -33,24 +33,20 @@ def main(model_name="cnn"):
     assert (len(train.dataset), len(val.dataset), len(test_loader.dataset)) == (54000, 6000, 10000)
     assert summary["split_sha256"] == val.split_sha256 == test["split_sha256"]
     for name in ("linear", "mlp"):
-        baseline = json.loads((Path("runs/m1") / name / "summary.json").read_text())
-        assert baseline["split_sha256"] == val.split_sha256
-        assert baseline["source_sha256"] == val.source_sha256
+        baseline_summary = json.loads((Path("runs/cuda_baselines") / name / "summary.json").read_text())
+        assert baseline_summary["split_sha256"] == val.split_sha256
+        assert baseline_summary["source_sha256"] == val.source_sha256
     assert not np.intersect1d(train.dataset.indices, val.dataset.indices).size
     assert (train.dataset.mean, train.dataset.std) == (val.dataset.mean, val.dataset.std)
 
     device = _device("auto")
     model, checkpoint = load_checkpoint(run_dir / "best.pt", device)
     assert checkpoint["model_name"] == summary["model"] == test["model"] == model_name
-    # The original M1 files predate the input_mode metadata field. Infer only
-    # for these two legacy models; keep the explicit metadata check for M2.
     expected_mode = input_mode(model_name)
-    if legacy_baseline:
-        assert checkpoint.get("input_mode", expected_mode) == expected_mode
-        assert summary.get("input_mode", expected_mode) == expected_mode
+    assert checkpoint["input_mode"] == summary["input_mode"] == expected_mode
+    if baseline:
         assert config == json.loads(Path("configs/m1.json").read_text())
-    else:
-        assert checkpoint["input_mode"] == summary["input_mode"] == expected_mode
+        assert config["device"] == summary["device"] == test["hardware"]["device"] == "cuda"
     assert test["input_mode"] == expected_mode
     assert checkpoint["config_sha256"] == summary["config_sha256"] == _config_hash(config, model_name)
     assert checkpoint["source_sha256"] == summary["source_sha256"] == test["source_sha256"] == val.source_sha256
@@ -87,7 +83,7 @@ def main(model_name="cnn"):
     assert checkpoint["epoch"] == int(best["epoch"]) == summary["best_epoch"]
     assert len(history) == config["epochs"]
 
-    # Check portability, including original MPS-trained M1 checkpoints.
+    # Check portability of the submitted CUDA checkpoints.
     torch.set_num_threads(4)
     cpu_model, _ = load_checkpoint(run_dir / "best.pt", "cpu")
     images, _ = next(iter(test_loader))
@@ -145,7 +141,8 @@ def main(model_name="cnn"):
     if model_name == "transformer":
         verification["patch_order_checked"] = True
         verification["encoder_layout"] = "sequence_first"
-    (run_dir / "verification.json").write_text(json.dumps(verification, indent=2) + "\n")
+    if write_result:
+        (run_dir / "verification.json").write_text(json.dumps(verification, indent=2) + "\n")
     print(json.dumps(verification, indent=2))
 
 
@@ -153,4 +150,6 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", choices=("linear", "mlp", "cnn", "lstm", "transformer"), default="cnn")
-    main(parser.parse_args().model)
+    parser.add_argument("--no-write", action="store_true", help="Check artifacts without replacing verification.json")
+    args = parser.parse_args()
+    main(args.model, write_result=not args.no_write)
