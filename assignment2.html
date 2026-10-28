@@ -5,13 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assignment 2 — CO3133</title>
   <link rel="stylesheet" href="style.css?v=2" />
+  <style>
+    .table-scroll { overflow-x: auto; }
+    .table-scroll:focus-visible { outline: 2px solid #1a4b8c; outline-offset: 4px; }
+    caption { text-align: left; font-size: 0.9rem; margin-bottom: 8px; }
+    .results td:not(:first-child) { white-space: nowrap; }
+    @media (max-width: 640px) {
+      .page { margin: 16px; padding: 24px 16px 32px; }
+      header h1 { font-size: 1.7rem; }
+    }
+  </style>
 </head>
 <body>
   <div class="page">
     <p class="back"><a href="index.html">&larr; Back to group page</a></p>
 
     <header class="assignment-header">
-      <h1>Assignment 2 — Deep Learning on Large-Scale Data and Specialized Tasks</h1>
+      <h1>Assignment 2 — Five-Stage Sleep Classification from EEG</h1>
+      <p class="sub">Group G-09 &middot; CC01 &middot; M2 preliminary results</p>
+      <p>Deep Learning on Large-Scale Data and Specialized Tasks: comparing scratch-trained CNNs with a pretrained EEG foundation model on participant-separated sleep recordings.</p>
+      <p><a href="A2/G09_A2_Report.pdf">Read the A2 report (PDF)</a> &middot; <a href="#results">Validation results</a> &middot; <a href="#resources">Code and reproduction resources</a></p>
     </header>
 
     <section>
@@ -21,66 +34,172 @@
 
     <section>
       <h2>Dataset proposal status</h2>
-      <p class="todo">TODO: task track chosen; proposal submitted [date]; approval status: Approved / Approved with conditions / Rejected / Pending.</p>
+      <p><strong>Approved without conditions.</strong> The <a href="A2/SLEEP_DATASET_PROPOSAL.md">dataset proposal</a> records approval confirmation on 27 October 2026, and acceptance of the current 6,474-epoch waveform subset and participant-grouped cross-validation protocol on 28 October 2026. These are confirmation dates, not a claimed original submission or instructor decision date.</p>
+      <p>The earlier image-classification proposal used EEG-derived spectrograms. The current M2 experiments instead supply the same waveform tensors to all compared models. Results below are development-validation results; the reserved test set has not been evaluated.</p>
     </section>
 
     <section>
       <h2>Problem statement</h2>
-      <p class="todo">TODO: chosen track (image classification / text / detection / segmentation / re-ID / depth), input/output, difficulties.</p>
-    </section>
-
-    <section>
-      <h2>Dataset description and EDA</h2>
-      <p class="todo">TODO: source, license, sample counts, task-specific EDA (see handbook Sec. 22).</p>
-    </section>
-
-    <section>
-      <h2>Methodology</h2>
-      <p class="todo">TODO: simple baseline, pretrained/modern model, fine-tuning procedure.</p>
-    </section>
-
-    <section>
-      <h2>Experimental setup</h2>
-      <p class="todo">TODO: controlled experiment design, training config, hardware, seeds.</p>
-    </section>
-
-    <section>
-      <h2>Results</h2>
-      <p class="todo">TODO: task-specific metrics (see handbook Sec. 20.1), compute-cost analysis.</p>
-    </section>
-
-    <section>
-      <h2>Comparison and discussion</h2>
-      <p class="todo">TODO: baseline vs. pretrained model, trade-offs, hypothesis outcomes.</p>
-    </section>
-
-    <section>
-      <h2>Error analysis</h2>
-      <p class="todo">TODO: error groups, frequency, examples, causes; at least one ablation.</p>
-    </section>
-
-    <section>
-      <h2>Limitations and conclusion</h2>
-      <p class="todo">TODO: limits, generalization, future work.</p>
-    </section>
-
-    <section>
-      <h2>Links</h2>
+      <p>Given a non-overlapping 30-second EEG epoch, predict one of five sleep stages: wake (W), N1, N2, N3, or REM. The question is whether fine-tuned CBraMod improves stage-balanced performance over a compact CNN under the same sampled-data and participant-separated evaluation protocol.</p>
       <ul>
-        <li>Source code: <a href="https://github.com/VVTN13/DL-ASS">github.com/VVTN13/DL-ASS</a></li>
-        <li>Checkpoints / reproduction instructions: <a href="#">[link]</a></li>
-        <li>Report / slides: <a href="#">[link]</a></li>
-        <li>YouTube presentation: <a href="#">[link]</a></li>
+        <li><strong>Input:</strong> Fpz-Cz and Pz-Oz EEG channels, originally sampled at 100 Hz; preprocessing produces a <code>(2, 30, 200)</code> waveform tensor.</li>
+        <li><strong>Output:</strong> five logits; argmax gives the predicted stage, and softmax probabilities support AUROC calculation.</li>
+        <li><strong>Challenges:</strong> class imbalance, variation between participants, ambiguous sleep-stage boundaries, and a limited training budget.</li>
+        <li><strong>Scope:</strong> retrospective sleep staging, not sleep-disorder diagnosis or a clinically validated system.</li>
       </ul>
     </section>
 
     <section>
+      <h2>Dataset description and EDA</h2>
+      <p><a href="https://physionet.org/content/sleep-edfx/1.0.0/">Sleep-EDF Database Expanded, version 1.0.0</a> (DOI <a href="https://doi.org/10.13026/C2X676">10.13026/C2X676</a>) is distributed under the Open Data Commons Attribution License v1.0. We use the Sleep Cassette cohort: <strong>78 participants and 153 recordings</strong>, excluding Sleep Telemetry.</p>
+      <p>Legacy stages 3 and 4 are merged into N3; movement and unscored intervals are excluded. Complete epochs are retained from 30 minutes before the first scored sleep interval to 30 minutes after the last, within recording boundaries. This label-dependent trimming defines a retrospective benchmark.</p>
+      <div class="table-scroll" role="region" aria-label="Sleep-stage distribution" tabindex="0">
+        <table>
+          <caption>Full-cohort eligible epochs versus the sampled waveform dataset used in M2.</caption>
+          <thead><tr><th scope="col">Stage</th><th scope="col">Full eligible</th><th scope="col">Sampled total</th><th scope="col">Development</th><th scope="col">Reserved test</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">W</th><td>65,941</td><td>1,900</td><td>1,674</td><td>226</td></tr>
+            <tr><th scope="row">N1</th><td>21,522</td><td>770</td><td>677</td><td>93</td></tr>
+            <tr><th scope="row">N2</th><td>69,132</td><td>2,310</td><td>1,911</td><td>399</td></tr>
+            <tr><th scope="row">N3</th><td>13,039</td><td>545</td><td>433</td><td>112</td></tr>
+            <tr><th scope="row">REM</th><td>25,835</td><td>949</td><td>783</td><td>166</td></tr>
+            <tr><th scope="row">Total</th><td><strong>195,469</strong></td><td><strong>6,474</strong></td><td><strong>5,478</strong></td><td><strong>996</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li>N2 accounts for 35.37% of full eligible epochs, versus 6.67% for N3: approximately a 5.30:1 ratio. This motivates macro-F1 and per-stage metrics rather than accuracy alone.</li>
+        <li>The current subset selects 83 epochs per participant, using seed 42 without replacement. It covers available night–stage combinations before proportionally allocating the remaining quota; it is not class balancing.</li>
+        <li>The report records checksum, timing, boundary and finite-signal checks for the completed waveform export. These do not constitute comprehensive physiological artefact rejection.</li>
+        <li>The report includes class-distribution, raw EEG, exploratory log-PSD and preprocessed waveform figures. The exploratory <code>(2, 60, 57)</code> spectrograms are not the current training inputs.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Methodology</h2>
+      <ol>
+        <li>Pair EDF recordings with expert hypnograms; check channels, timing and epoch boundaries; apply the stage mapping, wake margins and participant sampling.</li>
+        <li>Filter continuous EEG with a zero-phase 0.3–35 Hz FIR bandpass, then resample from 100 to 200 Hz. Upsampling matches the model interface; it does not add measured high-frequency information.</li>
+        <li>Scale volts into units of 100 &micro;V by multiplying by 10<sup>4</sup>. Reshape each channel's 6,000 samples into 30 one-second patches, producing <code>(2, 30, 200)</code>.</li>
+        <li>Save waveforms, labels, participant/recording IDs, onsets and provenance. Memory-map the tensor and expose only development epochs to the training dataset.</li>
+        <li>Train each model with unweighted multiclass cross-entropy. The current input transform is an identity: no extra z-score normalization, augmentation or temporal smoothing is applied.</li>
+      </ol>
+      <p>The waveform grid's axes are seconds and within-second samples, <strong>not time and frequency</strong>. All current models receive this same representation.</p>
+      <div class="table-scroll" role="region" aria-label="Model architectures" tabindex="0">
+        <table>
+          <caption>Current local architectures; parameter counts are trainable parameters, not verified historical runtime snapshots.</caption>
+          <thead><tr><th scope="col">Model</th><th scope="col">Architecture and training</th><th scope="col">Parameters</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">StandardCNN2D</th><td>Scratch baseline: four convolution, batch-normalization, ReLU and pooling blocks (32/64/128/256 channels), global pooling, and a 256 &rarr; 512 &rarr; 5 head with dropout 0.5.</td><td>523,237</td></tr>
+            <tr><th scope="row">CBraMod</th><td>Released EEG-pretrained backbone: temporal and FFT patch embeddings, 12 criss-cross attention layers, and a new 12,000 &rarr; 800 &rarr; 200 &rarr; 5 head. Backbone and head are jointly fine-tuned.</td><td>14,645,605</td></tr>
+            <tr><th scope="row">ResCBAM</th><td>Scratch comparator: four residual blocks with channel/spatial attention, global pooling, and a 256 &rarr; 64 &rarr; 5 head.</td><td>471,565</td></tr>
+            <tr><th scope="row">Transformer</th><td>Scratch CNN channel encoder, two channel tokens plus a classification token, and four Transformer layers. Implemented; no trained result reported.</td><td>2,640,149</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>CBraMod's backbone and criss-cross attention reuse/adapt the <a href="https://github.com/wjq-learning/CBraMod">upstream implementation</a>; they are not algorithms introduced by this group. Project-specific work includes preprocessing, sampling, dataset loading, task heads and experiment adaptation.</p>
+    </section>
+
+    <section>
+      <h2>Experimental setup</h2>
+      <ul>
+        <li><strong>Holdout:</strong> 66 development participants (5,478 epochs) and 12 reserved test participants (996 epochs). All nights and epochs from a participant stay together.</li>
+        <li><strong>Cross-validation:</strong> five-fold <code>StratifiedGroupKFold</code>, shuffled with seed 42, regenerated from sampled development labels. These are not the original full-cohort fold assignments. Folds 1–4 each use 4,399 training / 1,079 validation epochs; fold 5 uses 4,316 / 1,162.</li>
+        <li><strong>Shared budget:</strong> batch size 32, at most 80 epochs, new model and optimizer per fold, NumPy/PyTorch seeds 42, cosine scheduling with <code>T_max=100</code> and minimum learning rate 10<sup>&minus;6</sup>.</li>
+        <li><strong>Recorded checkpoint selection:</strong> highest validation macro one-vs-rest AUROC. Early stopping separately monitors validation loss with patience 10 and minimum improvement 0.001. Macro-F1-based selection remains an alternative to evaluate.</li>
+        <li><strong>Hardware evidence:</strong> saved runs report CUDA use, with AMP enabled on CUDA. GPU identity, peak memory and a final runtime environment snapshot were not recorded.</li>
+      </ul>
+      <div class="table-scroll" role="region" aria-label="Training configurations" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Configuration</th><th scope="col">Optimizer</th><th scope="col">Initial LR</th><th scope="col">Weight decay</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">StandardCNN2D</th><td>Adam</td><td>3 &times; 10<sup>&minus;5</sup></td><td>10<sup>&minus;4</sup></td></tr>
+            <tr><th scope="row">CBraMod, main</th><td>Adam</td><td>3 &times; 10<sup>&minus;5</sup></td><td>10<sup>&minus;4</sup></td></tr>
+            <tr><th scope="row">CBraMod, LR variant</th><td>Adam</td><td>10<sup>&minus;5</sup></td><td>10<sup>&minus;4</sup></td></tr>
+            <tr><th scope="row">ResCBAM</th><td>AdamW</td><td>10<sup>&minus;3</sup></td><td>5 &times; 10<sup>&minus;4</sup></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="results">
+      <h2>Preliminary validation results</h2>
+      <p>Values below are transcribed from Table 6 of the <a href="A2/G09_A2_Report.pdf">report</a>: unweighted mean &plusmn; population standard deviation across five development folds, at AUROC-selected checkpoints. All metrics are on a 0–1 scale. Fold standard deviations are not confidence intervals.</p>
+      <div class="table-scroll" role="region" aria-label="Five-fold validation results" tabindex="0">
+        <table class="results">
+          <caption>Development validation only — no held-out test results.</caption>
+          <thead><tr><th scope="col">Configuration</th><th scope="col">Accuracy</th><th scope="col">Macro-F1</th><th scope="col">AUROC</th><th scope="col">Cohen's &kappa;</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">StandardCNN2D</th><td>0.6965 &plusmn; 0.0226</td><td>0.5927 &plusmn; 0.0204</td><td>0.8972 &plusmn; 0.0103</td><td>0.5781 &plusmn; 0.0292</td></tr>
+            <tr><th scope="row">CBraMod, 3 &times; 10<sup>&minus;5</sup></th><td><strong>0.7550 &plusmn; 0.0295</strong></td><td><strong>0.6747 &plusmn; 0.0230</strong></td><td><strong>0.9226 &plusmn; 0.0144</strong></td><td><strong>0.6648 &plusmn; 0.0377</strong></td></tr>
+            <tr><th scope="row">CBraMod, 10<sup>&minus;5</sup></th><td>0.7247 &plusmn; 0.0496</td><td>0.6282 &plusmn; 0.0719</td><td>0.9158 &plusmn; 0.0220</td><td>0.6220 &plusmn; 0.0676</td></tr>
+            <tr><th scope="row">ResCBAM</th><td>0.6907 &plusmn; 0.0328</td><td>0.5602 &plusmn; 0.0371</td><td>0.8944 &plusmn; 0.0125</td><td>0.5664 &plusmn; 0.0469</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The alternative CNN run requesting dropout 0.6 has only four completed fold summaries and is excluded. The custom Transformer has no recorded training result.</p>
+      <h3>Compute-cost evidence</h3>
+      <p>Across five folds, logged epoch timers sum to <strong>79.44 s</strong> for StandardCNN2D (132 epochs), <strong>713.42 s</strong> for the main CBraMod run (127 epochs), and <strong>305.79 s</strong> for ResCBAM (187 epochs). These include training, validation and metric calculation, but exclude setup, model loading, plotting and preprocessing. Without matched hardware records, they are provisional observations, not a controlled speed benchmark. The sampled waveform export is approximately 311 MB.</p>
+    </section>
+
+    <section>
+      <h2>Comparison and discussion</h2>
+      <p>The main CBraMod configuration improves recorded accuracy by <strong>5.85 percentage points</strong> and macro-F1 by <strong>8.20 percentage points</strong> over StandardCNN2D. This supports the comparison hypothesis for these configurations, but does not establish statistical significance or isolate pretraining from differences in architecture and capacity.</p>
+      <p>The higher CBraMod learning rate improves mean macro-F1 by 4.65 percentage points over the lower-rate run. This is a preliminary factor comparison: seeds were set once before cross-validation, so different stopping lengths can change later folds' initialization and data order. ResCBAM does not outperform the simpler CNN here, and its different optimizer settings prevent attributing the result to attention alone.</p>
+      <p>Training and validation curves in the report are consistent with overfitting. An AUROC-selected epoch need not maximize macro-F1. Controlled AUROC-versus-macro-F1 checkpoint selection and frozen-backbone-versus-full-fine-tuning ablations remain planned work, not completed results.</p>
+    </section>
+
+    <section>
+      <h2>Error analysis</h2>
+      <div class="table-scroll" role="region" aria-label="CBraMod per-stage validation performance" tabindex="0">
+        <table>
+          <caption>Main CBraMod: pooled selected-validation predictions over 5,478 epochs. These are not averages of fold-level metrics.</caption>
+          <thead><tr><th scope="col">Stage</th><th scope="col">Support</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">F1</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">W</th><td>1,674</td><td>0.8554</td><td>0.9403</td><td>0.8958</td></tr>
+            <tr><th scope="row">N1</th><td>677</td><td>0.3566</td><td>0.2112</td><td>0.2653</td></tr>
+            <tr><th scope="row">N2</th><td>1,911</td><td>0.7802</td><td>0.8488</td><td>0.8130</td></tr>
+            <tr><th scope="row">N3</th><td>433</td><td>0.7978</td><td>0.8383</td><td>0.8176</td></tr>
+            <tr><th scope="row">REM</th><td>783</td><td>0.6174</td><td>0.5543</td><td>0.5841</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><strong>N1 &rarr; N2:</strong> 219 of 677 true N1 epochs (32.35%).</li>
+        <li><strong>REM &rarr; N2:</strong> 153 of 783 true REM epochs (19.54%).</li>
+        <li>N1 and REM together account for 883 of 1,342 errors. N3 is rarer than N1 but much better classified, so frequency alone does not explain the failures.</li>
+      </ul>
+      <p>Stage transitions, ambiguous patterns and missing neighbouring-epoch context are hypotheses, not established causes. Traceable prediction-level waveform examples remain to be exported; the report's input examples do not substitute for qualitative error analysis. These errors are measured on validation data used for checkpoint selection, not an independent test set.</p>
+    </section>
+
+    <section>
+      <h2>Limitations and conclusion</h2>
+      <p>The accepted subset preserves participant coverage but sacrifices temporal continuity and within-night coverage. Two EEG channels, legacy labels, label-dependent trimming and sampling constrain generalization. Zero-phase filtering also means this is not evidence of causal online inference. Validation reuse, a single seed stream, incomplete runtime/checkpoint provenance and unrecorded hardware limit the strength of the comparison.</p>
+      <p><strong>M2 conclusion:</strong> the waveform pipeline and grouped validation establish a working baseline and a stronger preliminary CBraMod result. N1 recognition remains a major weakness, and final test performance is unknown.</p>
+      <p>Next steps for M3 are to archive exact fold memberships and trained weights, compare checkpoint-selection rules and frozen versus fine-tuned CBraMod, complete prediction-level error analysis and matched-hardware measurements, then refit the selected configuration on development data and evaluate the reserved participants only after decisions are fixed.</p>
+    </section>
+
+    <section id="resources">
+      <h2>Code, report and reproduction resources</h2>
+      <ul>
+        <li><a href="A2/G09_A2_Report.pdf">G09 A2 report (PDF)</a> — methodology, figures, preliminary metrics and evidence sources.</li>
+        <li><a href="https://github.com/VVTN13/DL-ASS/tree/main/A2">A2 source directory</a> — project code and tracked resources.</li>
+        <li><a href="A2/preprocessing.py">Waveform preprocessing</a> &middot; <a href="A2/dataset/sleep_waveform_small.csv">sample-selection metadata (CSV)</a>.</li>
+        <li><a href="A2/model_lib.py">Dataset loader and classifiers</a> &middot; <a href="A2/cbramod.py">CBraMod backbone</a> &middot; <a href="A2/criss_cross_transformer.py">criss-cross attention</a>.</li>
+        <li><a href="A2/training.ipynb">Training notebook</a> &middot; <a href="A2/sleep_exploration.ipynb">initial EDA notebook</a> &middot; <a href="A2/requirements.txt">dependency list</a>.</li>
+        <li><a href="https://github.com/wjq-learning/CBraMod">Official CBraMod source and pretrained-weight instructions</a>.</li>
+      </ul>
+      <p><strong>Reproduction status:</strong> raw EDF recordings and the upstream pretrained weights must be obtained separately. The report identifies the local result notebooks behind each configuration; those completed-run notebooks are not currently tracked in the repository. The linked <code>training.ipynb</code> is a development version: it currently runs only two folds and uses macro-F1 for both checkpoint selection and early stopping, unlike the five-fold, AUROC-selected, loss-stopped runs reported above. It cannot reproduce the table unchanged. Its additional notebook dependencies include <code>gdown</code>, <code>optuna</code> and <code>torchvision</code>, which are not listed in <code>requirements.txt</code>. Exact runtime fold manifests, environment snapshots and persisted fine-tuned checkpoints still need to be packaged for final reproduction.</p>
+      <p><strong>Remaining deliverables:</strong> no published fine-tuned checkpoint, slide-deck or YouTube presentation link is currently provided.</p>
+    </section>
+
+    <section>
       <h2>AI usage disclosure</h2>
-      <p class="todo">TODO: assignment-specific disclosure, or "The group declares that no generative AI tool was used in this assignment."</p>
+      <p>The report discloses OpenAI Codex assistance with code adaptation/debugging, report structure, source inspection, figure/table extraction and wording. Numerical summaries were traced to saved outputs and dataset metadata; report preparation did not conduct new training. This landing-page update used Claude Code to summarize the existing report and workspace sources. The group remains responsible for reviewing claims and completing outstanding experiments. See the repository's <a href="AI_USAGE.md">AI usage record</a> for recorded project assistance.</p>
     </section>
 
     <footer>
-      <p>Last updated: 08/09/2026</p>
+      <p>Last updated: <time datetime="2026-10-28">28 October 2026</time> &middot; M2 progress summary; final held-out evaluation pending.</p>
     </footer>
   </div>
 </body>
