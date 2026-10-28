@@ -1,0 +1,127 @@
+{
+  "results": [
+    {
+      "model": "linear",
+      "parameters": 7850,
+      "selected_epoch": 9,
+      "test_samples": 10000,
+      "test_loss": 0.4454427534580231,
+      "test_accuracy": 0.8426,
+      "test_macro_f1": 0.8416943870447922,
+      "training_seconds": 27.56240079199779,
+      "training_device": "mps",
+      "evaluation_device": "cuda",
+      "evaluation_gpu": "NVIDIA GeForce GTX 1660 SUPER",
+      "forward_batch_size": 128,
+      "forward_ms_per_image": 0.00045682031213800656,
+      "test_pass_seconds": 1.1498732000181917
+    },
+    {
+      "model": "mlp",
+      "parameters": 235146,
+      "selected_epoch": 8,
+      "test_samples": 10000,
+      "test_loss": 0.3251447675466537,
+      "test_accuracy": 0.885,
+      "test_macro_f1": 0.8845854977235442,
+      "training_seconds": 28.138347333006095,
+      "training_device": "mps",
+      "evaluation_device": "cuda",
+      "evaluation_gpu": "NVIDIA GeForce GTX 1660 SUPER",
+      "forward_batch_size": 128,
+      "forward_ms_per_image": 0.0019334687499394931,
+      "test_pass_seconds": 1.153198899992276
+    },
+    {
+      "model": "cnn",
+      "parameters": 421642,
+      "selected_epoch": 10,
+      "test_samples": 10000,
+      "test_loss": 0.23660308842658997,
+      "test_accuracy": 0.9194,
+      "test_macro_f1": 0.9188856918388073,
+      "training_seconds": 105.02982789999805,
+      "training_device": "cuda",
+      "evaluation_device": "cuda",
+      "evaluation_gpu": "NVIDIA GeForce GTX 1660 SUPER",
+      "forward_batch_size": 128,
+      "forward_ms_per_image": 0.008387085937329175,
+      "test_pass_seconds": 1.3819388999982039
+    },
+    {
+      "model": "lstm",
+      "parameters": 82186,
+      "selected_epoch": 9,
+      "test_samples": 10000,
+      "test_loss": 0.32541652077436445,
+      "test_accuracy": 0.8848,
+      "test_macro_f1": 0.8834956959520909,
+      "training_seconds": 122.1174303000007,
+      "training_device": "cuda",
+      "evaluation_device": "cuda",
+      "evaluation_gpu": "NVIDIA GeForce GTX 1660 SUPER",
+      "forward_batch_size": 128,
+      "forward_ms_per_image": 0.00928801562508852,
+      "test_pass_seconds": 1.2365625000020373
+    },
+    {
+      "model": "transformer",
+      "parameters": 71946,
+      "selected_epoch": 10,
+      "test_samples": 10000,
+      "test_loss": 0.40851901676654817,
+      "test_accuracy": 0.8555,
+      "test_macro_f1": 0.852387328978546,
+      "training_seconds": 139.44993590001832,
+      "training_device": "cuda",
+      "evaluation_device": "cuda",
+      "evaluation_gpu": "NVIDIA GeForce GTX 1660 SUPER",
+      "forward_batch_size": 128,
+      "forward_ms_per_image": 0.016098859375688335,
+      "test_pass_seconds": 1.5954325000056997
+    }
+  ],
+  "notes": "Classification scores use the original validation-selected checkpoints, one seed and one split. Original Linear/MLP training used MPS; CNN/LSTM/Transformer training used CUDA. These training times do not support a common-hardware speed ranking. Forward timing uses a device-resident batch and is amortized per image; the full test pass also includes loading, transfers, loss and predictions. Separate CUDA baseline repetitions are in runs/cuda_baselines/ and do not replace these scores. This exporter checks summary consistency and checkpoint hashes; use tests/verify_run.py to recompute predictions and metrics.",
+  "sources_relative_to_runs": [
+    {
+      "path": "m1/linear/summary.json",
+      "sha256": "fcc1041ddab5b20a28281903271af4dcde3a28c6d8959570d4c3c1487b0d171c"
+    },
+    {
+      "path": "m1/linear/test_summary.json",
+      "sha256": "39bfa7f43faf317cfaf6bbaafb13021d0edc92e1a83b03aa1ded8b4972f1de9f"
+    },
+    {
+      "path": "m1/mlp/summary.json",
+      "sha256": "2d00173070dae43a85443e0ff34cad4577797c36445cf102067c8b63c4599efc"
+    },
+    {
+      "path": "m1/mlp/test_summary.json",
+      "sha256": "9adf7fddbf70a543ae515360b86e54c24965ef8e40ab55a45c9061217e6c3cea"
+    },
+    {
+      "path": "m2/cnn/summary.json",
+      "sha256": "627ca395396b9db7e0d2a9d398458c366f4c9d6698b8b73342b66889f6ccfb30"
+    },
+    {
+      "path": "m2/cnn/test_summary.json",
+      "sha256": "19f8137f5655713629cf9ce0fd9071ceda99521f958712513ab12efc7e252b65"
+    },
+    {
+      "path": "m2/lstm/summary.json",
+      "sha256": "db6c3022a9fa81433046e21a73c0cf429c800f467ab28194b97c816599f3a63a"
+    },
+    {
+      "path": "m2/lstm/test_summary.json",
+      "sha256": "50cb3f724676f79bab300f9813fb0c9cb4ca4ccd2e675582c2645fc18c54e661"
+    },
+    {
+      "path": "m2/transformer/summary.json",
+      "sha256": "aae8718e3f1e6e99d6229f0bebc1fad4f0c66d720394cd6ffe63e6e2d63a06af"
+    },
+    {
+      "path": "m2/transformer/test_summary.json",
+      "sha256": "972bafd5288c5f0341d426311c2735ee0cef887591b4c9c5a7652eb4b77a4db7"
+    }
+  ]
+}

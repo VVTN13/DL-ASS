@@ -1,0 +1,2154 @@
+{
+  "status": "passed",
+  "scope": "Saved predictions and artifacts checked without training or inference",
+  "models": {
+    "linear": {
+      "training": {
+        "model": "linear",
+        "best_epoch": 9,
+        "best_val_loss": 0.39323659030596414,
+        "best_val_accuracy": 0.8648333333333333,
+        "best_val_macro_f1": 0.8641346709449446,
+        "parameters": 7850,
+        "training_seconds": 27.56240079199779,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "mps",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m1",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "4dc91c01fcbff4bdf7e2d7ac154dbcc4a643d703837c3755e33c7143aeb51e4d",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs/m1/linear/best.pt",
+        "history": "runs/m1/linear/history.csv",
+        "versions": {
+          "python": "3.14.7",
+          "torch": "2.14.0",
+          "torchvision": "0.29.0",
+          "numpy": "2.5.3",
+          "scikit_learn": "1.9.1",
+          "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+          "processor": "arm"
+        }
+      },
+      "test": {
+        "model": "linear",
+        "checkpoint": "runs\\m1\\linear\\best.pt",
+        "checkpoint_sha256": "31d5e5162a71e36eed8e82521d9088ac0c2772bbddac0ca2fedddff229cb26a2",
+        "checkpoint_epoch": 9,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.4454427534580231,
+        "test_accuracy": 0.8426,
+        "test_macro_f1": 0.8416943870447922,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "flatten",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 0.05847299995366484,
+          "forward_ms_per_image": 0.00045682031213800656,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.1498732000181917,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7838345864661654,
+            "recall": 0.834,
+            "f1-score": 0.8081395348837209,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9825102880658436,
+            "recall": 0.955,
+            "f1-score": 0.9685598377281948,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.7307692307692307,
+            "recall": 0.741,
+            "f1-score": 0.7358490566037735,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8376313276026743,
+            "recall": 0.877,
+            "f1-score": 0.8568637029799707,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.7562761506276151,
+            "recall": 0.723,
+            "f1-score": 0.7392638036809815,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9201557935735151,
+            "recall": 0.945,
+            "f1-score": 0.9324124321657622,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.6072961373390557,
+            "recall": 0.566,
+            "f1-score": 0.5859213250517599,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9388185654008439,
+            "recall": 0.89,
+            "f1-score": 0.9137577002053389,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9368104312938816,
+            "recall": 0.934,
+            "f1-score": 0.9354031046569855,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9213806327900288,
+            "recall": 0.961,
+            "f1-score": 0.9407733724914341,
+            "support": 1000.0
+          },
+          "accuracy": 0.8426,
+          "macro avg": {
+            "precision": 0.8415483143928855,
+            "recall": 0.8426,
+            "f1-score": 0.8416943870447922,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8415483143928854,
+            "recall": 0.8426,
+            "f1-score": 0.8416943870447922,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "errors": 1574,
+      "precision": [
+        0.7838345864661654,
+        0.9825102880658436,
+        0.7307692307692307,
+        0.8376313276026743,
+        0.7562761506276151,
+        0.9201557935735151,
+        0.6072961373390557,
+        0.9388185654008439,
+        0.9368104312938816,
+        0.9213806327900288
+      ],
+      "recall": [
+        0.834,
+        0.955,
+        0.741,
+        0.877,
+        0.723,
+        0.945,
+        0.566,
+        0.89,
+        0.934,
+        0.961
+      ],
+      "f1": [
+        0.8081395348837209,
+        0.9685598377281948,
+        0.7358490566037735,
+        0.8568637029799707,
+        0.7392638036809815,
+        0.9324124321657622,
+        0.5859213250517599,
+        0.9137577002053389,
+        0.9354031046569855,
+        0.9407733724914341
+      ]
+    },
+    "mlp": {
+      "training": {
+        "model": "mlp",
+        "best_epoch": 8,
+        "best_val_loss": 0.2825455906788508,
+        "best_val_accuracy": 0.8986666666666666,
+        "best_val_macro_f1": 0.8984659039421331,
+        "parameters": 235146,
+        "training_seconds": 28.138347333006095,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "mps",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m1",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "817711c1f95f59355c2e3341621fedfaebf9c636e299c2e25b44b55423337628",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs/m1/mlp/best.pt",
+        "history": "runs/m1/mlp/history.csv",
+        "versions": {
+          "python": "3.14.7",
+          "torch": "2.14.0",
+          "torchvision": "0.29.0",
+          "numpy": "2.5.3",
+          "scikit_learn": "1.9.1",
+          "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+          "processor": "arm"
+        }
+      },
+      "test": {
+        "model": "mlp",
+        "checkpoint": "runs\\m1\\mlp\\best.pt",
+        "checkpoint_sha256": "0fe21c289562f49ca7d9e7180e23cb0823e18b740ee7ce6e0da80383c814c291",
+        "checkpoint_epoch": 8,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.3251447675466537,
+        "test_accuracy": 0.885,
+        "test_macro_f1": 0.8845854977235442,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "flatten",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 0.24748399999225512,
+          "forward_ms_per_image": 0.0019334687499394931,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.153198899992276,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.8261287223823247,
+            "recall": 0.86,
+            "f1-score": 0.8427241548260657,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9877300613496932,
+            "recall": 0.966,
+            "f1-score": 0.9767441860465116,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.7804878048780488,
+            "recall": 0.832,
+            "f1-score": 0.8054211035818006,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.9051546391752577,
+            "recall": 0.878,
+            "f1-score": 0.8913705583756345,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.7943743937924346,
+            "recall": 0.819,
+            "f1-score": 0.8064992614475628,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.955,
+            "recall": 0.955,
+            "f1-score": 0.955,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.7371937639198218,
+            "recall": 0.662,
+            "f1-score": 0.6975763962065332,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9378698224852071,
+            "recall": 0.951,
+            "f1-score": 0.9443892750744787,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9767911200807265,
+            "recall": 0.968,
+            "f1-score": 0.9723756906077348,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9485657764589516,
+            "recall": 0.959,
+            "f1-score": 0.9537543510691199,
+            "support": 1000.0
+          },
+          "accuracy": 0.885,
+          "macro avg": {
+            "precision": 0.8849296104522466,
+            "recall": 0.885,
+            "f1-score": 0.8845854977235442,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8849296104522467,
+            "recall": 0.885,
+            "f1-score": 0.8845854977235442,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "errors": 1150,
+      "precision": [
+        0.8261287223823247,
+        0.9877300613496932,
+        0.7804878048780488,
+        0.9051546391752577,
+        0.7943743937924346,
+        0.955,
+        0.7371937639198218,
+        0.9378698224852071,
+        0.9767911200807265,
+        0.9485657764589516
+      ],
+      "recall": [
+        0.86,
+        0.966,
+        0.832,
+        0.878,
+        0.819,
+        0.955,
+        0.662,
+        0.951,
+        0.968,
+        0.959
+      ],
+      "f1": [
+        0.8427241548260657,
+        0.9767441860465116,
+        0.8054211035818006,
+        0.8913705583756345,
+        0.8064992614475628,
+        0.955,
+        0.6975763962065332,
+        0.9443892750744787,
+        0.9723756906077348,
+        0.9537543510691199
+      ]
+    },
+    "cnn": {
+      "training": {
+        "model": "cnn",
+        "best_epoch": 10,
+        "best_val_loss": 0.2000607706308365,
+        "best_val_accuracy": 0.9328333333333333,
+        "best_val_macro_f1": 0.9322623978999574,
+        "parameters": 421642,
+        "training_seconds": 105.02982789999805,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m2",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "8e3db03d2b8c76d6e3b5f3434aa1e288b341621ee4d65d2d2b0532db1b17ef68",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\m2\\cnn\\best.pt",
+        "history": "runs\\m2\\cnn\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "image",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "cnn",
+        "checkpoint": "runs\\m2\\cnn\\best.pt",
+        "checkpoint_sha256": "aa979edd4ad4a14e0c113494170a55369bfa9863d479be3da2656e12472d0c07",
+        "checkpoint_epoch": 10,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.23660308842658997,
+        "test_accuracy": 0.9194,
+        "test_macro_f1": 0.9188856918388073,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "image",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 1.0735469999781344,
+          "forward_ms_per_image": 0.008387085937329175,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.3819388999982039,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.8708708708708709,
+            "recall": 0.87,
+            "f1-score": 0.8704352176088044,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.993963782696177,
+            "recall": 0.988,
+            "f1-score": 0.9909729187562688,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.8979381443298969,
+            "recall": 0.871,
+            "f1-score": 0.884263959390863,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.9200799200799201,
+            "recall": 0.921,
+            "f1-score": 0.9205397301349325,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.8276785714285714,
+            "recall": 0.927,
+            "f1-score": 0.8745283018867924,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9907881269191402,
+            "recall": 0.968,
+            "f1-score": 0.9792615073343449,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.789010989010989,
+            "recall": 0.718,
+            "f1-score": 0.7518324607329843,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9487427466150871,
+            "recall": 0.981,
+            "f1-score": 0.9646017699115044,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.984,
+            "recall": 0.984,
+            "f1-score": 0.984,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9708542713567839,
+            "recall": 0.966,
+            "f1-score": 0.968421052631579,
+            "support": 1000.0
+          },
+          "accuracy": 0.9194,
+          "macro avg": {
+            "precision": 0.9193927423307435,
+            "recall": 0.9193999999999999,
+            "f1-score": 0.9188856918388073,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.9193927423307435,
+            "recall": 0.9194,
+            "f1-score": 0.9188856918388073,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "errors": 806,
+      "precision": [
+        0.8708708708708709,
+        0.993963782696177,
+        0.8979381443298969,
+        0.9200799200799201,
+        0.8276785714285714,
+        0.9907881269191402,
+        0.789010989010989,
+        0.9487427466150871,
+        0.984,
+        0.9708542713567839
+      ],
+      "recall": [
+        0.87,
+        0.988,
+        0.871,
+        0.921,
+        0.927,
+        0.968,
+        0.718,
+        0.981,
+        0.984,
+        0.966
+      ],
+      "f1": [
+        0.8704352176088044,
+        0.9909729187562688,
+        0.884263959390863,
+        0.9205397301349325,
+        0.8745283018867924,
+        0.9792615073343449,
+        0.7518324607329843,
+        0.9646017699115044,
+        0.984,
+        0.968421052631579
+      ]
+    },
+    "lstm": {
+      "training": {
+        "model": "lstm",
+        "best_epoch": 9,
+        "best_val_loss": 0.28324007042249044,
+        "best_val_accuracy": 0.898,
+        "best_val_macro_f1": 0.8967244499469139,
+        "parameters": 82186,
+        "training_seconds": 122.1174303000007,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m2",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "d250b891639992fd7e6fd17701985e7091d6f333d141c3dd69b4b459f61c4501",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\m2\\lstm\\best.pt",
+        "history": "runs\\m2\\lstm\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "row_seq",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "lstm",
+        "checkpoint": "runs\\m2\\lstm\\best.pt",
+        "checkpoint_sha256": "2f14e36af88417dcd6e8e4104fc1b54fded12073a8521be68b8c5acb7b11c36f",
+        "checkpoint_epoch": 9,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.32541652077436445,
+        "test_accuracy": 0.8848,
+        "test_macro_f1": 0.8834956959520909,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "row_seq",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 1.1888660000113305,
+          "forward_ms_per_image": 0.00928801562508852,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.2365625000020373,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7947794779477948,
+            "recall": 0.883,
+            "f1-score": 0.8365703458076741,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9847715736040609,
+            "recall": 0.97,
+            "f1-score": 0.9773299748110831,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.8188188188188188,
+            "recall": 0.818,
+            "f1-score": 0.8184092046023012,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8653483992467044,
+            "recall": 0.919,
+            "f1-score": 0.8913676042677012,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.7982541222114452,
+            "recall": 0.823,
+            "f1-score": 0.810438207779419,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9936305732484076,
+            "recall": 0.936,
+            "f1-score": 0.9639546858908342,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.7518248175182481,
+            "recall": 0.618,
+            "f1-score": 0.6783754116355654,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9285004965243296,
+            "recall": 0.935,
+            "f1-score": 0.931738913801694,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9857578840284842,
+            "recall": 0.969,
+            "f1-score": 0.9773071104387292,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9234404536862004,
+            "recall": 0.977,
+            "f1-score": 0.9494655004859086,
+            "support": 1000.0
+          },
+          "accuracy": 0.8848,
+          "macro avg": {
+            "precision": 0.8845126616834496,
+            "recall": 0.8847999999999999,
+            "f1-score": 0.8834956959520909,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8845126616834493,
+            "recall": 0.8848,
+            "f1-score": 0.8834956959520909,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "errors": 1152,
+      "precision": [
+        0.7947794779477948,
+        0.9847715736040609,
+        0.8188188188188188,
+        0.8653483992467044,
+        0.7982541222114452,
+        0.9936305732484076,
+        0.7518248175182481,
+        0.9285004965243296,
+        0.9857578840284842,
+        0.9234404536862004
+      ],
+      "recall": [
+        0.883,
+        0.97,
+        0.818,
+        0.919,
+        0.823,
+        0.936,
+        0.618,
+        0.935,
+        0.969,
+        0.977
+      ],
+      "f1": [
+        0.8365703458076741,
+        0.9773299748110831,
+        0.8184092046023012,
+        0.8913676042677012,
+        0.810438207779419,
+        0.9639546858908342,
+        0.6783754116355654,
+        0.931738913801694,
+        0.9773071104387292,
+        0.9494655004859086
+      ]
+    },
+    "transformer": {
+      "training": {
+        "model": "transformer",
+        "best_epoch": 10,
+        "best_val_loss": 0.3712691234747569,
+        "best_val_accuracy": 0.8643333333333333,
+        "best_val_macro_f1": 0.8617052960256968,
+        "parameters": 71946,
+        "training_seconds": 139.44993590001832,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m2",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "b46260ef13226c0f6f6bc684cebb24f696a65983347b0722bb7db5e5f71f9bb0",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\m2\\transformer\\best.pt",
+        "history": "runs\\m2\\transformer\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "patch_seq",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "transformer",
+        "checkpoint": "runs\\m2\\transformer\\best.pt",
+        "checkpoint_sha256": "276de361df32738746ebdef82197be360527a55ffd57d4036d765b0dfc9f0b80",
+        "checkpoint_epoch": 10,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.40851901676654817,
+        "test_accuracy": 0.8555,
+        "test_macro_f1": 0.852387328978546,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "patch_seq",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 2.060654000088107,
+          "forward_ms_per_image": 0.016098859375688335,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.5954325000056997,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7835616438356164,
+            "recall": 0.858,
+            "f1-score": 0.8190930787589499,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9710578842315369,
+            "recall": 0.973,
+            "f1-score": 0.972027972027972,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.7568421052631579,
+            "recall": 0.719,
+            "f1-score": 0.7374358974358974,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8681541582150102,
+            "recall": 0.856,
+            "f1-score": 0.8620342396777442,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.6661619984859954,
+            "recall": 0.88,
+            "f1-score": 0.7582938388625592,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9512437810945273,
+            "recall": 0.956,
+            "f1-score": 0.9536159600997506,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.75,
+            "recall": 0.489,
+            "f1-score": 0.5920096852300242,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9268537074148296,
+            "recall": 0.925,
+            "f1-score": 0.9259259259259259,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9713408393039918,
+            "recall": 0.949,
+            "f1-score": 0.9600404653515427,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9368836291913215,
+            "recall": 0.95,
+            "f1-score": 0.9433962264150944,
+            "support": 1000.0
+          },
+          "accuracy": 0.8555,
+          "macro avg": {
+            "precision": 0.8582099747035988,
+            "recall": 0.8554999999999999,
+            "f1-score": 0.852387328978546,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8582099747035987,
+            "recall": 0.8555,
+            "f1-score": 0.8523873289785461,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "errors": 1445,
+      "precision": [
+        0.7835616438356164,
+        0.9710578842315369,
+        0.7568421052631579,
+        0.8681541582150102,
+        0.6661619984859954,
+        0.9512437810945273,
+        0.75,
+        0.9268537074148296,
+        0.9713408393039918,
+        0.9368836291913215
+      ],
+      "recall": [
+        0.858,
+        0.973,
+        0.719,
+        0.856,
+        0.88,
+        0.956,
+        0.489,
+        0.925,
+        0.949,
+        0.95
+      ],
+      "f1": [
+        0.8190930787589499,
+        0.972027972027972,
+        0.7374358974358974,
+        0.8620342396777442,
+        0.7582938388625592,
+        0.9536159600997506,
+        0.5920096852300242,
+        0.9259259259259259,
+        0.9600404653515427,
+        0.9433962264150944
+      ]
+    }
+  },
+  "checks": {
+    "linear": {
+      "prediction_rows": 10000,
+      "metrics_recomputed": true,
+      "confusion_recomputed": true,
+      "labels_match_local_test": true,
+      "checkpoint_hash_matches": true,
+      "selection_matches_history": true,
+      "previous_checkpoint_reload_verification": "passed",
+      "source_files": {
+        "runs\\m1\\linear\\best.pt": "31d5e5162a71e36eed8e82521d9088ac0c2772bbddac0ca2fedddff229cb26a2",
+        "runs\\m1\\linear\\confusion_matrix.csv": "049f1b47776eade3e4bb7a33f8e3759a130c0f502dbf609ad1ef18056678e367",
+        "runs\\m1\\linear\\history.csv": "6dd5ede06a8fa610ea2b5980ac0db3eda5539a8b672de5d720201888d27a8b16",
+        "runs\\m1\\linear\\summary.json": "fcc1041ddab5b20a28281903271af4dcde3a28c6d8959570d4c3c1487b0d171c",
+        "runs\\m1\\linear\\test_predictions.csv": "ffe6c07614b29a3e37e65f4d71c32de6c8648b0d4098b57a27cc732da2376ea3",
+        "runs\\m1\\linear\\test_summary.json": "39bfa7f43faf317cfaf6bbaafb13021d0edc92e1a83b03aa1ded8b4972f1de9f",
+        "runs\\m1\\linear\\verification.json": "d17616c4594a16de21552206261a408c431a39b6d2f7ceae5f79eb6b8adc9b36"
+      }
+    },
+    "mlp": {
+      "prediction_rows": 10000,
+      "metrics_recomputed": true,
+      "confusion_recomputed": true,
+      "labels_match_local_test": true,
+      "checkpoint_hash_matches": true,
+      "selection_matches_history": true,
+      "previous_checkpoint_reload_verification": "passed",
+      "source_files": {
+        "runs\\m1\\mlp\\best.pt": "0fe21c289562f49ca7d9e7180e23cb0823e18b740ee7ce6e0da80383c814c291",
+        "runs\\m1\\mlp\\confusion_matrix.csv": "642fd140084f591b1f3bb8345b7163e5dcc8d8b5f95477a72bf9f8e60d0ad438",
+        "runs\\m1\\mlp\\history.csv": "c5cf91d839a47f1077d75937a81dc00cf6f35b71e42037a5994b119550c86060",
+        "runs\\m1\\mlp\\summary.json": "2d00173070dae43a85443e0ff34cad4577797c36445cf102067c8b63c4599efc",
+        "runs\\m1\\mlp\\test_predictions.csv": "544cb085e1b60f0eaf3dcccbce84966144d1625572b843d3976e2c68f7de1752",
+        "runs\\m1\\mlp\\test_summary.json": "9adf7fddbf70a543ae515360b86e54c24965ef8e40ab55a45c9061217e6c3cea",
+        "runs\\m1\\mlp\\verification.json": "6ab4346cb02932d0e023c4117afccfb66bf948d79fe7d3930afcc701d7a7c943"
+      }
+    },
+    "cnn": {
+      "prediction_rows": 10000,
+      "metrics_recomputed": true,
+      "confusion_recomputed": true,
+      "labels_match_local_test": true,
+      "checkpoint_hash_matches": true,
+      "selection_matches_history": true,
+      "previous_checkpoint_reload_verification": "passed",
+      "source_files": {
+        "runs\\m2\\cnn\\best.pt": "aa979edd4ad4a14e0c113494170a55369bfa9863d479be3da2656e12472d0c07",
+        "runs\\m2\\cnn\\confusion_matrix.csv": "84c57571cd3031210796756d12c14d60260fbac86492697d928d29b02ba0dcd4",
+        "runs\\m2\\cnn\\history.csv": "f81414e524fbc1325d1277538a251fce9d3054f50c0e89733c7ef79c6fe619de",
+        "runs\\m2\\cnn\\summary.json": "627ca395396b9db7e0d2a9d398458c366f4c9d6698b8b73342b66889f6ccfb30",
+        "runs\\m2\\cnn\\test_predictions.csv": "f364667fed267ea51427022d9db7a71ff66f077ce8b13db3dec59ffbffc88c3b",
+        "runs\\m2\\cnn\\test_summary.json": "19f8137f5655713629cf9ce0fd9071ceda99521f958712513ab12efc7e252b65",
+        "runs\\m2\\cnn\\verification.json": "a6cc55891f29ff701a21d76887958416ebbddeb45168352d24b338bc4b649e55"
+      }
+    },
+    "lstm": {
+      "prediction_rows": 10000,
+      "metrics_recomputed": true,
+      "confusion_recomputed": true,
+      "labels_match_local_test": true,
+      "checkpoint_hash_matches": true,
+      "selection_matches_history": true,
+      "previous_checkpoint_reload_verification": "passed",
+      "source_files": {
+        "runs\\m2\\lstm\\best.pt": "2f14e36af88417dcd6e8e4104fc1b54fded12073a8521be68b8c5acb7b11c36f",
+        "runs\\m2\\lstm\\confusion_matrix.csv": "4cfe031280c6cfaf7e5d612b1242bad60c4121b64ee78f25408c18374dfbf114",
+        "runs\\m2\\lstm\\history.csv": "980344dce6bd125eec1dfb10f0df63d953ab56520d3e1c40c730683a515556c9",
+        "runs\\m2\\lstm\\summary.json": "db6c3022a9fa81433046e21a73c0cf429c800f467ab28194b97c816599f3a63a",
+        "runs\\m2\\lstm\\test_predictions.csv": "7970f6df1a5b1dfc9913c8fc7d9b0ddd37539eb6408e6a807c179d12f2e6d150",
+        "runs\\m2\\lstm\\test_summary.json": "50cb3f724676f79bab300f9813fb0c9cb4ca4ccd2e675582c2645fc18c54e661",
+        "runs\\m2\\lstm\\verification.json": "69a9cf165e690451dbd4c068209769814b7812eb1fb08c5fcbce10b55875b499"
+      }
+    },
+    "transformer": {
+      "prediction_rows": 10000,
+      "metrics_recomputed": true,
+      "confusion_recomputed": true,
+      "labels_match_local_test": true,
+      "checkpoint_hash_matches": true,
+      "selection_matches_history": true,
+      "previous_checkpoint_reload_verification": "passed",
+      "source_files": {
+        "runs\\m2\\transformer\\best.pt": "276de361df32738746ebdef82197be360527a55ffd57d4036d765b0dfc9f0b80",
+        "runs\\m2\\transformer\\confusion_matrix.csv": "e39b86797281d78044f04b57285305433684e062bb82147d35b96075075eefc9",
+        "runs\\m2\\transformer\\history.csv": "53e9dd9186beb608600a393c7fc6bcf7ecf58bb943c724b427c1a59c07089a4a",
+        "runs\\m2\\transformer\\summary.json": "aae8718e3f1e6e99d6229f0bebc1fad4f0c66d720394cd6ffe63e6e2d63a06af",
+        "runs\\m2\\transformer\\test_predictions.csv": "81da47dfb0b80c95747f462210f4077c7f1e4459292441866ba60b334b450df3",
+        "runs\\m2\\transformer\\test_summary.json": "972bafd5288c5f0341d426311c2735ee0cef887591b4c9c5a7652eb4b77a4db7",
+        "runs\\m2\\transformer\\verification.json": "c5a9c4641b649eb7c3a04ed36371aeb8077a34e56f14bf136574c46c74dbfc91"
+      }
+    }
+  },
+  "derived": {
+    "upper_body_cnn_errors": 532,
+    "upper_body_error_percent": 66.00496277915633,
+    "all_five_wrong": 389,
+    "mlp_only_correct_vs_lstm": 360,
+    "lstm_only_correct_vs_mlp": 358,
+    "paired_vs_cnn": {
+      "linear": {
+        "cnn_only_correct": 998,
+        "other_only_correct": 230,
+        "both_wrong": 576
+      },
+      "mlp": {
+        "cnn_only_correct": 566,
+        "other_only_correct": 222,
+        "both_wrong": 584
+      },
+      "lstm": {
+        "cnn_only_correct": 621,
+        "other_only_correct": 275,
+        "both_wrong": 531
+      },
+      "transformer": {
+        "cnn_only_correct": 874,
+        "other_only_correct": 235,
+        "both_wrong": 571
+      }
+    },
+    "cnn_sample_test_indices": [
+      4414,
+      887,
+      6569,
+      7746,
+      6655,
+      2037,
+      966,
+      5052
+    ],
+    "cnn_examples": [
+      {
+        "index": 4414,
+        "true": "Ankle boot",
+        "pred": "Ankle boot",
+        "confidence": 0.5818115472793579
+      },
+      {
+        "index": 887,
+        "true": "Dress",
+        "pred": "Dress",
+        "confidence": 0.9667651057243347
+      },
+      {
+        "index": 6569,
+        "true": "Ankle boot",
+        "pred": "Ankle boot",
+        "confidence": 0.9985443353652954
+      },
+      {
+        "index": 7746,
+        "true": "Dress",
+        "pred": "Dress",
+        "confidence": 0.9783278107643127
+      },
+      {
+        "index": 6655,
+        "true": "Shirt",
+        "pred": "T-shirt/top",
+        "confidence": 0.7934321165084839
+      },
+      {
+        "index": 2037,
+        "true": "Sandal",
+        "pred": "Sneaker",
+        "confidence": 0.9164751768112183
+      },
+      {
+        "index": 966,
+        "true": "Shirt",
+        "pred": "Dress",
+        "confidence": 0.5687061548233032
+      },
+      {
+        "index": 5052,
+        "true": "Shirt",
+        "pred": "Pullover",
+        "confidence": 0.5650677680969238
+      }
+    ],
+    "cnn_relative_error_reduction_vs_mlp": 29.91304347826087
+  },
+  "cuda_costs": {
+    "linear": {
+      "training": {
+        "model": "linear",
+        "best_epoch": 9,
+        "best_val_loss": 0.39323667788505556,
+        "best_val_accuracy": 0.8648333333333333,
+        "best_val_macro_f1": 0.8641346709449446,
+        "parameters": 7850,
+        "training_seconds": 90.84968240000308,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/cuda_baselines",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "cuda"
+        },
+        "config_sha256": "7c3208ee1aef1bb62b3b8eed7804d6d6ed58e2dedeaa592cdc28f2fc5fc46f4e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\cuda_baselines\\linear\\best.pt",
+        "history": "runs\\cuda_baselines\\linear\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "flatten",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "linear",
+        "checkpoint": "runs\\cuda_baselines\\linear\\best.pt",
+        "checkpoint_sha256": "20ff25167ad5be31f6df5bd9972f43788185c6bd318321364dcf970a41627b50",
+        "checkpoint_epoch": 9,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.44544279475212095,
+        "test_accuracy": 0.8426,
+        "test_macro_f1": 0.8416943870447922,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "flatten",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 0.06032400007825345,
+          "forward_ms_per_image": 0.00047128125061135506,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.1101993000484072,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7838345864661654,
+            "recall": 0.834,
+            "f1-score": 0.8081395348837209,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9825102880658436,
+            "recall": 0.955,
+            "f1-score": 0.9685598377281948,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.7307692307692307,
+            "recall": 0.741,
+            "f1-score": 0.7358490566037735,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8376313276026743,
+            "recall": 0.877,
+            "f1-score": 0.8568637029799707,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.7562761506276151,
+            "recall": 0.723,
+            "f1-score": 0.7392638036809815,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9201557935735151,
+            "recall": 0.945,
+            "f1-score": 0.9324124321657622,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.6072961373390557,
+            "recall": 0.566,
+            "f1-score": 0.5859213250517599,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9388185654008439,
+            "recall": 0.89,
+            "f1-score": 0.9137577002053389,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9368104312938816,
+            "recall": 0.934,
+            "f1-score": 0.9354031046569855,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9213806327900288,
+            "recall": 0.961,
+            "f1-score": 0.9407733724914341,
+            "support": 1000.0
+          },
+          "accuracy": 0.8426,
+          "macro avg": {
+            "precision": 0.8415483143928855,
+            "recall": 0.8426,
+            "f1-score": 0.8416943870447922,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8415483143928854,
+            "recall": 0.8426,
+            "f1-score": 0.8416943870447922,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "source_directory": "runs\\cuda_baselines\\linear",
+      "source_files": {
+        "best.pt": "20ff25167ad5be31f6df5bd9972f43788185c6bd318321364dcf970a41627b50",
+        "confusion_matrix.csv": "049f1b47776eade3e4bb7a33f8e3759a130c0f502dbf609ad1ef18056678e367",
+        "history.csv": "5ce4db4da98f1778433c99b37013275b9b2029a14c4a30ed5954df75168a475a",
+        "summary.json": "eb788b8ab17d4dd9217ed598dbabaf84a53260529f28fa464f692cba9a508b8b",
+        "test_predictions.csv": "872ee59595560ef45f53c4f858e9462af86e22e3d2b9c1dc22eeacc920cc30b3",
+        "test_summary.json": "b7c2ccb9db99edc9190b9b89c95ba88e0e355a2894eb7f8740d25e3707bbba57",
+        "verification.json": "f09012ffca0d1f88e5f0ce3835f2f4fab0d6ec98b6479545d1639e10c4fc9bc3"
+      }
+    },
+    "mlp": {
+      "training": {
+        "model": "mlp",
+        "best_epoch": 9,
+        "best_val_loss": 0.2789127342303594,
+        "best_val_accuracy": 0.8973333333333333,
+        "best_val_macro_f1": 0.8965956548096216,
+        "parameters": 235146,
+        "training_seconds": 96.69148059998406,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/cuda_baselines",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "cuda"
+        },
+        "config_sha256": "ba7b47fb4a8450a270bdd06e420a4d5ee11f5e1274c92f9b4333f2af8ea04971",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\cuda_baselines\\mlp\\best.pt",
+        "history": "runs\\cuda_baselines\\mlp\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "flatten",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "mlp",
+        "checkpoint": "runs\\cuda_baselines\\mlp\\best.pt",
+        "checkpoint_sha256": "9c4864af9c13a28f3c8881012a6f0b93f144f4d11fb40cebfefaf85ef539bc7e",
+        "checkpoint_epoch": 9,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.33003458161354066,
+        "test_accuracy": 0.8816,
+        "test_macro_f1": 0.8807750265867498,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "flatten",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 0.32642200007103384,
+          "forward_ms_per_image": 0.002550171875554952,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.4099497999995947,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7880676758682101,
+            "recall": 0.885,
+            "f1-score": 0.8337258596325954,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9917695473251029,
+            "recall": 0.964,
+            "f1-score": 0.9776876267748479,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.8227176220806794,
+            "recall": 0.775,
+            "f1-score": 0.7981462409886715,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8964824120603015,
+            "recall": 0.892,
+            "f1-score": 0.894235588972431,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.7662100456621005,
+            "recall": 0.839,
+            "f1-score": 0.8009546539379475,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9734964322120285,
+            "recall": 0.955,
+            "f1-score": 0.9641595153962645,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.7381228273464658,
+            "recall": 0.637,
+            "f1-score": 0.6838432635534085,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9476386036960985,
+            "recall": 0.923,
+            "f1-score": 0.9351570415400202,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9681274900398407,
+            "recall": 0.972,
+            "f1-score": 0.9700598802395209,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9267364414843007,
+            "recall": 0.974,
+            "f1-score": 0.9497805948317893,
+            "support": 1000.0
+          },
+          "accuracy": 0.8816,
+          "macro avg": {
+            "precision": 0.8819369097775128,
+            "recall": 0.8816,
+            "f1-score": 0.8807750265867498,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8819369097775128,
+            "recall": 0.8816,
+            "f1-score": 0.8807750265867497,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "source_directory": "runs\\cuda_baselines\\mlp",
+      "source_files": {
+        "best.pt": "9c4864af9c13a28f3c8881012a6f0b93f144f4d11fb40cebfefaf85ef539bc7e",
+        "confusion_matrix.csv": "8bc0e46dc55f295533ad2c492bfb9b9d5061d831da184f5232ef428d59a4b4ef",
+        "history.csv": "bd1dc6acda3a3e8540ab1cb2f094a6a40990599b5a4e841b3314e37b24f05ad6",
+        "summary.json": "09c77917639e25d1f6cf4be313685ab489d1f5043450529b3bf76863c9719130",
+        "test_predictions.csv": "5ec4dc198a6604d547bedebf1c52f8ec777bcb95231499fd5983c625f6cd5850",
+        "test_summary.json": "2f161a6050cd02b7ec7fc5db713d5abf333b14a21a7f9ff522a4c3045fb64115",
+        "verification.json": "3331279c22b0e800981b45b44c741f29d4ae1c29881de784c5462d8adad8a707"
+      }
+    },
+    "cnn": {
+      "training": {
+        "model": "cnn",
+        "best_epoch": 10,
+        "best_val_loss": 0.2000607706308365,
+        "best_val_accuracy": 0.9328333333333333,
+        "best_val_macro_f1": 0.9322623978999574,
+        "parameters": 421642,
+        "training_seconds": 105.02982789999805,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m2",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "8e3db03d2b8c76d6e3b5f3434aa1e288b341621ee4d65d2d2b0532db1b17ef68",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\m2\\cnn\\best.pt",
+        "history": "runs\\m2\\cnn\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "image",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "cnn",
+        "checkpoint": "runs\\m2\\cnn\\best.pt",
+        "checkpoint_sha256": "aa979edd4ad4a14e0c113494170a55369bfa9863d479be3da2656e12472d0c07",
+        "checkpoint_epoch": 10,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.23660308842658997,
+        "test_accuracy": 0.9194,
+        "test_macro_f1": 0.9188856918388073,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "image",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 1.0735469999781344,
+          "forward_ms_per_image": 0.008387085937329175,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.3819388999982039,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.8708708708708709,
+            "recall": 0.87,
+            "f1-score": 0.8704352176088044,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.993963782696177,
+            "recall": 0.988,
+            "f1-score": 0.9909729187562688,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.8979381443298969,
+            "recall": 0.871,
+            "f1-score": 0.884263959390863,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.9200799200799201,
+            "recall": 0.921,
+            "f1-score": 0.9205397301349325,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.8276785714285714,
+            "recall": 0.927,
+            "f1-score": 0.8745283018867924,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9907881269191402,
+            "recall": 0.968,
+            "f1-score": 0.9792615073343449,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.789010989010989,
+            "recall": 0.718,
+            "f1-score": 0.7518324607329843,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9487427466150871,
+            "recall": 0.981,
+            "f1-score": 0.9646017699115044,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.984,
+            "recall": 0.984,
+            "f1-score": 0.984,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9708542713567839,
+            "recall": 0.966,
+            "f1-score": 0.968421052631579,
+            "support": 1000.0
+          },
+          "accuracy": 0.9194,
+          "macro avg": {
+            "precision": 0.9193927423307435,
+            "recall": 0.9193999999999999,
+            "f1-score": 0.9188856918388073,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.9193927423307435,
+            "recall": 0.9194,
+            "f1-score": 0.9188856918388073,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "source_directory": "runs\\m2\\cnn",
+      "source_files": {
+        "best.pt": "aa979edd4ad4a14e0c113494170a55369bfa9863d479be3da2656e12472d0c07",
+        "confusion_matrix.csv": "84c57571cd3031210796756d12c14d60260fbac86492697d928d29b02ba0dcd4",
+        "history.csv": "f81414e524fbc1325d1277538a251fce9d3054f50c0e89733c7ef79c6fe619de",
+        "summary.json": "627ca395396b9db7e0d2a9d398458c366f4c9d6698b8b73342b66889f6ccfb30",
+        "test_predictions.csv": "f364667fed267ea51427022d9db7a71ff66f077ce8b13db3dec59ffbffc88c3b",
+        "test_summary.json": "19f8137f5655713629cf9ce0fd9071ceda99521f958712513ab12efc7e252b65",
+        "verification.json": "a6cc55891f29ff701a21d76887958416ebbddeb45168352d24b338bc4b649e55"
+      }
+    },
+    "lstm": {
+      "training": {
+        "model": "lstm",
+        "best_epoch": 9,
+        "best_val_loss": 0.28324007042249044,
+        "best_val_accuracy": 0.898,
+        "best_val_macro_f1": 0.8967244499469139,
+        "parameters": 82186,
+        "training_seconds": 122.1174303000007,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m2",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "d250b891639992fd7e6fd17701985e7091d6f333d141c3dd69b4b459f61c4501",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\m2\\lstm\\best.pt",
+        "history": "runs\\m2\\lstm\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "row_seq",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "lstm",
+        "checkpoint": "runs\\m2\\lstm\\best.pt",
+        "checkpoint_sha256": "2f14e36af88417dcd6e8e4104fc1b54fded12073a8521be68b8c5acb7b11c36f",
+        "checkpoint_epoch": 9,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.32541652077436445,
+        "test_accuracy": 0.8848,
+        "test_macro_f1": 0.8834956959520909,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "row_seq",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 1.1888660000113305,
+          "forward_ms_per_image": 0.00928801562508852,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.2365625000020373,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7947794779477948,
+            "recall": 0.883,
+            "f1-score": 0.8365703458076741,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9847715736040609,
+            "recall": 0.97,
+            "f1-score": 0.9773299748110831,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.8188188188188188,
+            "recall": 0.818,
+            "f1-score": 0.8184092046023012,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8653483992467044,
+            "recall": 0.919,
+            "f1-score": 0.8913676042677012,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.7982541222114452,
+            "recall": 0.823,
+            "f1-score": 0.810438207779419,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9936305732484076,
+            "recall": 0.936,
+            "f1-score": 0.9639546858908342,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.7518248175182481,
+            "recall": 0.618,
+            "f1-score": 0.6783754116355654,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9285004965243296,
+            "recall": 0.935,
+            "f1-score": 0.931738913801694,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9857578840284842,
+            "recall": 0.969,
+            "f1-score": 0.9773071104387292,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9234404536862004,
+            "recall": 0.977,
+            "f1-score": 0.9494655004859086,
+            "support": 1000.0
+          },
+          "accuracy": 0.8848,
+          "macro avg": {
+            "precision": 0.8845126616834496,
+            "recall": 0.8847999999999999,
+            "f1-score": 0.8834956959520909,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8845126616834493,
+            "recall": 0.8848,
+            "f1-score": 0.8834956959520909,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "source_directory": "runs\\m2\\lstm",
+      "source_files": {
+        "best.pt": "2f14e36af88417dcd6e8e4104fc1b54fded12073a8521be68b8c5acb7b11c36f",
+        "confusion_matrix.csv": "4cfe031280c6cfaf7e5d612b1242bad60c4121b64ee78f25408c18374dfbf114",
+        "history.csv": "980344dce6bd125eec1dfb10f0df63d953ab56520d3e1c40c730683a515556c9",
+        "summary.json": "db6c3022a9fa81433046e21a73c0cf429c800f467ab28194b97c816599f3a63a",
+        "test_predictions.csv": "7970f6df1a5b1dfc9913c8fc7d9b0ddd37539eb6408e6a807c179d12f2e6d150",
+        "test_summary.json": "50cb3f724676f79bab300f9813fb0c9cb4ca4ccd2e675582c2645fc18c54e661",
+        "verification.json": "69a9cf165e690451dbd4c068209769814b7812eb1fb08c5fcbce10b55875b499"
+      }
+    },
+    "transformer": {
+      "training": {
+        "model": "transformer",
+        "best_epoch": 10,
+        "best_val_loss": 0.3712691234747569,
+        "best_val_accuracy": 0.8643333333333333,
+        "best_val_macro_f1": 0.8617052960256968,
+        "parameters": 71946,
+        "training_seconds": 139.44993590001832,
+        "train_samples": 54000,
+        "val_samples": 6000,
+        "device": "cuda",
+        "seed": 42,
+        "config": {
+          "seed": 42,
+          "data_dir": "data",
+          "split_cache_path": "split_cache.json",
+          "output_dir": "runs/m2",
+          "val_ratio": 0.1,
+          "batch_size": 128,
+          "epochs": 10,
+          "learning_rate": 0.001,
+          "augment_train": false,
+          "num_workers": 0,
+          "device": "auto"
+        },
+        "config_sha256": "b46260ef13226c0f6f6bc684cebb24f696a65983347b0722bb7db5e5f71f9bb0",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "train_mean": 0.28620901297676965,
+        "train_std": 0.3531597492723218,
+        "checkpoint": "runs\\m2\\transformer\\best.pt",
+        "history": "runs\\m2\\transformer\\history.csv",
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "input_mode": "patch_seq",
+        "checkpoint_rule": "lowest validation loss"
+      },
+      "test": {
+        "model": "transformer",
+        "checkpoint": "runs\\m2\\transformer\\best.pt",
+        "checkpoint_sha256": "276de361df32738746ebdef82197be360527a55ffd57d4036d765b0dfc9f0b80",
+        "checkpoint_epoch": 10,
+        "selection_rule": "lowest validation loss",
+        "test_samples": 10000,
+        "test_loss": 0.40851901676654817,
+        "test_accuracy": 0.8555,
+        "test_macro_f1": 0.852387328978546,
+        "test_source_sha256": "9a494dc49efeb996f4076c469b31cd058152067b1594ba6ab85dd739fce3775e",
+        "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a",
+        "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+        "seed": 42,
+        "input_mode": "patch_seq",
+        "inference": {
+          "batch_size": 128,
+          "warmup_batches": 10,
+          "timed_batches": 100,
+          "forward_batch_ms": 2.060654000088107,
+          "forward_ms_per_image": 0.016098859375688335,
+          "forward_scope": "device-resident fixed batch; excludes loading and host transfers",
+          "evaluation_seconds": 1.5954325000056997,
+          "evaluation_scope": "entire test pass including loading, transfers, loss and predictions; excludes plots"
+        },
+        "class_report": {
+          "T-shirt/top": {
+            "precision": 0.7835616438356164,
+            "recall": 0.858,
+            "f1-score": 0.8190930787589499,
+            "support": 1000.0
+          },
+          "Trouser": {
+            "precision": 0.9710578842315369,
+            "recall": 0.973,
+            "f1-score": 0.972027972027972,
+            "support": 1000.0
+          },
+          "Pullover": {
+            "precision": 0.7568421052631579,
+            "recall": 0.719,
+            "f1-score": 0.7374358974358974,
+            "support": 1000.0
+          },
+          "Dress": {
+            "precision": 0.8681541582150102,
+            "recall": 0.856,
+            "f1-score": 0.8620342396777442,
+            "support": 1000.0
+          },
+          "Coat": {
+            "precision": 0.6661619984859954,
+            "recall": 0.88,
+            "f1-score": 0.7582938388625592,
+            "support": 1000.0
+          },
+          "Sandal": {
+            "precision": 0.9512437810945273,
+            "recall": 0.956,
+            "f1-score": 0.9536159600997506,
+            "support": 1000.0
+          },
+          "Shirt": {
+            "precision": 0.75,
+            "recall": 0.489,
+            "f1-score": 0.5920096852300242,
+            "support": 1000.0
+          },
+          "Sneaker": {
+            "precision": 0.9268537074148296,
+            "recall": 0.925,
+            "f1-score": 0.9259259259259259,
+            "support": 1000.0
+          },
+          "Bag": {
+            "precision": 0.9713408393039918,
+            "recall": 0.949,
+            "f1-score": 0.9600404653515427,
+            "support": 1000.0
+          },
+          "Ankle boot": {
+            "precision": 0.9368836291913215,
+            "recall": 0.95,
+            "f1-score": 0.9433962264150944,
+            "support": 1000.0
+          },
+          "accuracy": 0.8555,
+          "macro avg": {
+            "precision": 0.8582099747035988,
+            "recall": 0.8554999999999999,
+            "f1-score": 0.852387328978546,
+            "support": 10000.0
+          },
+          "weighted avg": {
+            "precision": 0.8582099747035987,
+            "recall": 0.8555,
+            "f1-score": 0.8523873289785461,
+            "support": 10000.0
+          }
+        },
+        "hardware": {
+          "device": "cuda",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+          "gpu": "NVIDIA GeForce GTX 1660 SUPER",
+          "gpu_memory_bytes": 6442123264,
+          "cuda_runtime": "12.8",
+          "cudnn": 91002
+        },
+        "versions": {
+          "python": "3.12.10",
+          "torch": "2.9.1+cu128",
+          "torchvision": "0.24.1+cu128",
+          "numpy": "2.2.6",
+          "scikit_learn": "1.7.2",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "processor": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
+        }
+      },
+      "source_directory": "runs\\m2\\transformer",
+      "source_files": {
+        "best.pt": "276de361df32738746ebdef82197be360527a55ffd57d4036d765b0dfc9f0b80",
+        "confusion_matrix.csv": "e39b86797281d78044f04b57285305433684e062bb82147d35b96075075eefc9",
+        "history.csv": "53e9dd9186beb608600a393c7fc6bcf7ecf58bb943c724b427c1a59c07089a4a",
+        "summary.json": "aae8718e3f1e6e99d6229f0bebc1fad4f0c66d720394cd6ffe63e6e2d63a06af",
+        "test_predictions.csv": "81da47dfb0b80c95747f462210f4077c7f1e4459292441866ba60b334b450df3",
+        "test_summary.json": "972bafd5288c5f0341d426311c2735ee0cef887591b4c9c5a7652eb4b77a4db7",
+        "verification.json": "c5a9c4641b649eb7c3a04ed36371aeb8077a34e56f14bf136574c46c74dbfc91"
+      }
+    }
+  },
+  "eda_file": "A1\\report\\data\\eda_metrics.json",
+  "eda_sha256": "61b48dd3ddd8d0722ad8248077a5a46526c34a6818fbe9afb5ca564590737822",
+  "figures": {
+    "figures\\02_training_examples.pdf": "523901a71665d8fae051411ee5b12514280ca4f122eb84eef613ec74c1e01923",
+    "figures\\02_training_examples.png": "68f611ea622c3fd3222c6876155a01378964b293076e6829a83d822deaad5362",
+    "figures\\03_pixel_distribution.pdf": "6f881a80faf9822710459b52ed955dedf87a5475753a5992a19c4cf530de5807",
+    "figures\\03_pixel_distribution.png": "c841b5f15b247556bdc5aefe16ffd68f44a88872934ea0f45aa834ea4e635dfb",
+    "figures\\04_brightness_coverage.pdf": "2652116066f44f56b379343f59aabf7fea7048743f7e482f1cb4de261534b03a",
+    "figures\\04_brightness_coverage.png": "0b29adb9d0a45f137dfa8881b38400f35d5235c38ebd619ac76bf4c053e41b0b",
+    "figures\\05_spatial_statistics.pdf": "22ebc7a6eb8b470fee3b3dbd78c5c6a5e580e966995b1073d852d0a429417ee2",
+    "figures\\05_spatial_statistics.png": "b273b94a0967163139f48f6b75026923d09734ab8f47d5b9ed4942bc99dc05d1",
+    "figures\\07_preprocessing_representations.pdf": "ca2a3eade327efe419f0fce91bfebc271fe7c3996979ab7b86f6f3af6fc946b7",
+    "figures\\07_preprocessing_representations.png": "fa8d972a9bb82fe4f6c76251050c1fa9d74e9cd2ecebc1ee650f797917d3c68c",
+    "figures\\baseline_confusions.pdf": "557476103bd61fb8d89249333ab201b4aac2b365fe9c7db3e90c96011b4a4492",
+    "figures\\baseline_confusions.png": "bba4aef72a77a0d745b28a2ff9f45dc0302719e7d16393f4031097ac435b1f46",
+    "figures\\class_f1.pdf": "2da381048a044502a47e7933e1556a1111574cbb318428f43c84ee29a7a2172e",
+    "figures\\class_f1.png": "7b5ae128607b4d31f5950425a92899e7e8fb2299e642fcfd66c0fa19b10be4ca",
+    "figures\\cnn_confusion.pdf": "b6bc279e38b70b9fa3def740436e12a109a4b30a0c67bc178e71671ef71cb856",
+    "figures\\cnn_confusion.png": "fd8251249793ff6977e1adf7b9f2efe5dcb1c7b024a7ec1efe27125e8fcd4694",
+    "figures\\cnn_examples.pdf": "53d34f168bc2a7a254df3f8970722513ad8928f9955f8b1c033e17493e07d88d",
+    "figures\\cnn_examples.png": "8c7cc8af4bd918094ae02c075f99f32d5ea166b7b8c76c81458c9eb65230135a",
+    "figures\\hcmut-logo.png": "356aecd6d0a947ee9f218d1fb3c18a4547e539f48d2bf73dbf17b20d465d646b",
+    "figures\\learning_curves.pdf": "8424bca7912b83bdadfe3e7e147eb3509722e57f0059b98e5725857724261a86",
+    "figures\\learning_curves.png": "f68f856be3c72cf225e17d7f730fdedf46cbad1de06bf30153eed408a503ea1b",
+    "figures\\sequence_confusions.pdf": "9867651625d1b94758dc8b01268c8e468114e5a4566372a31ef6345c5b64e78b",
+    "figures\\sequence_confusions.png": "40d8f15f81897c9818135107df76bdabfe15d2ce3327c1b59307da3afc110042",
+    "figures\\test_comparison.pdf": "83b608be2ef5230977e5409e781b35dd35a388fdbcbd4669e230c0344edd45f7",
+    "figures\\test_comparison.png": "bdcd34edd21194da039120fcd0b48c75b43d8027537bf2e3ca63ee5792468f05"
+  }
+}

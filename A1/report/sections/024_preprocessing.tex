@@ -1,0 +1,216 @@
+\subsection{Preprocessing}
+\label{sec:preprocessing}
+The EDA shows that the images already share a fixed resolution and class
+mapping, but differ in brightness, coverage, and spatial appearance. Our
+preprocessing therefore keeps the original image content and applies a common
+numerical transformation before arranging the pixels for each model. The
+pipeline has four steps: convert the raw image to a floating-point tensor,
+scale its intensities, standardize it using training statistics, and construct
+the required input layout. The same fitted transformation is used for
+training, validation, and test images.
+
+\subsubsection{Tensor Conversion and Intensity Scaling}
+Let \(X_i\in\{0,\ldots,255\}^{28\times28}\) be a raw image. The loader
+uses \texttt{ToTensor} to add a channel dimension, convert the unsigned
+8-bit values to \texttt{float32}, and divide the intensities by 255:
+\begin{equation}
+ U_{i,0,r,c}=\frac{X_{i,r,c}}{255},\qquad
+ U_i\in[0,1]^{1\times28\times28}.
+ \label{eq:scaling}
+\end{equation}
+Here, \(r,c\in\{0,\ldots,27\}\) denote the row and column, and the
+channel index is zero because the image is grayscale. For example, raw
+intensities 0, 128, and 255 become approximately 0, 0.5020, and 1.
+This conversion changes the numeric range while preserving the 784 pixels,
+their order, and the supplied label. Native resolution is retained; no
+interpolation or resizing is needed. Scaling takes place on the CPU in the
+dataset loader, before a batch is transferred to the selected training device.
+
+\subsubsection{Standardization Using Training Statistics}
+Scaling to \([0,1]\) and standardization serve different purposes. Scaling
+sets a common numerical range; standardization centers that range relative
+to the training distribution and expresses variation in units of its standard
+deviation. We use one mean and one population standard deviation for the
+single grayscale channel, computed across all training images and positions.
+With \(\mathcal{I}_{\mathrm{tr}}\) denoting the frozen set of 54,000 training
+indices and \(N=54{,}000\times784=42{,}336{,}000\), the statistics are
+\begin{equation}
+ \mu=\frac{1}{N}\sum_{i\in\mathcal{I}_{\mathrm{tr}}}
+       \sum_{r=0}^{27}\sum_{c=0}^{27}U_{i,0,r,c},\qquad
+ \sigma=\sqrt{\frac{1}{N}\sum_{i\in\mathcal{I}_{\mathrm{tr}}}
+       \sum_{r=0}^{27}\sum_{c=0}^{27}(U_{i,0,r,c}-\mu)^2}.
+ \label{eq:normalization_stats}
+\end{equation}
+The measured values are \(\mu=\TrainMean\) and \(\sigma=\TrainStd\),
+rounded here to six decimal places. The implementation retains the full
+precision stored in the split cache. Each scaled image is transformed as
+\begin{equation}
+ Z_{i,0,r,c}=\frac{U_{i,0,r,c}-\mu}{\sigma}.
+ \label{eq:normalization}
+\end{equation}
+These are global training-pixel statistics, rather than separate statistics
+for each image, class, or batch. Applying the same affine transformation to
+every image preserves differences in brightness between examples. Computing
+separate statistics for each class would also require the unknown target
+label when preprocessing a new image, so it is not part of this pipeline.
+
+Table~\ref{tab:preprocessing_scales} summarizes the three numerical stages.
+After standardization, raw zero-valued background pixels become approximately
+\(-0.810\), and raw values of 255 become approximately \(2.021\). Negative
+values are expected and are retained. The transformation is invertible up to
+floating-point rounding: \(U=\sigma Z+\mu\). It does not make the image
+distribution Gaussian or remove the background.
+
+\begin{table}[H]
+\centering
+\caption{Numerical scales across all training pixels. Values are rounded;
+standardization is global, not performed separately for each image.}
+\label{tab:preprocessing_scales}
+\begin{tabular}{lrrrr}
+\toprule
+Representation & Mean & Population SD & Minimum & Maximum\\
+\midrule
+Raw intensity & 72.983297 & 90.055735 & 0 & 255\\
+Scaled intensity & 0.286209 & 0.353160 & 0 & 1\\
+Standardized intensity & $\approx0$ & $\approx1$ & $-0.810424$ & $2.021156$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Preventing Leakage Between Partitions}
+The split described in Section~2.2 is fixed before fitting the normalization.
+Only its 54,000 training images contribute to \(\mu\) and \(\sigma\).
+The validation and test transforms reuse those constants without recalculation;
+their own normalized distributions are not required to have exactly zero mean
+or unit standard deviation. Fitting statistics on all 70,000 images, or
+normalizing each evaluation partition using its own statistics, would allow
+held-out information to influence the input transformation.
+
+The cached training and validation indices, normalization constants, source
+fingerprint, and split fingerprint identify the preprocessing used by a run.
+All five architectures use this same split and fitted numerical transform.
+Validation loss selects the checkpoint, while the official test set evaluates
+the selected weights. Neither test labels nor test performance determine the
+normalization or the choice of representation in the baseline comparison.
+
+\subsubsection{Input Representations for the Five Models}
+After standardization, the representation utility arranges the same 784
+values for each architecture. Table~\ref{tab:representations} gives the
+shapes after batching, where \(B\) is the number of images in a batch.
+The normal batch size is 128; the final batch may contain fewer images.
+Inputs remain \texttt{float32}. Each image keeps one integer target in
+\(\{0,\ldots,9\}\), giving a target tensor of shape \((B,)\).
+Labels are not standardized or converted into image features.
+
+\begin{table}[H]
+\centering
+\caption{Model input layouts after common standardization. Shapes precede
+learned feature extraction or patch embedding. Each image retains 784 values.}
+\label{tab:representations}
+\begin{tabularx}{\linewidth}{l l X}
+\toprule
+Model & Batch shape & Ordering and interpretation\\
+\midrule
+Linear / MLP & \((B,784)\) & One vector per image, flattened row by row.\\
+CNN & \((B,1,28,28)\) & One grayscale channel with the original image grid.\\
+LSTM & \((B,28,28)\) & 28 row steps, with 28 pixel features at each step.\\
+Transformer & \((B,49,16)\) & 49 nonoverlapping $4\times4$ patches,
+with 16 pixel features per patch.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Linear Classifier and MLP.}
+The image is flattened in row-major order:
+\begin{equation}
+ v_{i,28r+c}=Z_{i,0,r,c},\qquad v_i\in\mathbb{R}^{784}.
+ \label{eq:flattening}
+\end{equation}
+Thus, positions 0--27 contain the first row and positions 28--55 contain
+the second. Flattening preserves the values and their fixed positions, but
+the model interface does not explicitly encode a two-dimensional neighborhood
+or impose local weight sharing. The MLP's hidden transformations belong to
+the model architecture, rather than to preprocessing.
+
+\textbf{Convolutional Neural Network.}
+The CNN receives \(Z_i\) directly as a \((1,28,28)\) image. Keeping the
+channel and spatial axes allows convolutional layers to operate on local
+neighborhoods. No handcrafted edge map, threshold mask, or class prototype
+is supplied as an additional channel.
+
+\textbf{LSTM.}
+The single channel dimension is removed, giving
+\begin{equation}
+ S_{i,t,j}=Z_{i,0,t,j},\qquad t,j\in\{0,\ldots,27\}.
+ \label{eq:rows}
+\end{equation}
+The sequence moves from the top row to the bottom row, and each step contains
+the 28 left-to-right pixel values in that row. These are spatial steps within
+one static image. Because both axes have length 28, an accidental transpose
+would preserve the shape while changing the sequence; ordering must therefore
+be checked by comparing the actual elements.
+
+\textbf{Transformer.}
+The image is divided into a \(7\times7\) grid of nonoverlapping
+\(4\times4\) patches. Patches are read left to right and then top to bottom,
+and the pixels inside each patch are also flattened row by row. If
+\(a,b\in\{0,\ldots,6\}\) index the patch grid and
+\(u,v\in\{0,\ldots,3\}\) index a pixel within a patch, then
+\begin{equation}
+ P_{i,7a+b,\,4u+v}=Z_{i,0,\,4a+u,\,4b+v}.
+ \label{eq:patches}
+\end{equation}
+There are 49 patches with 16 values each, so \(49\times16=784\).
+The patch layout requires no padding or discarded boundary pixels.
+Projection from 16 pixel values to an embedding, positional encoding, and
+attention are model operations to be explained in the methodology section.
+
+Figure~\ref{fig:representations} illustrates the layouts using one training
+image. Reordering preserves the pixel information; differences in how the
+architectures learn from these layouts will be examined experimentally.
+\reportfigure{07_preprocessing_representations}{1.0}{A training image shown as
+raw pixels and as standardized inputs for the five models. Vector, row, and
+patch layouts contain the same 784 standardized values; only their arrangement
+changes. The example is not a model prediction.}{fig:representations}
+\FloatBarrier
+
+\subsubsection{Data Retention and Augmentation Policy}
+The baseline retains every image and all pixel coordinates. The audit found
+no entirely blank training images or exact duplicates across the checked
+partitions. Brightness and nonzero coverage vary within each class, but
+extreme values alone do not establish corruption or an incorrect label.
+Accordingly, the EDA does not justify removing dark images, cropping stable
+background locations, or relabeling visually ambiguous garments.
+
+No resizing, denoising, binarization, histogram equalization, or dimensionality
+reduction is applied to the model inputs. In particular, the nonzero masks,
+class means, and similarity matrix in the EDA remain descriptive analyses;
+they are not extra training features or replacements for the original images.
+All five models therefore start from the same grayscale information.
+
+Random augmentation is disabled in the shared baseline configuration. This
+keeps the initial comparison independent of architecture-specific augmentation
+choices. The loader supports optional horizontal flips with probability 0.5
+and rotations of up to ten degrees for training images, but these options are
+not part of the reported preprocessing baseline. If studied later, they must
+be identified as separate experiments, applied only to training inputs before
+standardization, and evaluated with the same deterministic validation and
+test transforms. No augmentation gain is assumed here.
+
+\subsubsection{Preprocessing Verification}
+The saved EDA audit checks the transformation against the existing data
+utility. Over all standardized training pixels, the measured mean is within
+\(10^{-6}\) of zero and the population standard deviation is within
+\(10^{-6}\) of one. Independent NumPy calculations reproduce the raw moments
+and pixel histogram, and the fitted normalization agrees with the split cache.
+The same CPU tensor conversion is used by the loader and the EDA before CUDA
+calculations, avoiding a change in conversion order between them.
+
+Representation checks compare flattened and row-sequence elements with their
+source pixels, reconstruct the image from the patch sequence, and confirm
+agreement between CPU and CUDA layout conversions. These checks verify
+values and ordering, rather than relying only on tensor dimensions.
+Together with the fixed split, they establish the input interface for the
+methodology and implementation sections. They do not establish classifier
+accuracy, which requires evaluation of trained models.
+\FloatBarrier

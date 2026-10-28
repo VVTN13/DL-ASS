@@ -1,125 +1,123 @@
-# CO3133 Assignment 1
+# CO3133 Assignment 1: Fashion-MNIST
 
-The M1 Linear/MLP baseline is documented below. The custom CNN is now implemented
-for M2; see [CNN experiment notes](docs/CNN.md) for its architecture, evaluation,
-and measured results. The LSTM is also implemented and evaluated; see
-[LSTM experiment notes](docs/LSTM.md) for the image-to-sequence mapping, diagram,
-architecture and measured results.
+Five classifiers trained from scratch: Linear, MLP, CNN, row-sequence LSTM,
+and patch Transformer. All use seed 42, the same stratified 54,000/6,000
+training/validation split, training-only normalization, Adam at 0.001, batch
+size 128, ten epochs and no augmentation. Checkpoints are selected by lowest
+validation loss; the official 10,000-image test set is used after selection.
 
-## Local Windows setup (CNN)
+## Setup
 
-From `A1/`, use PowerShell:
+Run these PowerShell commands from `A1/` using Python 3.12:
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-windows.txt
-.\.venv\Scripts\Activate.ps1
-python -m unittest discover -s tests -v
-python -m a1.train --model cnn --config configs/cnn.json
-python -m a1.evaluate --checkpoint runs/m2/cnn/best.pt
-python tests/verify_cnn_run.py
 ```
 
-Activation is optional: the full `.\.venv\Scripts\python.exe` path works for every
-command. The Windows requirements use CUDA 12.8 PyTorch wheels; `device: auto`
-uses CUDA when available and CPU otherwise. The original `requirements.txt`
-preserves the environment recorded for the M1 runs.
-`requirements-windows-lock.txt` records every package installed in the tested
-local environment; use it instead of `requirements-windows.txt` to reproduce
-the full set of dependency versions.
+The Windows requirements pin PyTorch with the CUDA 12.8 runtime. Training and
+verification select CUDA when available and otherwise CPU (MPS on supported
+Macs). `requirements-windows-lock.txt` records the complete tested Windows
+environment. `requirements.txt` includes the same Windows submission dependencies.
+Fashion-MNIST downloads to ignored `data/` on first use. `split_cache.json`
+records the shared split, source hashes and normalization statistics.
 
-CNN outputs are saved under `runs/m2/cnn/`. To validate and reuse an existing
-training run, add `--reuse-existing` to the training command. Test results are
-reported after validation-based checkpoint selection; they must not be used to
-tune the model. The evaluator also accepts `--device cpu` for a reload check.
-
-## LSTM reproduction
-
-Use the same local `.venv`, then run from `A1/`:
+## Check the submitted runs without retraining
 
 ```powershell
-$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+.\.venv\Scripts\python.exe -m pip check
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
-.\.venv\Scripts\python.exe -m a1.train --model lstm --config configs/lstm.json
-.\.venv\Scripts\python.exe -m a1.evaluate --checkpoint runs/m2/lstm/best.pt
-.\.venv\Scripts\python.exe tests/verify_lstm_run.py
-.\.venv\Scripts\python.exe -m a1.plot_sequence
+foreach ($model in @('linear', 'mlp', 'cnn', 'lstm', 'transformer')) {
+    .\.venv\Scripts\python.exe tests/verify_run.py --model $model --no-write
+    if ($LASTEXITCODE -ne 0) { throw "Verification failed: $model" }
+}
+.\.venv\Scripts\python.exe -m a1.compare
 ```
 
-Outputs are in `runs/m2/lstm/`. As with CNN, `--reuse-existing` verifies and
-reuses a matching completed training run. Each image becomes 28 top-to-bottom
-row steps with 28 pixel features per step, giving `(batch, 28, 28)` inputs.
-The final 128-value hidden state feeds dropout and a 10-class linear head.
-Normalization, split and training budget match the CNN. The detailed notes
-explain the recurrent memory, parameter count and limitations.
+The verifier reloads each checkpoint, checks validation-based selection,
+recomputes all 10,000 test predictions, losses, metrics and confusion counts,
+checks dataset/split/checkpoint hashes, compares CPU and selected-device
+predictions on one batch, and validates the saved PNGs. `--no-write` preserves
+the original verification records. On CPU-only systems the portability check
+compares two CPU loads.
 
-## M1 draft
+The comparison command reads the five original `summary.json` and
+`test_summary.json` files, checks shared provenance and checkpoint hashes, then
+writes CSV, JSON, Markdown and a plot to `runs/m2/comparison/`. It never trains
+or evaluates a model. It also works from the repository root:
 
-This repository contains our M1 work on Fashion-MNIST. For this milestone we
-implemented the data pipeline, exploratory data analysis, a linear classifier,
-and an MLP. The official test set is saved for the final milestone.
-
-## Setup
-
-We used Python 3.14. From the `A1/` folder, run:
-
-```sh
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
+```powershell
+A1\.venv\Scripts\python.exe -m A1.a1.compare
 ```
 
-Fashion-MNIST is downloaded automatically on the first run.
+## Saved test results
 
-## Training
+| Model | Parameters | Epoch | Test accuracy | Macro-F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Linear | 7,850 | 9 | 84.26% | 0.841694 |
+| MLP | 235,146 | 9 | 88.16% | 0.880775 |
+| CNN | 421,642 | 10 | 91.94% | 0.918886 |
+| LSTM | 82,186 | 9 | 88.48% | 0.883496 |
+| Transformer | 71,946 | 10 | 85.55% | 0.852387 |
 
-```sh
-.venv/bin/python -m a1.train --model linear --config configs/m1.json
-.venv/bin/python -m a1.train --model mlp --config configs/m1.json
+These results are from one seed and split. CNN has the highest measured
+accuracy and macro-F1. LSTM exceeds MLP by 0.32 percentage points (32 test
+images); repeated seeds are needed to assess whether this difference is stable.
+The [generated comparison](runs/m2/comparison/comparison.md) is the reproducible
+table source. Every model was trained and evaluated on CUDA using the GTX
+1660 SUPER. Each row uses the same run for classification scores and timings.
+Forward time is amortized over 128 device-resident images; full-test timing
+includes loading, transfers, loss and predictions. Sessions were recorded
+separately, without repeated-session uncertainty estimates.
+
+The submitted Linear/MLP runs are in `runs/cuda_baselines/` and use
+`configs/m1.json`, which explicitly requires CUDA. Run the complete baseline
+pipeline with `python -m a1.cuda_baselines`; this trains or validates completed
+matching runs, evaluates them on CUDA and verifies all saved predictions.
+The former MPS runs are excluded from Git tracking and ignored locally.
+
+## Reproduce training and evaluation
+
+Run from `A1/` in the environment above. These commands can replace files in
+the corresponding run directory; archive any run you need to retain first.
+
+| Model | Config | Run directory | Notes |
+| --- | --- | --- | --- |
+| Linear | `configs/m1.json` | `runs/cuda_baselines/linear/` | [Linear guide](docs/LINEAR.md) |
+| MLP | `configs/m1.json` | `runs/cuda_baselines/mlp/` | [MLP guide](docs/MLP.md) |
+| CNN | `configs/cnn.json` | `runs/m2/cnn/` | [CNN notes](docs/CNN.md) |
+| LSTM | `configs/lstm.json` | `runs/m2/lstm/` | [LSTM notes](docs/LSTM.md) |
+| Transformer | `configs/transformer.json` | `runs/m2/transformer/` | [Transformer notes](docs/TRANSFORMER.md) |
+
+For example, to train and evaluate CNN:
+
+```powershell
+.\.venv\Scripts\python.exe -m a1.train --model cnn --config configs/cnn.json
+.\.venv\Scripts\python.exe -m a1.evaluate --checkpoint runs/m2/cnn/best.pt --device cuda
+.\.venv\Scripts\python.exe tests/verify_run.py --model cnn
 ```
 
-Both models use the same seed and train/validation split. The main settings are:
+Use the matching model/config/run path from the table for the other models.
+`--reuse-existing` validates and reuses matching completed training results,
+but trains if they are absent or fail its matching checks. For a check that
+never trains, use the verifier instead. The evaluator accepts `--device cpu`
+and writes results beside the checkpoint.
 
-- seed: 42
-- split: 54,000 training and 6,000 validation images
-- batch size: 128
-- optimizer: Adam
-- learning rate: 0.001
-- epochs: 10
-- checkpoint rule: lowest validation loss
+## Notebook, diagrams and report
 
-The program chooses MPS, CUDA, or CPU depending on the machine. To force CPU,
-change `device` to `cpu` in `configs/m1.json`.
+Open `dl1-261.ipynb` from `A1/`. It contains EDA, preprocessing checks,
+saved validation/test results for all five models and the final comparison.
+The result cells read saved artifacts; training is an explicit CLI step.
+Recreate the sequence diagrams with `python -m a1.plot_sequence` and
+`python -m a1.plot_patches`.
 
-## Notebook
+- `a1/`: data pipeline, models, training, evaluation, comparison and diagrams.
+- `configs/`: reproducible experiment settings.
+- `tests/`: model tests and independent saved-run verification.
+- `figures/`: EDA and representation figures used by the assignment page.
+- `docs/`: one guide per model and the [overall workflow](docs/overall.md).
+- `report-part3/complete-report/`: [complete PDF](report-part3/complete-report/report.pdf), editable LaTeX, figures and build instructions.
+- `report/` and the other `report-part3/` files: retained earlier report stages and references.
+- `../AI_USAGE.md`: existing disclosure, preserved during this cleanup.
 
-Open `dl1-261.ipynb` and run all cells. It contains the EDA, data checks,
-training results, and learning curves. Existing matching runs can be reused,
-so the models do not have to be trained again every time the notebook opens.
-
-## Files
-
-- `a1/data.py`: dataset loading, train/validation split, preprocessing, and DataLoaders
-- `a1/models.py`: linear, MLP, custom CNN, and row-sequence LSTM models
-- `a1/train.py`: training and validation loops
-- `a1/evaluate.py`: checkpoint-based test evaluation, timing, and plots
-- `configs/m1.json`: experiment settings
-- `configs/cnn.json`: CNN experiment settings
-- `configs/lstm.json`: LSTM experiment settings
-- `a1/plot_sequence.py`: reproducible image-to-row-sequence diagram
-- `tests/verify_run.py`: shared CNN/LSTM artifact and checkpoint verification
-- `runs/m1/`: checkpoints, histories, and result summaries
-- `docs/M1_ARCHITECTURE.md`: short explanation of the M1 pipeline
-- `figures/`: plots exported from the notebook (used on the GitHub Pages site)
-- `../AI_USAGE.md`: AI-use disclosure (repository root)
-
-## Current results
-
-| Model | Best epoch | Validation accuracy | Validation macro-F1 |
-| --- | ---: | ---: | ---: |
-| Linear | 9 | 0.8648 | 0.8641 |
-| MLP | 8 | 0.8987 | 0.8985 |
-
-These are validation results from one split and one seed. They are not final
-test results. CNN training and test evaluation are documented in `docs/CNN.md`.
-The LSTM results are documented in `docs/LSTM.md`. Transformer and the complete
-five-model comparison remain M2 work.
+See the [assignment page](../assignment1.html) for the full results discussion.

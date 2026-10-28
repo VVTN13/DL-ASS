@@ -1,0 +1,125 @@
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{Background and Motivation}
+Image classification maps an image to a semantic category. In an online product
+catalogue, for example, an automatic classifier could help organize incoming
+article images into clothing and accessory categories. The classification itself
+is only one part of the system: the reliability of the result also depends on
+the dataset, the representation of each image, the separation between training
+and evaluation data, and the way model quality and computational cost are measured.
+
+Fashion-MNIST is a useful setting for studying this pipeline. Its compact images
+allow several neural network configurations to be investigated on the available
+desktop GPU. At the same time, the recognition problem contains visually similar
+categories and variation within each category. This combination supports a
+practical assignment in which the data can be inspected carefully and the
+experiments can be reproduced. The dataset was introduced by Xiao, Rasul, and
+Vollgraf as a benchmark based on fashion article images\cite{xiao2017}.
+
+Different neural architectures organize the same input information differently.
+A linear classifier combines pixel values directly, while an MLP adds learned
+nonlinear transformations. A CNN processes neighborhoods on the image grid.
+An LSTM can read the image as an ordered sequence of rows, and a Transformer
+can operate on a sequence of small image patches. Comparing these configurations
+provides a way to investigate how spatial structure, sequence ordering, and
+model capacity interact with a fixed classification task.
+
+The motivation is therefore both predictive and experimental. A useful study
+should identify which implemented configuration performs well, describe the
+classes it confuses, and explain the resources it requires. A common data
+protocol is essential: otherwise differences in splitting, normalization,
+checkpoint selection, or hardware could obscure the comparison.
+
+\subsection{Problem Statement}
+The task is supervised, single-label, ten-class image classification. Let
+\(X\in\{0,\ldots,255\}^{28\times28}\) be a raw grayscale image and
+\(y\in\{0,\ldots,9\}\) its reference label. A classifier with parameters
+\(\theta\) receives a preprocessed representation \(T(X)\) and produces
+ten real-valued class scores, or logits:
+\begin{equation}
+ f_\theta(T(X))=\boldsymbol{z}\in\mathbb{R}^{10},
+ \qquad \widehat{y}=\underset{k\in\{0,\ldots,9\}}{\arg\max}\;z_k.
+ \label{eq:task}
+\end{equation}
+The output is one category for the complete image. Object detection,
+segmentation, and multilabel classification are outside the scope of this task.
+
+The main visual challenge is that 28 by 28 grayscale images retain only limited
+detail. A shirt, pullover, coat, and T-shirt/top can have similar overall shapes,
+while sleeve lengths, openings, and outlines vary within the same label. The
+EDA in Section~\ref{sec:dataset} examines these properties directly. Such
+observations motivate later hypotheses about confusion, rather than proving
+which classes will be hardest for a trained classifier.
+
+The experimental problem is to make the comparison interpretable. A difference
+in accuracy can reflect input layout, capacity, regularization, optimization,
+or the training budget. A difference in recorded training time can also reflect
+the execution platform. The report must therefore distinguish measured behavior
+of these particular configurations from general claims about architecture families.
+
+\subsection{Objectives and Scope}
+The study has four objectives:
+\begin{enumerate}
+ \item Establish a reproducible Fashion-MNIST data protocol, with a fixed
+ stratified split, training-only normalization, and auditable data provenance.
+ \item Compare Linear and MLP baselines with the implemented CNN, LSTM, and
+ Transformer, keeping the dataset and nominal optimization budget consistent.
+ \item Evaluate predictive quality using accuracy, macro-F1, class-specific
+ measures, and confusion matrices, together with learning curves and image-level
+ error examples.
+ \item Measure parameter count, training cost, inference latency, and GPU memory
+ on a documented reference platform, so that quality and efficiency can be
+ interpreted together.
+\end{enumerate}
+
+This first stage completes the introduction and dataset analysis. It verifies
+the local files, the existing split, class counts, pixel statistics, image
+variation, exact duplicates, and preprocessing layouts. It does not introduce
+new model scores or an architecture ranking. The remaining sections will
+document the implementation, verify experimental artifacts, and interpret the
+results under the agreed protocol.
+
+The dataset is limited to Fashion-MNIST. No additional product photographs,
+external training data, pretrained models, or synthetic images are introduced.
+The shared configuration uses seed 42, ten epochs, batch size 128, Adam with a
+learning rate of 0.001, and no data augmentation. These are the existing
+assignment settings, not the outcome of a new hyperparameter search.
+
+The local computational reference is the NVIDIA GeForce GTX 1660 SUPER with
+6 GiB of GPU memory, using the existing Windows Python and CUDA PyTorch
+environment. Existing Linear and MLP training summaries identify MPS as their
+original training device; those durations cannot serve as a matched CUDA
+training comparison. A subsequent experimental stage must obtain measurements
+on this PC under consistent timing scopes and preserve the historical artifacts.
+Equal epochs also do not imply equal wall-clock computation or equal parameter
+capacity. The final discussion must retain these qualifications.
+
+\subsection{Proposed Approach}
+The approach begins by separating data inspection from model selection.
+First, verify the local Fashion-MNIST files and reproduce the cached seed-42
+training/validation indices. Next, inspect training images and compute class
+balance, brightness distributions, nonzero-pixel coverage, spatial class
+statistics, and exact-duplicate checks. Validation and test images do not
+contribute to the normalization statistics or training-set visual summaries.
+
+After inspection, scale each raw image to the unit interval and standardize it
+using one mean and standard deviation estimated from the 54,000 training images.
+Change only the layout for the selected model: a 784-value vector for Linear
+and MLP, a one-channel spatial grid for CNN, 28 ordered row steps for LSTM, or
+49 ordered 4 by 4 patches for Transformer. Section~\ref{sec:preprocessing}
+defines these transformations and checks that all 784 pixel values are retained.
+
+The later training stage will use the shared optimization protocol and choose
+each model's checkpoint by its lowest validation cross-entropy. The fixed
+checkpoint will then be evaluated on the official test partition. Results
+will be interpreted through aggregate metrics, class-specific errors, learning
+curves, and matched CUDA resource measurements. Additional runs, if performed,
+will be identified explicitly as repetitions or ablations rather than mixed
+with the original experiment.
+
+This workflow makes each report claim traceable to code or an exported
+artifact. In the present stage, the numerical EDA values, figure files, CSV
+tables, and verification record are generated by
+\artifact{report/generate_eda.py}. The next-stage guide defines the remaining
+sections and the evidence needed before the report can be described as complete.

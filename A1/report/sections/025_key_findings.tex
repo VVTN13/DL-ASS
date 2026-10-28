@@ -1,0 +1,60 @@
+\subsection{Key Findings and Implications for Methodology}
+\label{sec:key_findings}
+The dataset analysis establishes a controlled starting point for the five-model
+comparison. Its main findings translate into the following experimental
+decisions.
+
+\begin{enumerate}
+\item \textbf{Class balance supports an unweighted baseline.}
+Each class contributes 5,400 training, 600 validation, and 1,000 test images.
+No resampling or class weighting is introduced to address frequency imbalance.
+Equal counts do not guarantee equal recognition difficulty, so evaluation
+must include per-class precision, recall, and F1 alongside accuracy and macro-F1.
+
+\item \textbf{Background prevalence must be separated from image validity.}
+Exactly \ZeroPercent\% of training pixels are zero, but no training image
+is entirely blank. Brightness and coverage distributions overlap across
+classes. The baseline therefore keeps the grayscale intensities and every
+image rather than applying an unsupported brightness threshold or background
+removal rule.
+
+\item \textbf{Spatial structure motivates different model representations.}
+Class means retain broad silhouettes, while variability maps and individual
+examples show changes that averaging conceals. Vectors provide the Linear
+and MLP baselines; the CNN retains the image grid; the LSTM reads ordered
+rows; and the Transformer receives ordered patches. All layouts retain the
+same 784 standardized values. Architecture comparisons must still account
+for differences in parameter count and computation before attributing a
+performance gap to representation alone.
+
+\item \textbf{Prototype similarity gives a specific error-analysis question.}
+Coat and Shirt have the highest off-diagonal prototype cosine similarity,
+approximately \MostSimilarCosine{}. Later confusion matrices should check
+whether these and other upper-body categories are frequent directional
+errors, and example galleries should examine the corresponding mistakes.
+Similarity of averages alone does not predict which model will perform best
+or establish that any supplied label is incorrect.
+
+\item \textbf{One fitted preprocessing pipeline supports a consistent comparison.}
+The seed-42 split, cached indices, training-only normalization, and verified
+input ordering are shared by all architectures. Validation loss selects
+weights, and the selected checkpoint is evaluated on the official test set.
+Any change to augmentation or representation must be recorded as a separate
+experimental condition rather than silently changing the baseline.
+\end{enumerate}
+
+The analysis has limits. Exact-image hashing cannot exclude near duplicates
+or related products, and a few sampled images cannot establish the frequency
+of an appearance. Class averages hide individual variation. The present
+evidence also does not measure training variability or generalization to
+high-resolution, colored, or unconstrained product photographs. Those limits
+remain relevant when interpreting later results.
+
+Section~3 can now define the five architectures, their mathematical
+operations, loss, training strategy, and evaluation metrics using the input
+shapes established in Section~2.4. Section~4 can describe how the shared
+dataset views, batching, random-state control, device transfer, and checkpoint
+handling implement that protocol. Training histories, predictive results,
+timing measurements, and error analysis belong to the later experimental
+sections; the EDA provides hypotheses and preprocessing decisions for those
+experiments rather than substituting for them.

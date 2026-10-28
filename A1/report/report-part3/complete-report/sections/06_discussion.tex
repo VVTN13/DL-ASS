@@ -1,0 +1,59 @@
+\section{Discussion and Limitations}
+\subsection{What the comparison shows}
+The strongest result comes from the CNN. Its local filters and pooling provide
+a natural way to process the spatial structure of clothing images.
+The class-level results show gains across all categories, including the
+similar upper-body garments that trouble the baselines. This is consistent
+with the usefulness of local spatial features in this task.
+
+That explanation remains an interpretation. The CNN also has the largest
+parameter count, and no ablation isolates the contribution of convolution,
+pooling, width or regularization. The experiment demonstrates a better result
+for this configuration, rather than proving a single cause for the improvement.
+
+The MLP is a useful practical baseline. It improves substantially over Linear
+and nearly matches the LSTM while requiring less recorded forward time.
+The LSTM achieves similar overall accuracy with fewer parameters, but reading
+the image sequentially does not provide an accuracy advantage in this run.
+Its final hidden state must summarize the rows before classification.
+
+The Transformer has the fewest parameters among the four nonlinear models,
+but it has the longest recorded forward time and a lower test score than MLP,
+CNN or LSTM. Attention is not automatically an improvement under a small,
+fixed training configuration. Since its validation loss is still decreasing
+at epoch 10, longer training is a plausible follow-up, not an established remedy.
+
+\subsection{Limits of the evidence}
+\begin{enumerate}
+\item \textbf{One seed per model.} The report does not estimate variation from
+initialization or data ordering. Small score differences, especially between
+MLP and LSTM, should not be treated as stable.
+\item \textbf{Unequal capacity and computation.} The models share an epoch budget
+but have different parameter counts, operations and training durations.
+The study is not a capacity-matched or compute-matched ablation.
+\item \textbf{Restricted optimization.} There is no systematic learning-rate,
+width, dropout or schedule search. A shared setting may suit some models better
+than others, and ten epochs need not be sufficient for every configuration.
+\item \textbf{Hardware and timing scope.} All cost measurements use CUDA on
+the GTX 1660 SUPER. Baseline costs come from separate repetitions; classification
+scores retain the original checkpoints. Inference uses only one batch size and a short benchmark,
+without repeated-session timing variation. Peak model memory is not recorded.
+\item \textbf{Limited image domain.} Fashion-MNIST contains small grayscale
+images. The experiment does not measure robustness to color, backgrounds,
+occlusion, new product styles or distribution shift.
+\item \textbf{Post-evaluation analysis.} Confusions and example images explain
+the existing results. They do not justify tuning against the test set and
+reporting the same set as an untouched final evaluation.
+\end{enumerate}
+
+\subsection{Next experiments}
+The first priority is to repeat each configuration across several seeds and
+report the mean and variation of accuracy and macro-F1. Training-speed
+comparisons should repeat all five models in controlled sessions on the same
+hardware and timing scope to quantify runtime variation.
+
+Next, use validation data to compare longer schedules and modest learning-rate
+changes, especially for Transformer. Separate ablations can examine CNN width,
+LSTM readout and patch size while controlling one factor at a time.
+Augmentation and calibration are further candidates. Any new settings should
+be selected through validation before a clearly documented final evaluation.

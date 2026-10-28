@@ -1,0 +1,48 @@
+\section{Conclusion}
+This project compares five neural network configurations through a common
+Fashion-MNIST pipeline. The data is split into fixed training, validation and
+test partitions, normalized using training statistics, and presented as
+vectors, image grids, row sequences or patch sequences. All models use the
+same ten-epoch training budget and validation-loss checkpoint rule.
+
+The CNN gives the strongest recorded result: 91.94\% test accuracy and
+0.9189 macro-F1. It makes 806 errors on 10,000 images, 344 fewer than the MLP.
+Its improvement appears across all ten class F1 scores, although Shirt remains
+difficult, with 71.8\% recall. Most remaining CNN errors occur among
+T-shirt/top, Pullover, Coat and Shirt.
+
+MLP and LSTM obtain nearly equal accuracy at 88.50\% and 88.48\%. Their
+two-image difference is too small to support a general ranking, and their
+individual predictions differ substantially. Transformer reaches 85.55\%,
+above the Linear baseline at 84.26\%, but below the other nonlinear models
+under this configuration and training budget.
+
+For this assignment, CNN is the preferred configuration when test accuracy
+is the main criterion. MLP is a useful alternative when the recorded forward
+cost matters: it trades some accuracy for a substantially shorter batch
+forward time. LSTM is smaller than MLP in parameter count, but that smaller
+count does not translate into faster measured inference.
+
+The broader lesson is that a more elaborate architecture does not guarantee
+a better result under a fixed experimental budget. Input structure, capacity,
+optimization and runtime must be considered together. Repeated seeds and
+controlled follow-up experiments are needed before these single-run findings
+can be extended into stronger claims.
+
+\vspace{8pt}
+\begin{table}[H]\centering
+\caption{Main findings and the evidence that supports them.}
+\begin{tabularx}{\linewidth}{lX}\toprule
+Finding & Evidence in this study\\\midrule
+CNN leads in predictive quality &
+91.94\% accuracy, 0.9189 macro-F1 and the highest F1 in each class.\\
+MLP and LSTM are nearly tied &
+88.50\% versus 88.48\% accuracy; no repeated-seed estimate.\\
+Upper-body garments remain difficult &
+\UpperErrors{} of the CNN's 806 errors occur within four upper-body labels.\\
+Parameter count does not rank runtime &
+LSTM and Transformer are smaller than MLP but have longer forward times.\\
+Broader conclusions need more runs &
+One seed, different capacities and separate timing sessions.\\\bottomrule
+\end{tabularx}
+\end{table}

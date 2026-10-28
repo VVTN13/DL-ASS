@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "output": "D:\\DL\\DL-ASS - Copy\\output\\pdf\\assignment1_template_continued.pdf",
+  "pages": 14,
+  "output_sha256": "e69b1eb626a77f3784d4c475663140c7a060256bdfa98400038e8f7de499bfe3",
+  "original_template_sha256": "b4e5714f6fd47eb2af8704c79d02fe53cd76ef35a08459d81782d06fc8a20ae5",
+  "original_template_unchanged": true,
+  "AI_USAGE_unchanged": true,
+  "figure_references_corrected": 3,
+  "all_pages_rendered": true,
+  "no_overfull_boxes_or_missing_glyphs": true,
+  "new_sections": [
+    "2.4 Preprocessing",
+    "2.5 Key Findings and Implications for Methodology"
+  ]
+}

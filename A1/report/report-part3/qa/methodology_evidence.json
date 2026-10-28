@@ -1,0 +1,533 @@
+{
+  "models": {
+    "linear": {
+      "parameters": 7850,
+      "input": [
+        2,
+        784
+      ],
+      "output": [
+        2,
+        10
+      ],
+      "layers": [
+        {
+          "module": "classifier",
+          "output": [
+            2,
+            10
+          ]
+        }
+      ],
+      "saved_training_device": "mps",
+      "config": {
+        "seed": 42,
+        "data_dir": "data",
+        "split_cache_path": "split_cache.json",
+        "output_dir": "runs/m1",
+        "val_ratio": 0.1,
+        "batch_size": 128,
+        "epochs": 10,
+        "learning_rate": 0.001,
+        "augment_train": false,
+        "num_workers": 0,
+        "device": "auto"
+      },
+      "strict_checkpoint_load": true,
+      "selection_matches_validation_loss": true,
+      "summary_sha256": "fcc1041ddab5b20a28281903271af4dcde3a28c6d8959570d4c3c1487b0d171c",
+      "checkpoint_sha256": "31d5e5162a71e36eed8e82521d9088ac0c2772bbddac0ca2fedddff229cb26a2"
+    },
+    "mlp": {
+      "parameters": 235146,
+      "input": [
+        2,
+        784
+      ],
+      "output": [
+        2,
+        10
+      ],
+      "layers": [
+        {
+          "module": "layers.0",
+          "output": [
+            2,
+            784
+          ]
+        },
+        {
+          "module": "layers.1",
+          "output": [
+            2,
+            256
+          ]
+        },
+        {
+          "module": "layers.2",
+          "output": [
+            2,
+            256
+          ]
+        },
+        {
+          "module": "layers.3",
+          "output": [
+            2,
+            256
+          ]
+        },
+        {
+          "module": "layers.4",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "layers.5",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "layers.6",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "layers.7",
+          "output": [
+            2,
+            10
+          ]
+        }
+      ],
+      "saved_training_device": "mps",
+      "config": {
+        "seed": 42,
+        "data_dir": "data",
+        "split_cache_path": "split_cache.json",
+        "output_dir": "runs/m1",
+        "val_ratio": 0.1,
+        "batch_size": 128,
+        "epochs": 10,
+        "learning_rate": 0.001,
+        "augment_train": false,
+        "num_workers": 0,
+        "device": "auto"
+      },
+      "strict_checkpoint_load": true,
+      "selection_matches_validation_loss": true,
+      "summary_sha256": "2d00173070dae43a85443e0ff34cad4577797c36445cf102067c8b63c4599efc",
+      "checkpoint_sha256": "0fe21c289562f49ca7d9e7180e23cb0823e18b740ee7ce6e0da80383c814c291"
+    },
+    "cnn": {
+      "parameters": 421642,
+      "input": [
+        2,
+        1,
+        28,
+        28
+      ],
+      "output": [
+        2,
+        10
+      ],
+      "layers": [
+        {
+          "module": "features.0",
+          "output": [
+            2,
+            32,
+            28,
+            28
+          ]
+        },
+        {
+          "module": "features.1",
+          "output": [
+            2,
+            32,
+            28,
+            28
+          ]
+        },
+        {
+          "module": "features.2",
+          "output": [
+            2,
+            32,
+            14,
+            14
+          ]
+        },
+        {
+          "module": "features.3",
+          "output": [
+            2,
+            64,
+            14,
+            14
+          ]
+        },
+        {
+          "module": "features.4",
+          "output": [
+            2,
+            64,
+            14,
+            14
+          ]
+        },
+        {
+          "module": "features.5",
+          "output": [
+            2,
+            64,
+            7,
+            7
+          ]
+        },
+        {
+          "module": "classifier.0",
+          "output": [
+            2,
+            3136
+          ]
+        },
+        {
+          "module": "classifier.1",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "classifier.2",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "classifier.3",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "classifier.4",
+          "output": [
+            2,
+            10
+          ]
+        }
+      ],
+      "saved_training_device": "cuda",
+      "config": {
+        "seed": 42,
+        "data_dir": "data",
+        "split_cache_path": "split_cache.json",
+        "output_dir": "runs/m2",
+        "val_ratio": 0.1,
+        "batch_size": 128,
+        "epochs": 10,
+        "learning_rate": 0.001,
+        "augment_train": false,
+        "num_workers": 0,
+        "device": "auto"
+      },
+      "strict_checkpoint_load": true,
+      "selection_matches_validation_loss": true,
+      "summary_sha256": "627ca395396b9db7e0d2a9d398458c366f4c9d6698b8b73342b66889f6ccfb30",
+      "checkpoint_sha256": "aa979edd4ad4a14e0c113494170a55369bfa9863d479be3da2656e12472d0c07"
+    },
+    "lstm": {
+      "parameters": 82186,
+      "input": [
+        2,
+        28,
+        28
+      ],
+      "output": [
+        2,
+        10
+      ],
+      "layers": [
+        {
+          "module": "lstm",
+          "output": [
+            [
+              2,
+              28,
+              128
+            ],
+            [
+              [
+                1,
+                2,
+                128
+              ],
+              [
+                1,
+                2,
+                128
+              ]
+            ]
+          ]
+        },
+        {
+          "module": "dropout",
+          "output": [
+            2,
+            128
+          ]
+        },
+        {
+          "module": "classifier",
+          "output": [
+            2,
+            10
+          ]
+        }
+      ],
+      "saved_training_device": "cuda",
+      "config": {
+        "seed": 42,
+        "data_dir": "data",
+        "split_cache_path": "split_cache.json",
+        "output_dir": "runs/m2",
+        "val_ratio": 0.1,
+        "batch_size": 128,
+        "epochs": 10,
+        "learning_rate": 0.001,
+        "augment_train": false,
+        "num_workers": 0,
+        "device": "auto"
+      },
+      "strict_checkpoint_load": true,
+      "selection_matches_validation_loss": true,
+      "summary_sha256": "db6c3022a9fa81433046e21a73c0cf429c800f467ab28194b97c816599f3a63a",
+      "checkpoint_sha256": "2f14e36af88417dcd6e8e4104fc1b54fded12073a8521be68b8c5acb7b11c36f"
+    },
+    "transformer": {
+      "parameters": 71946,
+      "input": [
+        2,
+        49,
+        16
+      ],
+      "output": [
+        2,
+        10
+      ],
+      "layers": [
+        {
+          "module": "patch_embedding",
+          "output": [
+            2,
+            49,
+            64
+          ]
+        },
+        {
+          "module": "dropout",
+          "output": [
+            2,
+            49,
+            64
+          ]
+        },
+        {
+          "module": "blocks.0.norm1",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.0.dropout1",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.0.norm2",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.0.linear1",
+          "output": [
+            49,
+            2,
+            128
+          ]
+        },
+        {
+          "module": "blocks.0.dropout",
+          "output": [
+            49,
+            2,
+            128
+          ]
+        },
+        {
+          "module": "blocks.0.linear2",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.0.dropout2",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.1.norm1",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.1.dropout1",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.1.norm2",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.1.linear1",
+          "output": [
+            49,
+            2,
+            128
+          ]
+        },
+        {
+          "module": "blocks.1.dropout",
+          "output": [
+            49,
+            2,
+            128
+          ]
+        },
+        {
+          "module": "blocks.1.linear2",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "blocks.1.dropout2",
+          "output": [
+            49,
+            2,
+            64
+          ]
+        },
+        {
+          "module": "norm",
+          "output": [
+            2,
+            49,
+            64
+          ]
+        },
+        {
+          "module": "dropout",
+          "output": [
+            2,
+            64
+          ]
+        },
+        {
+          "module": "classifier",
+          "output": [
+            2,
+            10
+          ]
+        }
+      ],
+      "saved_training_device": "cuda",
+      "config": {
+        "seed": 42,
+        "data_dir": "data",
+        "split_cache_path": "split_cache.json",
+        "output_dir": "runs/m2",
+        "val_ratio": 0.1,
+        "batch_size": 128,
+        "epochs": 10,
+        "learning_rate": 0.001,
+        "augment_train": false,
+        "num_workers": 0,
+        "device": "auto"
+      },
+      "strict_checkpoint_load": true,
+      "selection_matches_validation_loss": true,
+      "summary_sha256": "aae8718e3f1e6e99d6229f0bebc1fad4f0c66d720394cd6ffe63e6e2d63a06af",
+      "checkpoint_sha256": "276de361df32738746ebdef82197be360527a55ffd57d4036d765b0dfc9f0b80"
+    }
+  },
+  "normalization": {
+    "mean": 0.28620901297676965,
+    "std": 0.3531597492723218,
+    "seed": 42,
+    "split_sha256": "bbadd2fc92455ce7f7ca22890516a1f02c47a663679ec246709d7cf0cfdcb075",
+    "source_sha256": "1f243a60b4b748a44c48b9a6f6907be2a08bee3e4e226f0e86fbde8e147b745a"
+  },
+  "split_sizes": [
+    54000,
+    6000,
+    10000
+  ],
+  "adam_defaults": {
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0,
+    "amsgrad": false,
+    "maximize": false,
+    "foreach": null,
+    "capturable": false,
+    "differentiable": false,
+    "fused": null,
+    "decoupled_weight_decay": false
+  },
+  "representation_values_and_order_checked": true,
+  "batch_forward_checked": true,
+  "training_rerun": false,
+  "torch_version": "2.9.1+cu128"
+}

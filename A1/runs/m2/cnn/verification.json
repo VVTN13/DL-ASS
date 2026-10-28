@@ -1,6 +1,10 @@
 {
   "status": "passed",
+  "model": "cnn",
+  "input_mode": "image",
   "split_matches_m1": true,
+  "test_predictions_match_checkpoint": true,
+  "test_dataset_sha256_matches": true,
   "checkpoint_validation_metrics": {
     "loss": 0.2000607706308365,
     "accuracy": 0.9328333333333333,

@@ -1,0 +1,263 @@
+\section{Dataset and Exploratory Analysis}
+\label{sec:dataset}
+
+\subsection{Dataset Description}
+Fashion-MNIST contains fashion article images associated with ten product
+categories\cite{xiao2017,zalando}. The local copy has 60,000 official training
+examples and 10,000 official test examples. Each image is a 28 by 28 array of
+unsigned 8-bit grayscale intensities; the measured raw range is 0--255.
+Each record has one integer label. Table~\ref{tab:labels} gives the label
+mapping used by the source dataset and the implementation.
+
+\begin{table}[H]
+\centering
+\caption{Fashion-MNIST class labels. Each label is a distinct classification target.}
+\label{tab:labels}
+\begin{tabular}{clcl}
+\toprule
+Label & Category & Label & Category\\
+\midrule
+0 & T-shirt/top & 5 & Sandal\\
+1 & Trouser & 6 & Shirt\\
+2 & Pullover & 7 & Sneaker\\
+3 & Dress & 8 & Bag\\
+4 & Coat & 9 & Ankle boot\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The project loads these files through
+\artifact{torchvision.datasets.FashionMNIST}\cite{torchvision}.
+The analysis script uses the local files with downloading disabled, so a report
+rebuild does not silently replace the dataset. All four compressed IDX files
+match the MD5 checksums published by the source repository\cite{zalando}.
+SHA-256 digests of the compressed and extracted files, together with their byte
+sizes, are recorded in \artifact{report/data/eda_metrics.json}. The training
+image and label arrays also reproduce the source fingerprint stored in the
+project's split cache.
+
+The source repository lists an MIT license\cite{zalando}. The present report
+describes the local dataset content rather than assigning an unsupported
+version number. Its reproducibility anchors are the file digests, array
+fingerprint, split fingerprint, and the loader/software versions recorded by
+the generator.
+
+The dataset is appropriate for a controlled assignment, but its images do not
+cover the full range of real product photography. Color, detailed texture,
+multiple objects, and unconstrained backgrounds are not represented by this
+28 by 28 grayscale task. High accuracy on this benchmark would therefore
+require separate evidence before being generalized to a production catalogue.
+
+\subsection{Data Preparation and Splitting}
+\label{sec:splitting}
+The official 60,000-image training source is split using
+\artifact{train_test_split} with \artifact{stratify=labels},
+\artifact{test_size=0.1}, and \artifact{random_state=42}\cite{sklearn}.
+The resulting 54,000 training and 6,000 validation indices match the existing
+\artifact{split_cache.json} exactly. The validation fraction is 10\% of the
+official training source; it is not a new split of all 70,000 images.
+The official 10,000-image test source remains its own partition.
+
+\begin{table}[H]
+\centering
+\caption{Frozen dataset partitions and their experimental roles. Counts are verified locally.}
+\label{tab:splits}
+\begin{tabularx}{\linewidth}{lrrX}
+\toprule
+Partition & Images & Per class & Role\\
+\midrule
+Training & 54,000 & 5,400 & Fit normalization and update model parameters.\\
+Validation & 6,000 & 600 & Select the lowest-validation-loss checkpoint.\\
+Official test & 10,000 & 1,000 & Evaluate the fixed selected checkpoint.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The index audit confirms that training and validation are disjoint and that
+their union covers all 60,000 source indices exactly once. Source and split
+SHA-256 fingerprints agree with the cache. These checks establish membership
+and ordering, rather than relying only on the number of examples.
+Figure~\ref{fig:protocol} summarizes how information passes through the protocol.
+Training statistics are reused unchanged by validation and test preprocessing.
+
+\reportfigure{08_data_protocol}{1.0}{Data flow for the fixed split. Only training
+images fit normalization and model weights. Validation selects the checkpoint;
+the selected checkpoint is used for the final official test evaluation.}{fig:protocol}
+
+\paragraph{Exact-duplicate and integrity audit.}
+SHA-256 hashes of the raw 784-byte image arrays identify identical image
+content independently of its index. Figure~\ref{fig:duplicates} reports both
+within-partition duplicate excess and cross-partition overlap. Duplicate excess
+is the number of images beyond one representative per distinct hash;
+cross-partition overlap is the number of distinct hashes appearing in both
+partitions. These quantities have different denominators and are not
+interchangeable.
+
+\reportfigure{09_duplicate_audit}{1.0}{Exact raw-image duplicate audit.
+All six counts are zero; labeled dots make zero values visible. Left:
+duplicate excess within each split. Right: distinct hashes shared between
+pairs of splits. No samples are removed or reassigned.}{fig:duplicates}
+
+This is an audit of the fixed benchmark, not a reason to tune against the test
+partition. Descriptive pixel distributions, example selection, and spatial
+summaries below use training images only. Validation and test are inspected
+here for dimensions, labels, class counts, file integrity, and exact duplicates.
+The complete audit includes duplicate-group sizes and conflicting-label-group
+counts in the JSON evidence file. Exact hashing does not detect near duplicates
+or related articles photographed separately. Product-level identifiers are
+not part of the local image/label arrays, so product-level independence cannot
+be verified from this check.
+\FloatBarrier
+
+\subsection{Exploratory Data Analysis}
+\label{sec:eda}
+The analysis below uses all 54,000 training images unless an explicitly sampled
+display is described. Numerical reductions execute on the local CUDA GPU;
+NumPy checks independently reproduce the intensity histogram and raw moments.
+Charts display observations or descriptive summaries, not model predictions.
+
+\paragraph{Class balance.}
+Every class accounts for exactly 10\% of each partition. The maximum-to-minimum
+class-count ratio is 1.000 for training, validation, and test
+(Figure~\ref{fig:balance}). No class weighting, oversampling, or undersampling
+is introduced. Equal frequencies do not imply equal classification difficulty:
+class-specific precision, recall, and macro-F1 will still be needed later.
+\reportfigure{01_class_balance}{1.0}{Class counts for each partition. Labels 0--9
+follow Table~\ref{tab:labels}. Each panel uses its own count scale, and the exact
+per-class count is stated above the bars.}{fig:balance}
+
+\paragraph{Individual image variation.}
+Figure~\ref{fig:samples} displays three randomly selected training examples per
+class using NumPy seed 42. Selection is independent of model predictions;
+the official training-source indices are printed beneath the images and saved
+in the evidence file. Each image uses the same 0--255 grayscale range, so its
+displayed brightness is comparable with the other examples.
+
+Several broad silhouettes are visible. Trousers have separated lower legs;
+bags have compact bodies; and footwear is commonly oriented horizontally.
+Upper-body garments often share sleeves and a central torso region. Within
+each class, outline and brightness vary. These examples provide context for
+the quantitative summaries, but three examples per class cannot establish the
+frequency of a visual pattern.
+\reportfigure{02_training_examples}{1.0}{Three seed-42 training examples for each
+category, with original source indices. The display preserves each image's
+28 by 28 pixels and uses nearest-neighbor rendering with a common intensity
+scale.}{fig:samples}
+\FloatBarrier
+
+\paragraph{Pixel intensity and background.}
+The training subset contains \(54{,}000\times28\times28=42{,}336{,}000\)
+pixels. On the raw scale, the pixel-weighted mean is \RawMean{} and the
+population standard deviation is \RawStd{}. Exactly \ZeroPercent\% of pixels
+have value zero. Nevertheless, there are \BlankImages{} entirely zero training
+images: a large zero-pixel mass does not mean that the observations are blank.
+
+Figure~\ref{fig:histogram} uses two distributions to make this structure readable.
+The left panel includes every pixel and shows the large mass at zero. The right
+panel conditions on positive intensity values, with its own denominator, so
+that variation among nonzero pixels is visible. The zero mass is compatible
+with dark background regions, but a zero/nonzero test is not a semantic
+foreground segmentation.
+\reportfigure{03_pixel_distribution}{1.0}{Training-pixel intensity distributions.
+The left panel is normalized by all 42,336,000 training pixels; the right panel
+is normalized by nonzero pixels only. Percentages therefore refer to different
+populations. No validation or test pixels enter these distributions.}{fig:histogram}
+
+\paragraph{Brightness and nonzero coverage by class.}
+For image \(i\), define its average raw brightness \(b_i\) and nonzero-pixel
+coverage \(c_i\) by
+\begin{equation}
+ b_i=\frac{1}{784}\sum_{r=0}^{27}\sum_{c=0}^{27}X_{i,r,c},
+ \qquad
+ c_i=\frac{1}{784}\sum_{r=0}^{27}\sum_{c=0}^{27}
+       \mathbb{1}[X_{i,r,c}>0].
+ \label{eq:brightness}
+\end{equation}
+Coverage counts every positive value, including faint edge pixels. It is a
+descriptive statistic with a fixed threshold of zero, not an estimated object
+area or a segmentation annotation.
+
+Figure~\ref{fig:brightness} shows medians, interquartile ranges, and whiskers for
+both quantities. Table~\ref{tab:classstats} reports class means and the population
+standard deviation of image-level brightness. Sandal has the lowest mean
+brightness (\LowestBrightness{}) and Coat has the highest
+(\HighestBrightness{}). These are group averages; the distributions overlap,
+so brightness alone is not established as a sufficient classification feature.
+\reportfigure{04_brightness_coverage}{1.0}{Image-level brightness and nonzero
+coverage across the ten training classes. Boxes show the middle 50\%, black
+lines show medians, and whiskers extend to observations within 1.5 interquartile
+ranges of the box. Outlier markers are hidden for readability; all observations
+remain in the calculations.}{fig:brightness}
+
+\begin{table}[H]
+\centering
+\caption{Training-set class statistics. Each class has 5,400 images.
+Brightness SD is across image means, not across individual pixels.}
+\label{tab:classstats}
+\begin{tabular}{clrrr}
+\toprule
+Label & Class & Mean brightness & Brightness SD & Mean nonzero (\%)\\
+\midrule
+\ClassStatisticsRows
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\paragraph{Spatial class averages and variability.}
+For each class \(k\), let \(\mathcal{I}_k\) contain its training images after
+scaling to \([0,1]\). The pixelwise prototype \(M_k\) and population variability
+map \(S_k\) are
+\begin{equation}
+ M_{k,r,c}=\frac{1}{n_k}\sum_{i\in\mathcal{I}_k}U_{i,r,c},
+ \qquad
+ S_{k,r,c}=\sqrt{\frac{1}{n_k}\sum_{i\in\mathcal{I}_k}
+       (U_{i,r,c}-M_{k,r,c})^2},\quad U_i=X_i/255.
+ \label{eq:spatial}
+\end{equation}
+Figure~\ref{fig:spatial} separates these two summaries. Mean maps show recurring
+silhouettes at their original image positions. Standard-deviation maps show
+where intensity changes across examples of the same class. Variable outlines,
+alignment, and material appearance can all contribute; the maps do not isolate
+these causes individually.
+
+The common scale within each map type is deliberate. Independently rescaling
+each prototype could conceal brightness differences between classes. The mean
+maps use 0--1 and the standard-deviation maps use 0--0.5, the maximum population
+standard deviation for a variable bounded by 0 and 1. A prototype is an average,
+not an actual article image, and blur in an average can reflect variation rather
+than low quality in every observation.
+\reportfigure{05_spatial_statistics}{.96}{Class-average images (top two rows) and
+population standard-deviation maps (bottom two rows), each computed from all
+5,400 training images of its class. Shared color scales allow comparisons
+within each map type.}{fig:spatial}
+\FloatBarrier
+
+\paragraph{Similarity of class prototypes.}
+To describe similarities visible in the mean maps, flatten each class prototype
+into \(\boldsymbol{m}_k\in\mathbb{R}^{784}\) and calculate
+\begin{equation}
+ s_{k\ell}=\frac{\boldsymbol{m}_k^\top\boldsymbol{m}_{\ell}}
+ {\lVert\boldsymbol{m}_k\rVert_2\lVert\boldsymbol{m}_{\ell}\rVert_2}.
+ \label{eq:cosine}
+\end{equation}
+The vectors are uncentered, nonnegative training class means, so the cosine
+similarities lie between zero and one. Figure~\ref{fig:similarity} gives the full
+matrix. The largest off-diagonal value is \MostSimilarCosine{} for
+\MostSimilarClasses{}. The reported pair is selected from all distinct
+class pairs; the diagonal simply compares a class with itself.
+
+This statistic summarizes average spatial appearance. It ignores individual
+image variation and is sensitive to alignment and broad foreground layout.
+It is therefore neither a confusion matrix nor an estimate of the achievable
+classification error. Its role is to propose a question for later error
+analysis: do highly similar garment prototypes correspond to common mistakes
+in the evaluated models?
+\reportfigure{06_prototype_similarity}{.80}{Cosine similarity between flattened
+training class-average images. Values are rounded to two decimal places for
+display. The unrounded maximum off-diagonal similarity is reported in the text;
+this chart contains no model predictions.}{fig:similarity}
+\FloatBarrier
+
+\input{sections/024_preprocessing}
+\input{sections/025_key_findings}

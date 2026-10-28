@@ -256,7 +256,7 @@ def run_experiment(model_name, config_path="configs/m1.json", *, reuse_existing=
 
 def main():
     parser = argparse.ArgumentParser(description="Train an Assignment 1 classifier")
-    parser.add_argument("--model", choices=("linear", "mlp", "cnn", "lstm"), required=True)
+    parser.add_argument("--model", choices=("linear", "mlp", "cnn", "lstm", "transformer"), required=True)
     parser.add_argument("--config", default="configs/m1.json")
     parser.add_argument("--reuse-existing", action="store_true", help="Validate and reuse a matching completed run")
     args = parser.parse_args()

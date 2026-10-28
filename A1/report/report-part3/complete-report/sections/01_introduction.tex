@@ -1,0 +1,64 @@
+\section{Introduction}
+\label{sec:introduction}
+\subsection{Background and motivation}
+Image classification assigns a category to an image. For a product catalogue,
+this could help organize new items into clothing and accessory groups.
+Reliable classification depends on more than the model: the data split,
+preprocessing and evaluation procedure also affect how a result should be
+interpreted.
+
+Fashion-MNIST provides a manageable setting for studying this process
+\cite{fresh_fashion}. Its small grayscale images make it practical to train
+several models, while visually similar categories create a useful recognition
+challenge. A shirt and a pullover, for example, may have similar outlines even
+though they belong to different labels.
+
+Different architectures use image information in different ways. A Linear
+classifier combines pixel values directly. An MLP learns nonlinear combinations
+of pixels. A CNN learns local spatial patterns, an LSTM reads an ordered sequence
+of rows, and a Transformer combines information across image patches.
+Comparing these approaches helps explain what each design contributes in a
+small, controlled experiment.
+
+\subsection{Problem statement}
+The task is supervised, single-label classification into ten categories.
+A raw image is $X\in\{0,\ldots,255\}^{28\times28}$ and its label is
+$y\in\{0,\ldots,9\}$. After preprocessing $T$, a model with parameters $\theta$
+produces ten scores:
+\[
+f_\theta(T(X))=z\in\mathbb{R}^{10},
+\qquad \hat y=\arg\max_{k\in\{0,\ldots,9\}}z_k.
+\]
+The prediction describes the complete image. The study does not locate objects
+within an image or assign several labels to one image.
+
+The main question is how the five implemented configurations compare when they
+use the same training examples, normalization and epoch budget. We examine both
+overall performance and the types of mistakes hidden by an aggregate score.
+
+\subsection{Objectives and scope}
+The project has four objectives:
+\begin{enumerate}
+\item Inspect the dataset and establish a reproducible preprocessing and split protocol.
+\item Implement and compare Linear, MLP, CNN, LSTM and Transformer classifiers.
+\item Evaluate accuracy, macro-F1, learning behavior and class-specific errors.
+\item Relate predictive quality to parameter count and documented runtime measurements.
+\end{enumerate}
+
+The experiments use Fashion-MNIST only, with no pretrained weights, external
+training data or augmentation. Each model is trained once using seed 42 and ten
+epochs. The comparison concerns these particular configurations; architecture,
+parameter count and computation are not independently controlled.
+
+\subsection{Report approach}
+Section~2 describes the data, exploratory findings and preprocessing.
+Section~3 explains the models and the common training procedure.
+Section~4 compares the saved results and runtime measurements.
+Section~5 examines class-level and image-level errors.
+Sections~6 and 7 discuss the limitations and conclusions.
+The appendices provide the numerical class results, additional confusion matrices
+and reproduction instructions.
+
+The analysis uses the existing completed runs. Their saved predictions are used
+to recompute accuracy, class scores and confusion counts. Validation selects
+the checkpoint; the reported test results are kept separate from that selection.

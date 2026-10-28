@@ -1,0 +1,29 @@
+% Compile from this folder with Tectonic or XeLaTeX.
+\documentclass[10pt,a4paper]{article}
+\usepackage[left=20mm,right=20mm,top=30mm,bottom=22mm,headheight=28pt,headsep=12pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,graphicx}
+\usepackage{fancyhdr,microtype,enumitem,caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark,lastpage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\arraystretch}{1.17}
+\setlist{nosep,leftmargin=1.5em}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\ttfamily HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY\\
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING}
+\fancyfoot[L]{\scriptsize\ttfamily CO3133 -- HK261}
+\fancyfoot[R]{\scriptsize\ttfamily Methodology \thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{.4pt}
+\renewcommand{\footrulewidth}{.4pt}
+\hypersetup{pdftitle={Fashion-MNIST: Methodology},pdfsubject={Five-model classification procedure}}
+\begin{document}
+\setcounter{section}{2}
+\input{sections/03_methodology}
+\input{references}
+\end{document}

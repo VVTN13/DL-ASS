@@ -1,0 +1,545 @@
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3
+Methodology
+This study compares ﬁve supervised classiﬁers for Fashion-MNIST: a linear classiﬁer, a multilayer perceptron
+(MLP), a convolutional neural network (CNN), a row-sequence long short-term memory network (LSTM), and
+a patch-based Transformer. The comparison examines how diﬀerent representations and learned operations
+classify the same image information under a common data and training protocol. These are conﬁgurations of
+established model families; the study does not introduce a new architecture. Model capacity varies, so the
+experiment compares complete conﬁgurations rather than isolating architecture at a ﬁxed parameter budget.
+3.1
+Overall System Architecture
+The system separates parameter ﬁtting, checkpoint selection, and ﬁnal evaluation into distinct stages. A seed-42
+stratiﬁed partition divides the 60,000 oﬃcial training images into 54,000 training and 6,000 validation images.
+The oﬃcial 10,000-image test partition retains its supplied examples and labels. Each class contributes 5,400
+training, 600 validation, and 1,000 test examples. The partition and preprocessing are shared across all ﬁve
+runs; Figure 9 shows their information ﬂow.
+Official training set
+60,000 images
+Seed-42 stratified split
+54,000 train / 6,000 val
+Official test set
+10,000 images
+Fit mean and SD on training only
+Reuse on all three partitions
+Choose one representation
+vector / grid / rows / patches
+One independent model per run
+Ten class logits
+Cross-entropy + Adam
+Training images only
+Validate after each epoch
+Keep lowest validation loss
+No gradient updates on validation
+Freeze selected weights
+Evaluate official test set
+Metrics, errors and timing
+Held out until evaluation
+Figure 9: Shared ﬁtting, selection, and evaluation procedure. Training pixels ﬁt the normalization, training labels drive
+Adam updates, and validation loss selects weights. The test branch evaluates the selected model.
+Each raw grayscale image is converted to a single-channel float32 tensor, scaled by 1/255, and standardized
+using the training-only mean µ = 0.286209 and population standard deviation σ = 0.353160 (rounded). The
+loader reuses the full-precision cached constants for validation and test images. Section 2.4 details this trans-
+formation; the present section starts from the resulting standardized image Zi ∈R1×28×28. No augmentation,
+resizing, sample ﬁltering, or handcrafted features are used.
+The representation utility arranges the same 784 standardized values for the chosen model, as summarized in
+Table 6. Here B denotes the batch size. The target tensor has shape (B, ) and contains integer class indices
+yi ∈{0, . . . , 9} in the dataset’s supplied order. Every model returns ten raw scores, called logits, of shape
+(B, 10). A single model is trained per run; the ﬁve branches do not exchange features or form an ensemble.
+Table 6: Input interfaces after common standardization. Sequence order is spatial within one image.
+Model
+Batch shape
+Interpretation
+Linear / MLP
+(B, 784)
+Pixels ﬂattened row by row.
+CNN
+(B, 1, 28, 28)
+Original single-channel spatial grid.
+LSTM
+(B, 28, 28)
+Top-to-bottom rows; 28 left-to-right features per row.
+Transformer
+(B, 49, 16)
+Raster-ordered 4 × 4 patches; row-major pixels within each patch.
+CO3133 – HK261
+Page 13/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3.2
+Baseline Approach
+The linear classiﬁer provides a reference with no learned hidden representation. It maps the ﬂattened vector
+vi ∈R784 directly to ten logits through a fully connected layer with a bias. Its trainable parameter count is
+784 × 10 + 10 = 7,850. The model can assign diﬀerent weights to individual pixel positions, but it cannot learn
+nonlinear interactions among them. This makes it a useful starting point for assessing the eﬀect of learned
+nonlinear features.
+The MLP adds two hidden transformations while retaining the same vector input. The ﬁrst layer maps 784
+values to 256 features, followed by a rectiﬁed linear unit (ReLU) and dropout with probability 0.2. The second
+layer maps 256 features to 128, again followed by ReLU and dropout 0.2. A ﬁnal 128 →10 linear layer produces
+logits. Its parameter count is (784 × 256 + 256) + (256 × 128 + 128) + (128 × 10 + 10) = 235,146. The hidden
+layers allow nonlinear combinations of pixels, while their dense connectivity imposes no local spatial weight
+sharing. Dropout acts during training and is disabled for validation and test inference.
+3.3
+Proposed Models / Algorithms
+The three additional conﬁgurations examine local ﬁltering, sequential aggregation, and attention over image
+regions. The term “proposed models” identiﬁes the models selected for this assignment; it does not imply that
+CNNs, LSTMs, or Transformers originate in this work. All models are initialized and trained from scratch,
+without pretrained feature extractors. Figure 10 summarizes their forward paths.
+3.3.1
+CNN: Learning Local Spatial Features
+The CNN retains the two-dimensional image grid to learn local patterns through shared ﬁlters, following the
+convolutional modeling principle of LeCun et al. [1]. Table 7 gives the exact forward path. Both convolutions
+use 3 × 3 kernels, stride 1, padding 1, and a bias; ReLU follows each convolution. Both max-pooling layers use
+2 × 2 windows with stride 2. The resulting 64 × 7 × 7 tensor is ﬂattened and mapped to 128 features before the
+output head.
+Table 7: CNN operations and output dimensions. The batch axis is retained at every stage.
+Operation
+Output shape
+Standardized input
+(B, 1, 28, 28)
+Convolution 1 →32, 3 × 3, padding 1; ReLU
+(B, 32, 28, 28)
+Max pooling 2 × 2, stride 2
+(B, 32, 14, 14)
+Convolution 32 →64, 3 × 3, padding 1; ReLU
+(B, 64, 14, 14)
+Max pooling 2 × 2, stride 2
+(B, 64, 7, 7)
+Flatten
+(B, 3136)
+Linear 3136 →128; ReLU; dropout 0.2
+(B, 128)
+Linear 128 →10
+(B, 10)
+The CNN has 421,642 trainable parameters: 320 in the ﬁrst convolution, 18,496 in the second, 401,536 in the
+hidden dense layer, and 1,290 in the output layer. Shared convolutional ﬁlters provide a local spatial inductive
+bias, while pooling reduces spatial resolution and computational demand in later layers. Pooling also discards
+precise position information. These mechanisms motivate the conﬁguration; their eﬀect on classiﬁcation must
+be assessed from the later results.
+CO3133 – HK261
+Page 14/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3.3.2
+LSTM: Reading an Image as an Ordered Row Sequence
+The LSTM processes each image as 28 spatial steps, using one complete row per step. Removing the single
+channel axis gives Si ∈R28×28, where Si,t,j = Zi,0,t,j for zero-based row and column indices t, j ∈{0, . . . , 27}.
+Rows are read from top to bottom, and their features remain in left-to-right order. The sequence describes a
+static image rather than observations over time. No transpose, padding, or truncated sequence is introduced.
+A single unidirectional nn.LSTM layer uses input size 28, hidden size 128, and batch_first=True. The hidden
+and cell states are initialized to zero independently on each forward call; no state is carried between images
+or batches. Processing all rows yields outputs of shape (B, 28, 128) and ﬁnal hidden and cell tensors of shape
+(1, B, 128). Only the ﬁnal hidden state is passed through dropout 0.2 and a 128 →10 linear classiﬁer. There
+is no inter-layer recurrent dropout because the network contains one recurrent layer. The LSTM has 82,186
+parameters: 4(128)(28 + 128 + 2) = 80,896 in the recurrent module, including PyTorch’s two bias vectors, and
+1,290 in the classiﬁer.
+The recurrent state summarizes the rows encountered so far, providing a mechanism for combining information
+across vertical positions. LSTM gating follows an established recurrent design [2]; the equations below use the
+forget-gate form implemented by PyTorch [3]. Using the ﬁnal hidden state creates a compact readout, but its
+sequential computation and sensitivity to row order are relevant trade-oﬀs.
+3.3.3
+Transformer: Attention Across Ordered Image Patches
+The Transformer represents each image as a 7 × 7 grid of nonoverlapping 4 × 4 patches, producing 49 vectors
+of length 16.
+Both patches and their internal pixels follow row-major order, as deﬁned in Section 2.4.
+A
+learned linear projection maps each patch from 16 to 64 features. A trainable position embedding of shape
+(1, 49, 64) is added before dropout 0.2, allowing tokens with similar content at diﬀerent image locations to
+remain distinguishable.
+Two independently initialized encoder blocks preserve the token dimension (B, 49, 64). Each block uses four
+attention heads with 16 features per head, a 64 →128 →64 feed-forward network with GELU activation,
+dropout 0.2, and pre-normalization residual connections. Internally the code transposes tokens to (49, B, 64)
+for the encoder layers and transposes them back afterward. All patches are present, so neither a padding mask
+nor a causal mask is supplied. A ﬁnal layer normalization acts on each token before mean pooling over the 49
+positions, dropout 0.2, and a 64 →10 classiﬁer.
+This conﬁguration uses patch-based visual input [4] and self-attention [5], with no class token or pretrained
+weights. Its 71,946 parameters comprise 1,088 in the patch projection, 3,136 in learned positions, 33,472 in each
+encoder block, 128 in the ﬁnal layer normalization, and 650 in the output head. Attention permits interaction
+between every pair of image regions within a block; this does not by itself establish an advantage under a short
+training budget.
+Linear
+784 pixels
+Linear 784 to 10
+10 logits
+MLP
+784 pixels
+256 ReLU / dropout
+128 ReLU / dropout
+Linear 128 to 10
+CNN
+1 x 28 x 28
+Conv32 / pool / Conv64 / pool
+Flatten / Dense128 / dropout
+Linear 128 to 10
+LSTM
+28 rows x 28 pixels
+One LSTM layer, hidden 128
+Final hidden state / dropout
+Linear 128 to 10
+Transformer
+49 patches x 16 pixels
+Embed64 + positions / 2 blocks
+Layer norm / mean / dropout
+Linear 64 to 10
+Figure 10: Implemented forward paths. All ﬁve models produce ten logits; dropout denotes probability 0.2. The
+Transformer blocks retain 49 tokens.
+CO3133 – HK261
+Page 15/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3.4
+Mathematical Formulation
+3.4.1
+Class Scores and the Learning Objective
+For image i, let Rm denote the input rearrangement for model m and let fθm be its learned mapping. Classiﬁ-
+cation uses
+ai = fθm(Rm(Zi)) ∈R10,
+pi,k =
+exp(ai,k)
+∑9
+j=0 exp(ai,j)
+,
+ˆyi = arg max
+k∈{0,...,9}
+ai,k.
+(8)
+Here ai contains raw logits, pi,k is the softmax probability assigned to class k, ˆyi is the predicted label, and
+θm contains the model’s trainable parameters. Softmax is used for reported conﬁdence; the loss receives logits
+directly for a numerically stable computation. The maximum probability is not treated as calibrated certainty.
+Training minimizes mean cross-entropy over a minibatch B:
+LB(θm) = 1
+|B|
+∑
+i∈B
+[
+−ai,yi + log
+( 9
+∑
+k=0
+exp(ai,k)
+)]
+.
+(9)
+The symbol |B| is the number of images in the current minibatch and yi is its ground-truth class. No class
+weights, label smoothing, or additional penalty terms are supplied. Epoch loss averages over images, weighting
+each batch by its actual size so that the smaller ﬁnal batch does not receive disproportionate weight.
+3.4.2
+Dense and Convolutional Transformations
+The linear baseline computes ai = Wvi + b, with W ∈R10×784 and b ∈R10.
+For the MLP, let ρ(u) =
+max(0, u) elementwise and let D denote dropout 0.2 during training and the identity map during evaluation.
+Its computation is
+h1 = D(ρ(W1vi + b1)),
+h2 = D(ρ(W2h1 + b2)),
+ai = W3h2 + b3.
+(10)
+The hidden vectors have dimensions 256 and 128, respectively. W1, W2, W3 have shapes 256 × 784, 128 × 256,
+and 10×128, with biases matching their output dimensions. Training dropout independently zeros an activation
+with probability 0.2 and rescales retained values by 1/0.8.
+The CNN uses the cross-correlation operation conventionally called convolution in deep-learning libraries. For
+an input map A with C channels, an output channel o, and padded spatial indices r, c, it computes
+Ho,r,c = ρ
+(
+bo +
+C−1
+∑
+q=0
+2
+∑
+u=0
+2
+∑
+v=0
+Ko,q,u,vAq,r+u−1,c+v−1
+)
+,
+Mo,r,c =
+max
+u,v∈{0,1} Ho,2r+u,2c+v.
+(11)
+K and bo are the learned kernel and bias, H is the post-ReLU feature map, and M is the pooled map. Values
+of A outside its spatial extent are zero. For the ﬁrst block, A = Zi and C = 1; for the second, A is the ﬁrst
+pooled map and C = 32. Flattening the second pooled map produces 3,136 features for the dense readout in
+Table 7.
+3.4.3
+LSTM State Update and Readout
+At recurrent step t ∈{1, . . . , 28}, let xt = Si,t−1,: be the 28-feature row vector. PyTorch’s LSTM computes
+ιt = sigmoid(Wxixt + Whiht−1 + bi),
+ft = sigmoid(Wxfxt + Whfht−1 + bf),
+gt = tanh(Wxgxt + Whght−1 + bg),
+ot = sigmoid(Wxoxt + Whoht−1 + bo),
+ct = ft ⊙ct−1 + ιt ⊙gt,
+ht = ot ⊙tanh(ct).
+(12)
+The input, forget, and output gates ιt, ft, ot, candidate gt, cell state ct, and hidden state ht are all 128-
+dimensional. Each Wx· has shape 128×28, each Wh· has shape 128×128, and each b· combines the corresponding
+input and recurrent bias vectors. The operator ⊙denotes elementwise multiplication. With h0 = c0 = 0, the
+classiﬁer uses ai = WoutD(h28) + bout, where Wout ∈R10×128.
+CO3133 – HK261
+Page 16/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3.4.4
+Patch Embedding, Self-Attention, and Pooling
+For one image, let P ∈R49×16 contain its ordered patch vectors as rows. Patch projection and positional
+encoding initialize the token matrix:
+T (0) = D(PWE + 149bT
+E + E),
+T (0) ∈R49×64.
+(13)
+Here WE ∈R16×64 is the embedding matrix, bE ∈R64 its bias, 149 a column of 49 ones, and E ∈R49×64 the
+learned position matrix shared across images. Each row of E identiﬁes one location in the patch grid.
+Each encoder block ﬁrst normalizes its input tokens and computes attention over all 49 positions.
+For a
+normalized token matrix U ∈R49×64 and head h ∈{1, 2, 3, 4}, the operation is
+Qh = UW Q
+h + 149(bQ
+h )T,
+Kh = UW K
+h + 149(bK
+h )T,
+Vh = UW V
+h + 149(bV
+h )T,
+(14)
+Ah = DA
+[
+softmaxrow
+(QhKT
+h
+√
+16
+)]
+Vh,
+MHA(U) = Concat(A1, A2, A3, A4)WO + 149bT
+O.
+(15)
+Each projection W Q
+h , W K
+h , W V
+h has shape 64 × 16, with a 16-dimensional bias. Thus Qh, Kh, Vh, Ah have shape
+49 × 16, and the attention weights have shape 49 × 49. Row-wise softmax normalizes the key positions for each
+query position. DA denotes dropout 0.2 on attention weights during training. Concatenation joins heads along
+the feature axis; the output projection WO ∈R64×64 and bO ∈R64 restore 64 features per token.
+The pre-normalized residual path of block ℓ∈{1, 2} is
+R(ℓ) = T (ℓ−1) + D
+(
+MHAℓ(LNℓ,1(T (ℓ−1)))
+)
+,
+T (ℓ) = R(ℓ) + D
+(
+FFNℓ(LNℓ,2(R(ℓ)))
+)
+,
+FFNℓ(U) = D
+(
+GELU(UWℓ,1 + 149bT
+ℓ,1)
+)
+Wℓ,2 + 149bT
+ℓ,2.
+(16)
+R(ℓ) is the intermediate residual matrix and T (ℓ) the block output. Each LN is a learned layer normalization
+over the 64 features of a token, with ϵ = 10−5. The feed-forward weights Wℓ,1 ∈R64×128 and Wℓ,2 ∈R128×64
+act independently at every token; their biases have dimensions 128 and 64. GELU denotes the Gaussian error
+linear unit. Every occurrence of D uses an independent dropout mask during training. This sequence matches
+the implemented norm_first=True encoder [6].
+After the second block, a separate layer normalization precedes mean pooling:
+ri = 1
+49
+49
+∑
+j=1
+[LNﬁnal(T (2))]T
+j,:,
+ai = WCD(ri) + bC.
+(17)
+Here the column vector ri ∈R64 averages normalized token features, WC ∈R10×64 is the classiﬁer weight,
+and bC ∈R10 its bias. All 49 patches contribute to the pooled readout. Layer normalization is applied before
+averaging, which is distinct from normalizing only the ﬁnal pooled vector.
+CO3133 – HK261
+Page 17/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3.5
+Training Strategy
+The primary comparison ﬁxes the partition, input transformation, optimizer, batch size, epoch budget, and
+checkpoint policy. Table 8 lists the shared settings. This protocol controls several sources of variation while
+allowing the architectures and their parameter counts to diﬀer. Ten epochs provide the same number of passes
+over training data, rather than the same runtime or proof of convergence for every architecture.
+Table 8: Veriﬁed common training protocol. Architecture-speciﬁc dropout locations are described in Sections 3.2–3.3.
+Setting
+Value or policy
+Partition
+Seed-42 stratiﬁed 54,000 / 6,000 split; oﬃcial test retained
+Normalization
+Training-only global mean and population SD; reused unchanged
+Random control
+Python, NumPy, and PyTorch seeds 42; seeded training shuﬄe
+Optimizer
+Adam; learning rate 10−3, β1 = 0.9, β2 = 0.999, ϵ = 10−8
+Budget and batches
+10 complete epochs; batch size 128; ﬁnal partial batch retained
+Loss
+Mean multiclass cross-entropy; no class weighting or label smoothing
+Regularization
+Dropout 0.2 in MLP, CNN, LSTM, and Transformer; none in Linear
+Augmentation
+Disabled for training, validation, and test
+Other optimization
+Weight decay 0; no scheduler, gradient clipping, or early stopping
+Data loading
+Training shuﬄed; validation/test ordered; zero worker processes
+Numerical execution
+Float32 model/input computation; no mixed-precision training
+Checkpoint
+Lowest validation cross-entropy; ﬁrst epoch retained on an exact tie
+Each training minibatch ﬁrst clears gradients, then computes logits and the mean loss in Equation 9. Backprop-
+agation produces gradients, and Adam updates the trainable parameters using its running ﬁrst- and second-
+moment estimates [7]. The process visits all 54,000 training images once per epoch: 421 full batches and one
+ﬁnal batch of 112 images. This yields 422 updates per epoch and 4,220 updates per model. Validation follows
+every epoch with the model in evaluation mode and gradient recording disabled. Validation loss, accuracy, and
+macro-F1 are recorded, but only validation loss controls checkpoint replacement.
+Let θ(e)
+m denote the weights after epoch e and Lval the mean loss across all validation images. The selected
+checkpoint is
+e∗
+m = min
+{
+e : Lval(θ(e)
+m ) =
+min
+s∈{1,...,10} Lval(θ(s)
+m )
+}
+,
+θ∗
+m = θ(e∗
+m)
+m
+.
+(18)
+The outer minimum resolves a tie in favor of the earlier epoch. All ten epochs run even if an earlier checkpoint
+is selected. The saved checkpoint contains model weights, model identity, selected epoch, conﬁguration, nor-
+malization constants, input mode, and source/split ﬁngerprints. It does not contain optimizer state for exact
+training resumption. The cached indices and split ﬁngerprint identify the partition; they are not inferred from
+test performance.
+Random seeds are reset before model initialization. Built-in PyTorch layer initialization is retained, except that
+Transformer position embeddings use a truncated normal with standard deviation 0.02. The two encoder blocks
+are constructed separately. cuDNN benchmarking is disabled and deterministic cuDNN behavior is requested;
+the implementation does not enable a global deterministic-algorithms guarantee. A ﬁxed seed therefore supports
+reproducibility without implying bitwise equality across devices or versions.
+The saved baseline Linear and MLP runs record MPS training, whereas CNN, LSTM, and Transformer record
+CUDA training on the GTX 1660 SUPER. These are historical runs with a shared statistical protocol, not
+a matched hardware timing study. The separate shared-CUDA conﬁguration is a future rerun protocol, not
+evidence of ﬁve completed CUDA training runs. The test set has already been evaluated in the project; later
+repetitions cannot be described as ﬁrst access to previously unseen test data.
+CO3133 – HK261
+Page 18/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+3.6
+Evaluation Metrics
+Evaluation reloads the validation-selected checkpoint, veriﬁes its source and split ﬁngerprints and normalization
+constants against the data loader, and computes predictions without parameter updates. The oﬃcial test set is
+used for reporting generalization under the stated protocol. No test score is used by the implemented checkpoint-
+selection rule. Prediction records retain each example’s test index, true label, predicted label, conﬁdence, and
+correctness, allowing aggregate metrics to be checked against individual outcomes.
+3.6.1
+Predictive Performance and Class-Speciﬁc Errors
+For an evaluation partition of N images, accuracy is
+Accuracy = 1
+N
+N
+∑
+i=1
+I(ˆyi = yi).
+(19)
+I(·) equals one for a true condition and zero otherwise. The denominator is 6,000 for validation and 10,000 for
+oﬃcial-test reporting. Values may be reported as fractions or percentages, with units stated.
+The confusion matrix C ∈N10×10
+0
+counts true classes in rows and predicted classes in columns: Ca,b is the number
+of images with label a predicted as b. For class k, deﬁne TPk = Ck,k, FPk = ∑
+a̸=k Ca,k, and FNk = ∑
+b̸=k Ck,b.
+Precision, recall, and F1 are
+Precisionk =
+TPk
+TPk + FPk
+,
+Recallk =
+TPk
+TPk + FNk
+,
+F1k =
+2TPk
+2TPk + FPk + FNk
+,
+MacroF1 = 1
+10
+9
+∑
+k=0
+F1k.
+(20)
+An undeﬁned per-class score is assigned zero, matching the class-report convention. Class support is ∑
+b Ck,b,
+which is 1,000 for each oﬃcial-test class. Macro-F1 gives each category equal weight. It complements accuracy
+by exposing uneven class performance; it is the mean of individual class F1 scores, not the F1 computed from
+macro-averaged precision and recall.
+Test loss is the summed cross-entropy divided by 10,000.
+Confusion
+matrices, class scores, and seed-ﬁxed correct/incorrect image grids support later error analysis without placing
+results in this methodology section.
+3.6.2
+Model Size and Timing Boundaries
+Model size is measured by the number of trainable scalar parameters, including biases, learned positions, and
+layer-normalization parameters. Counts are recomputed from instantiated models and checked against saved
+summaries. Parameter count describes storage and capacity, but does not determine runtime because architec-
+tures perform diﬀerent operations.
+Forward timing uses a ﬁxed device-resident batch of 128 images in inference mode. Ten forward calls warm up
+execution; the next 100 calls are timed with device synchronization before and after the interval. If their total
+duration is T100 seconds, the reported batch time is 1000T100/100 milliseconds and amortized time per image is
+that value divided by 128. This excludes loading and host-to-device transfers and measures batched forward cost
+rather than single-request response time. A separate complete test-pass timer includes data loading, transfers,
+forward computation, loss, predictions, and conﬁdence extraction; it excludes plotting and artifact writing after
+the pass. The current evaluator reports one aggregate timing interval, not a distribution of independent timing
+repetitions.
+The training timer covers the ten-epoch training/validation loop, epoch logging, and saves of improved check-
+points, with device synchronization at its boundaries. It excludes initial data preparation, model/optimizer
+construction, and post-loop re-evaluation and artifact generation. Historical MPS and CUDA training dura-
+tions must be labeled by device and must not form a matched cross-model speed ranking. Peak allocated or
+reserved GPU memory is not measured by the existing trainer/evaluator, so no peak-memory result is asserted
+here. Such a comparison requires explicitly instrumented runs under the same device and measurement scope.
+CO3133 – HK261
+Page 19/20
+
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+References
+[1] Y. LeCun, L. Bottou, Y. Bengio, and P. Haﬀner, “Gradient-Based Learning Applied to Document Recognition,”
+Proceedings of the IEEE, 86(11), pp. 2278–2324, 1998. https://bottou.org/papers/lecun-98h.
+[2] S. Hochreiter and J. Schmidhuber, “Long Short-Term Memory,” Neural Computation, 9(8), pp. 1735–1780, 1997.
+https://doi.org/10.1162/neco.1997.9.8.1735.
+[3] PyTorch Contributors, “LSTM,” PyTorch 2.9 documentation: implemented gate equations, state shapes, and bias
+parameterization. https://docs.pytorch.org/docs/2.9/generated/torch.nn.LSTM.html.
+[4] A. Dosovitskiy et al., “An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale,”
+International Conference on Learning Representations, 2021. https://arxiv.org/abs/2010.11929.
+[5] A. Vaswani et al., “Attention Is All You Need,” Advances in Neural Information Processing Systems, 30, 2017.
+https://arxiv.org/abs/1706.03762.
+[6] PyTorch Contributors, “TransformerEncoderLayer,” PyTorch 2.9 documentation: pre-normalization, attention,
+feed-forward operations, and layer-normalization settings.
+https://docs.pytorch.org/docs/2.9/generated/torch.nn.TransformerEncoderLayer.html.
+[7] D. P. Kingma and J. Ba, “Adam: A Method for Stochastic Optimization,” International Conference on Learning
+Representations, 2015. https://arxiv.org/abs/1412.6980.
+CO3133 – HK261
+Page 20/20

@@ -1,0 +1,128 @@
+% Compile from this directory with XeLaTeX (twice) or Tectonic.
+% Figures and measured values: ../.venv/Scripts/python.exe generate_eda.py --device cuda
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont[Scale=0.83]{Consolas}
+\usepackage{amsmath,amssymb,graphicx,booktabs,tabularx,array}
+\usepackage[table]{xcolor}
+\usepackage{caption,subcaption,float,placeins}
+\usepackage{enumitem,fancyhdr,setspace}
+\usepackage[unicode,colorlinks=true,linkcolor=reportblue,citecolor=reportblue,urlcolor=reportblue]{hyperref}
+\usepackage{bookmark}
+\definecolor{reportblue}{HTML}{204E6A}
+\definecolor{lightblue}{HTML}{EDF3F7}
+\definecolor{reportgray}{HTML}{536471}
+\captionsetup{font=small,labelfont=bf,labelsep=period,skip=8pt}
+\setstretch{1.13}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{.55em}
+\setlength{\emergencystretch}{1.5em}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.18}
+\setlist{itemsep=3pt,topsep=4pt,leftmargin=1.7em}
+\graphicspath{{figures/}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{reportgray}CO3133 \quad Assignment 1}
+\fancyhead[R]{\small\color{reportgray}Fashion-MNIST classification}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\hypersetup{pdftitle={Fashion-MNIST Classification: Introduction and Exploratory Analysis},
+  pdfauthor={Lê Phước Vũ; Nguyễn Vũ Long; Nguyễn Hoàng Quốc},
+  pdfsubject={CO3133 Assignment 1: report stage 1, Sections 1 and 2}}
+\input{generated/eda_values}
+\input{generated/class_statistics_rows}
+\newcommand{\artifact}[1]{{\small\path{#1}}}
+\newcommand{\reportfigure}[4]{%
+  \begin{figure}[htbp]\centering
+  \includegraphics[width=#2\linewidth]{#1.pdf}
+  \caption{#3}\label{#4}\end{figure}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+{\large VIETNAM NATIONAL UNIVERSITY HO CHI MINH CITY\par}
+\vspace{.25em}
+{\large\bfseries HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY\par}
+\vspace{1.0cm}
+\includegraphics[width=2.7cm]{hcmut-logo.png}\par
+\vspace{1.0cm}
+{\large CO3133 -- Deep Learning and Its Applications\par}
+{\large Semester 261\par}
+\vspace{1.1cm}
+{\Large\bfseries ASSIGNMENT 1 REPORT\par}
+\vspace{.6cm}
+{\Huge\bfseries\color{reportblue}Fashion-MNIST\par}
+\vspace{.15cm}
+{\huge\bfseries\color{reportblue}Image Classification\par}
+\vspace{.55cm}
+{\Large Introduction and Exploratory Data Analysis\par}
+\vspace{.35cm}
+{\normalsize Stage 1: Sections 1 and 2 of the complete report\par}
+\vspace{1.0cm}
+\begin{tabular}{ll}
+\textbf{Instructor} & Lê Thành Sách\\[.5em]
+\textbf{Group member} & \textbf{Student ID}\\
+Lê Phước Vũ & 2353341\\
+Nguyễn Vũ Long & 2352696\\
+Nguyễn Hoàng Quốc & 2353027\\
+\end{tabular}
+\vfill
+{\normalsize Local reference platform: NVIDIA GeForce GTX 1660 SUPER (6 GiB)\par}
+\vspace{.3cm}
+{\normalsize Ho Chi Minh City, 20 October 2026\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\phantomsection
+\section*{Abstract / Executive Summary}
+\addcontentsline{toc}{section}{Abstract / Executive Summary}
+This assignment studies the classification of low-resolution clothing and accessory
+images using five neural network configurations: a linear classifier, a multilayer
+perceptron (MLP), a convolutional neural network (CNN), a row-sequence long
+short-term memory network (LSTM), and a patch-based Transformer. The central
+question is how these different input representations and model structures compare
+when they share the same data partition, preprocessing, and nominal training budget.
+
+This first report stage establishes the problem and the dataset evidence needed
+for that comparison. Fashion-MNIST provides 60,000 official training images and
+10,000 official test images, each with 28 by 28 grayscale pixels and one of ten
+labels. A seed-42 stratified split produces 54,000 training and 6,000 validation
+images. Every class contributes 5,400 training, 600 validation, and 1,000 test
+examples. Descriptive analysis uses the training subset; validation and test data
+are used here only for structural checks and an exact-duplicate audit.
+
+Across all 42,336,000 training pixels, the raw mean is \RawMean{} and the population
+standard deviation is \RawStd{} on the 0--255 scale. Exactly \ZeroPercent\% of
+training pixels are zero, while \BlankImages{} training images are entirely zero.
+Class-specific brightness, spatial averages, and variability maps reveal
+substantial differences in silhouette and image coverage. Similarity between
+upper-body garment prototypes motivates later class-specific error analysis;
+these descriptive similarities do not determine a trained model's performance.
+
+The preprocessing pipeline uses a training-only mean of \TrainMean{} and
+standard deviation of \TrainStd{} on the 0--1 scale. The same normalized pixels
+are exposed as vectors, image grids, row sequences, or patch sequences without
+discarding information. CUDA reductions were executed on the local GTX 1660 SUPER
+and checked against CPU calculations. This document completes Sections 1 and 2.
+Methodology, matched CUDA experiments, model results, and conclusions belong to
+subsequent stages and are specified in the accompanying continuation guide.
+
+\vspace{.4em}
+\textbf{Keywords:} Fashion-MNIST; image classification; exploratory data analysis;
+training-only normalization; CUDA; reproducibility.
+
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+\input{sections/01_introduction}
+\input{sections/02_dataset_eda}
+\clearpage
+\input{references}
+\end{document}
