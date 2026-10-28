@@ -1,12 +1,24 @@
 # Dataset proposal: five-stage sleep classification
 
 **Proposed cohort:** the full Sleep Cassette study, with 78 participants and 153 nights.
-**Instructor decision:** ____________________
-Permitted decisions: Approved; Approved with conditions; Rejected.
+**Instructor decision:** Approved without conditions.
+**Confirmation source:** Group member's confirmation in this conversation on
+27 October 2026. This is the confirmation date; the instructor's original
+decision date was not supplied.
+
+**M2 protocol update, confirmed by the group member on 28 October 2026:**
+The current 6,474-epoch waveform subset and participant-grouped cross-validation
+protocol have been accepted. `preprocessing.py` selects 83 epochs for each of 78
+participants; 5,478 development epochs enter StratifiedGroupKFold, while 996 test
+epochs remain reserved. The M2 draft compares checkpoint-selection choices
+(validation AUROC versus validation Macro-F1); recorded results currently use
+AUROC selection and loss-based early stopping. The full-cohort counts and
+spectrogram design below describe the earlier proposal and EDA, not the smaller
+training runs. See [the current M2 report](report_m2/main.tex).
 
 The proposal meets the five-class requirement and has substantially more than
-5,000 candidate training epochs. The instructor must still approve EEG-derived
-spectrograms for the assignment's image-classification category. No model has been
+5,000 candidate training epochs. EEG-derived spectrograms have been approved
+for the assignment's image-classification category. No model has been
 trained as part of this exploration.
 
 ## Dataset, source, version, and license
@@ -137,18 +149,29 @@ rather than treating adjacent epochs as independent people.
 
 ## Evaluation and model plan
 
+**Method update, 27 October 2026:** following the user's backbone selection, the
+current comparison is a custom spectrogram CNN against pretrained CBraMod using
+waveforms from the same epochs. See [CBRAMOD_COMPARISON.md](CBRAMOD_COMPARISON.md)
+for the input adaptation, checkpoint requirements and controlled experiment.
+The approved Sleep Cassette cohort, five-class task and participant splits stay
+the same. The earlier ImageNet ResNet-18 plan is retained as a deadline fallback.
+
 - **Primary metric:** macro-F1 over all five stages.
 - **Secondary metrics:** balanced accuracy, Cohen's kappa, per-stage recall,
   ordinary accuracy, and a five-by-five confusion matrix.
 - **Reporting:** mean and standard deviation of validation scores across the five
   development folds, then final held-out test metrics and the distribution of
   scores across test participants. Include a training-derived majority-class baseline.
-- **Baseline:** relative EEG band-power features with class-weighted logistic
-  regression, followed by a small CNN trained from scratch on spectrograms.
-- **Pretrained comparison:** ImageNet-pretrained ResNet-18. Adapt the first
-  convolution to the two input channels, replace the classification head with
-  five outputs, and compare frozen-feature training with fine-tuning. Natural-image
-  pretraining is a hypothesis to test, not an assumed improvement for EEG.
+- **Baseline:** `ResCBAM_EEG_Net(in_channels=2, num_classes=5)` trained from
+  scratch on the two-channel spectrograms. Relative band-power logistic regression
+  remains an optional inexpensive reference.
+- **Pretrained comparison:** CBraMod with official EEG-pretrained weights and a
+  new five-class head. Prepare waveform inputs of shape `(2,30,200)` per epoch;
+  the saved log-PSD tensors cannot be passed directly to this backbone. Compare
+  frozen versus fine-tuned CBraMod using identical waveform preprocessing.
+- **Interpretation:** CNN versus CBraMod compares complete pipelines, including
+  their representations; it does not isolate pretraining alone. Model quality
+  and computational cost must be measured on the same saved folds.
 
 ## Compute and storage estimate
 
@@ -158,14 +181,17 @@ candidate count above, float32 spectrogram patches alone would occupy about
 20–25 GB of working disk space. Process and save one recording at a time to avoid
 holding several full copies of the dataset in RAM.
 
-Start with one 8–16 GB GPU, batches of 32–64, and 20–30 epochs with early stopping.
-A provisional planning allowance is **2–6 GPU-hours per neural-model fit**.
-Two model configurations across five folds require ten fits, followed by one
-final refit of the selected model: provisionally **22–66 GPU-hours**. Additional
-hyperparameter configurations or random seeds increase this budget. Start with
-one fixed seed and the same folds for both models.
-This is an unmeasured estimate, not a benchmark. Measure one full training epoch
-on the actual hardware and update the estimate before committing to all runs.
+The CBraMod waveform branch adds about **9.38 GB** if every retained epoch is
+saved at 200 Hz as float32. Allow additional space for metadata, temporary files
+and runs; the updated plan uses a provisional 35–45 GB working-space allowance
+when retaining raw recordings and both representations. Process by recording.
+
+Start the revised pilot with batch 32 and a ten-epoch budget, measuring one full
+training/validation epoch on the available GPU before committing to all runs.
+The CNN, frozen CBraMod and fine-tuned CBraMod across five folds require **15 neural
+fold fits**, followed by the selected final refit. Additional models or seeds
+increase this budget. No runtime guarantee follows from the earlier unmeasured
+GPU-hour estimate; use observed timing to schedule the work.
 
 ## Subset and preprocessing rules
 
@@ -176,7 +202,7 @@ on the actual hardware and update the estimate before committing to all runs.
 3. Apply the fixed five-stage mapping, wake-trimming rule, and complete 30-second
    annotation-aligned epochs described above. Do not manufacture extra samples
    through overlapping windows to satisfy the sample threshold.
-4. After approval, verify signal integrity, channel identity, sampling rates,
+4. Verify signal integrity, channel identity, sampling rates,
    annotation alignment, and epoch boundaries. Log every excluded recording or
    epoch with its reason and recalculate the counts.
 5. A proposed signal-processing starting point is a 0.3–35 Hz bandpass on each
@@ -192,7 +218,7 @@ this benchmark do not establish performance on untrimmed full-day recordings.
 
 ## Reproduce the exploration
 
-From the repository root, install `A2/requirements-sleep.txt`, open
+From the repository root, install `A2/requirements.txt`, open
 `A2/sleep_exploration.ipynb`, select the installed Python environment, and run all
 cells. Results are written under `A2/sleep_exploration/`:
 
@@ -201,8 +227,10 @@ cells. Results are written under `A2/sleep_exploration/`:
 - `cv_folds.csv`, `cv_fold_summary.csv`, `cv_class_counts.csv`, and `cv_metadata.json`
 - `epoch_preview.png`
 
-The existing dementia-specific `preprocess.py` is not a sleep-staging pipeline.
-Implement the full sleep preprocessing after the instructor approves this proposal.
+`preprocess.py` now exports sleep spectrograms for the CNN. The separate
+`preprocessing.py` exports EEG waveforms for CBraMod; see
+[CBRAMOD_PREPROCESSING.md](CBRAMOD_PREPROCESSING.md) for commands and checks.
+Approval is confirmed; follow `EXECUTION_PLAN.md` for the current experiment order.
 
 References: [official dataset](https://physionet.org/content/sleep-edfx/1.0.0/)
 and [MNE sleep-staging tutorial](https://mne.tools/stable/auto_tutorials/clinical/60_sleep.html).

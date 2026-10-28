@@ -4,6 +4,9 @@ venv/
 
 # Downloaded datasets and generated caches
 data/
+dataset/sleep_cbramod*/
+dataset/sleep_waveform*.pt
+dataset/.sleep_waveform-*/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
