@@ -1,0 +1,129 @@
+{
+  "structure": "passed",
+  "chapters": 20,
+  "oral_questions": 51,
+  "embedded_images": 4,
+  "approximate_words": 12403,
+  "renders": [
+    {
+      "status": "passed",
+      "checks": [
+        "20 chapters",
+        "51 oral questions",
+        "samples initialized",
+        "gate arithmetic",
+        "gate output shows 0.6200",
+        "retained memory and closed output",
+        "equal attention scores",
+        "worked attention output",
+        "patch position mapping",
+        "patch normalized feature 6",
+        "row representation",
+        "transformer epoch selection",
+        "lstm epoch selection",
+        "question filtering",
+        "open answers",
+        "close answers",
+        "no page horizontal overflow"
+      ],
+      "failures": [],
+      "viewport": [
+        1424,
+        1005
+      ],
+      "scrollWidth": 1424,
+      "overflowElements": [],
+      "name": "desktop"
+    },
+    {
+      "status": "passed",
+      "checks": [
+        "20 chapters",
+        "51 oral questions",
+        "samples initialized",
+        "gate arithmetic",
+        "gate output shows 0.6200",
+        "retained memory and closed output",
+        "equal attention scores",
+        "worked attention output",
+        "patch position mapping",
+        "patch normalized feature 6",
+        "row representation",
+        "transformer epoch selection",
+        "lstm epoch selection",
+        "question filtering",
+        "open answers",
+        "close answers",
+        "no page horizontal overflow"
+      ],
+      "failures": [],
+      "viewport": [
+        1424,
+        1005
+      ],
+      "scrollWidth": 1424,
+      "overflowElements": [],
+      "name": "image-lab"
+    },
+    {
+      "status": "passed",
+      "checks": [
+        "20 chapters",
+        "51 oral questions",
+        "samples initialized",
+        "gate arithmetic",
+        "gate output shows 0.6200",
+        "retained memory and closed output",
+        "equal attention scores",
+        "worked attention output",
+        "patch position mapping",
+        "patch normalized feature 6",
+        "row representation",
+        "transformer epoch selection",
+        "lstm epoch selection",
+        "question filtering",
+        "open answers",
+        "close answers",
+        "no page horizontal overflow"
+      ],
+      "failures": [],
+      "viewport": [
+        1424,
+        1005
+      ],
+      "scrollWidth": 1424,
+      "overflowElements": [],
+      "name": "attention"
+    },
+    {
+      "status": "passed",
+      "checks": [
+        "20 chapters",
+        "51 oral questions",
+        "samples initialized",
+        "gate arithmetic",
+        "gate output shows 0.6200",
+        "retained memory and closed output",
+        "equal attention scores",
+        "worked attention output",
+        "patch position mapping",
+        "patch normalized feature 6",
+        "row representation",
+        "transformer epoch selection",
+        "lstm epoch selection",
+        "question filtering",
+        "open answers",
+        "close answers",
+        "no page horizontal overflow"
+      ],
+      "failures": [],
+      "viewport": [
+        500,
+        932
+      ],
+      "scrollWidth": 500,
+      "overflowElements": [],
+      "name": "mobile"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# Temporary renderer cache; the HTML document does not depend on this.
+chrome_profile/
+render_fixture.html

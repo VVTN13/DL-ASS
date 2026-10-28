@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assignment 1 — CO3133</title>
   <link rel="stylesheet" href="style.css?v=2" />
+  <meta name="description" content="CO3133 Group 9 Assignment 1: Fashion-MNIST data preparation, five model architectures, verified saved results, error analysis and presentation." />
+  <style>
+    .page { max-width: 940px; }
+    .quick-links, .section-nav { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 0; list-style: none; }
+    .section-nav { font-size: 0.9rem; }
+    .summary-box { padding: 18px 22px; background: #f7f3ea; border-left: 4px solid #1a4b8c; }
+    .summary-box p:first-child { margin-top: 0; }
+    .summary-box p:last-child { margin-bottom: 0; }
+    .table-wrap { max-width: 100%; overflow-x: auto; }
+    caption { text-align: left; font-weight: 600; padding: 8px 0; }
+    .video-frame { width: 100%; aspect-ratio: 16 / 9; border: 0; }
+    .note { font-size: 0.9rem; color: #555; }
+    h2, h3 { scroll-margin-top: 20px; }
+    a { overflow-wrap: anywhere; }
+    a:focus-visible, .table-wrap:focus-visible { outline: 2px solid #1a4b8c; outline-offset: 3px; }
+    @media (max-width: 640px) {
+      .page { margin: 12px; padding: 24px 18px 36px; }
+      header h1 { font-size: 1.65rem; }
+      th, td { min-width: 86px; }
+      .summary-box { padding: 14px; }
+    }
+    @media print {
+      .page { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; }
+      .section-nav, .video-frame { display: none; }
+      .table-wrap { overflow: visible; }
+      figure, tr { break-inside: avoid; }
+    }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -12,8 +40,31 @@
 
     <header class="assignment-header">
       <h1>Assignment 1 — Foundations of Deep Learning Pipelines and Architectures</h1>
-      <p class="sub">Status: five-model evaluation, error analysis and conclusion complete &middot; M2 Final due 21 Oct 2026</p>
+      <p class="sub">CO3133 &middot; Semester 261 &middot; Group 9 &middot; Assignment 1</p>
+      <ul class="quick-links">
+        <li><a href="https://youtu.be/yS9-sq3oh1s">Watch the presentation</a></li>
+        <li><a href="#results">View results</a></li>
+        <li><a href="#deliverables">Report, slides and source</a></li>
+      </ul>
     </header>
+
+    <nav aria-label="Assignment sections">
+      <ul class="section-nav">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#dataset">Dataset and EDA</a></li>
+        <li><a href="#methodology">Methodology</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#errors">Error analysis</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#presentation">Presentation</a></li>
+      </ul>
+    </nav>
+
+    <section class="summary-box" aria-label="Experiment summary">
+      <p>We compare Linear, MLP, CNN, LSTM and Transformer classifiers on Fashion-MNIST using the same data split and ten-epoch training protocol.</p>
+      <p><strong>The CNN gives the best test result: 91.94% accuracy and 0.918886 macro-F1.</strong> Shirts and similar upper-body garments remain the main source of errors. Results below use the saved CUDA runs available in this checkout.</p>
+    </section>
 
     <section>
       <h2>Group members</h2>
@@ -21,7 +72,7 @@
     </section>
 
     <section>
-      <h2>Problem statement</h2>
+      <h2 id="problem">Problem statement</h2>
       <p>
         We classify a single 28&times;28 grayscale clothing image into one of 10 product
         categories (T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag,
@@ -39,12 +90,13 @@
     </section>
 
     <section>
-      <h2>Dataset description and EDA</h2>
+      <h2 id="dataset">Dataset description and EDA</h2>
       <p>
         <strong>Fashion-MNIST</strong> (Zalando, MIT license) is the main comparison dataset.
         We load it with <code>torchvision.datasets.FashionMNIST</code>. It has 60,000 official
         training images and 10,000 official test images. MNIST is used only for debugging.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Partition</th><th>Images</th><th>Per class</th><th>Source</th></tr></thead>
         <tbody>
@@ -53,8 +105,9 @@
           <tr><td>Test</td><td>10,000</td><td>1,000</td><td>official test (all five models evaluated after validation selection)</td></tr>
         </tbody>
       </table>
+      </div>
       <ul>
-        <li>The split uses seed 42 and is stored in <code>split_cache.json</code>. Train and validation indices do not overlap, and no exact duplicate images appear in both.</li>
+        <li>The split uses seed 42 and is stored in <code>split_cache.json</code>. Train and validation indices do not overlap. The report's duplicate audit separately checks image content across the partitions.</li>
         <li>The classes are perfectly balanced: the max/min ratio is 1.000 and each class is 10% of every subset.</li>
         <li>Training pixels have a mean of 72.98/255 and a standard deviation of 90.06/255. 50.2% of pixels are zero, and no image is entirely blank.</li>
         <li>Mean brightness depends strongly on the class, from about 34.9 for Sandal to 98.1 for Coat, and so does foreground coverage.</li>
@@ -74,12 +127,13 @@
     </section>
 
     <section>
-      <h2>Methodology</h2>
+      <h2 id="methodology">Methodology</h2>
       <pre class="pipeline">Fashion-MNIST image (28×28, uint8)
   → ToTensor (float32, 0–1)
   → normalize with train-only stats (mean 0.2862, std 0.3532)
   → representation: flatten (784) | image (1×28×28) | row/col sequence (28×28) | patch sequence (49×16)
   → model → 10 logits → CrossEntropyLoss</pre>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Model</th><th>Architecture</th><th>Params</th><th>Status</th></tr></thead>
         <tbody>
@@ -90,8 +144,9 @@
           <tr><td>Transformer</td><td>49 patches of 4&times;4 pixels; width 64, 2 encoder blocks, 4 heads, mean pooling</td><td>71,946</td><td>Trained and tested</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
-        Both M1 models return raw logits because <code>CrossEntropyLoss</code> applies the softmax internally.
+        All five models return raw logits because <code>CrossEntropyLoss</code> computes log-softmax and negative log-likelihood internally.
         The image and sequence representations are already implemented in <code>a1/data.py</code> for the M2 models.
       </p>
       <p>
@@ -148,25 +203,28 @@
     </section>
 
     <section>
-      <h2>Experimental setup</h2>
+      <h2 id="setup">Experimental setup</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <tbody>
           <tr><th>Optimizer</th><td>Adam, learning rate 0.001</td></tr>
           <tr><th>Batch size / epochs</th><td>128 / 10</td></tr>
           <tr><th>Seed</th><td>42 (same split and normalization for every model)</td></tr>
-          <tr><th>Augmentation</th><td>off in M1 (optional horizontal flip and ±10° rotation, train split only)</td></tr>
+          <tr><th>Augmentation</th><td>Off for all five reported runs.</td></tr>
           <tr><th>Checkpoint rule</th><td>epoch with the lowest validation loss</td></tr>
           <tr><th>Metrics</th><td>loss, accuracy, macro-F1</td></tr>
           <tr><th>Hardware</th><td>All five models: GTX 1660 SUPER (6 GiB), CUDA, Windows 11.</td></tr>
           <tr><th>Software</th><td>Python 3.12.10, PyTorch 2.9.1+cu128, torchvision 0.24.1+cu128, scikit-learn 1.7.2.</td></tr>
-          <tr><th>Config</th><td><a href="https://github.com/VVTN13/DL-ASS/blob/branch/A1/configs/m1.json"><code>A1/configs/m1.json</code></a></td></tr>
+          <tr><th>Configurations</th><td><a href="A1/configs/m1.json">Linear / MLP</a> &middot; <a href="A1/configs/cnn.json">CNN</a> &middot; <a href="A1/configs/lstm.json">LSTM</a> &middot; <a href="A1/configs/transformer.json">Transformer</a></td></tr>
         </tbody>
       </table>
+      </div>
     </section>
 
     <section>
-      <h2>Results</h2>
+      <h2 id="results">Results</h2>
       <p>These are CUDA baseline validation results from one seed and one split. They are not test results.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Model</th><th>Best epoch</th><th>Val loss</th><th>Val accuracy</th><th>Val macro-F1</th><th>Params</th><th>Train time</th></tr></thead>
         <tbody>
@@ -174,9 +232,14 @@
           <tr><td>MLP</td><td>9</td><td>0.2789</td><td>0.8973</td><td>0.8966</td><td>235,146</td><td>96.69 s</td></tr>
         </tbody>
       </table>
+      </div>
       <figure>
-        <img src="A1/figures/m1_learning_curves.png" alt="Loss, validation accuracy and macro-F1 by epoch for Linear and MLP" />
-        <figcaption>Learning curves. Dashed lines show training loss and solid lines show validation loss.</figcaption>
+        <img src="A1/runs/m1/linear/learning_curves.png" alt="Linear training and validation loss, accuracy and macro-F1 over ten epochs" />
+        <figcaption>Linear learning curves from the current saved run; validation loss selects epoch 9.</figcaption>
+      </figure>
+      <figure>
+        <img src="A1/runs/m1/mlp/learning_curves.png" alt="MLP training and validation loss, accuracy and macro-F1 over ten epochs" />
+        <figcaption>MLP learning curves from the current saved run; validation loss selects epoch 9.</figcaption>
       </figure>
       <h3>Linear and MLP &mdash; submitted CUDA test results</h3>
       <p>
@@ -184,6 +247,7 @@
         Both use epoch 9, selected by lowest validation loss. Test data were not used
         for checkpoint or hyperparameter selection.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Model</th><th>Selected epoch</th><th>Test loss</th><th>Test accuracy</th><th>Test macro-F1</th><th>Errors</th></tr></thead>
         <tbody>
@@ -191,16 +255,17 @@
           <tr><td>MLP</td><td>9</td><td>0.330035</td><td>88.16%</td><td>0.880775</td><td>1,184</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
         Both saved-run verifiers passed: all 10,000 predictions and confidences match checkpoint reload,
         metrics and confusion counts were recomputed, and CPU/CUDA labels agree on 128 images.
         Training and evaluation used CUDA on GTX 1660 SUPER for all five models.
         Each model's accuracy, error analysis and timing now come from the same submitted run.
         See the <a href="A1/docs/overall.md">overall workflow</a>,
-        <a href="A1/runs/cuda_baselines/linear/test_summary.json">Linear metrics</a>,
-        <a href="A1/runs/cuda_baselines/mlp/test_summary.json">MLP metrics</a>, and
-        <a href="A1/runs/cuda_baselines/linear/verification.json">Linear</a> /
-        <a href="A1/runs/cuda_baselines/mlp/verification.json">MLP verification records</a>.
+        <a href="A1/runs/m1/linear/test_summary.json">Linear metrics</a>,
+        <a href="A1/runs/m1/mlp/test_summary.json">MLP metrics</a>, and
+        <a href="A1/runs/m1/linear/verification.json">Linear</a> /
+        <a href="A1/runs/m1/mlp/verification.json">MLP verification records</a>.
       </p>
       <h3>Custom CNN — M2 results, 11 October 2026</h3>
       <p>
@@ -209,6 +274,7 @@
         evaluation. This run used a GTX 1660 SUPER (6 GiB), Windows 11, Python 3.12.10,
         PyTorch 2.9.1+cu128 and torchvision 0.24.1+cu128.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Partition</th><th>Loss</th><th>Accuracy</th><th>Macro-F1</th><th>Images</th></tr></thead>
         <tbody>
@@ -216,6 +282,7 @@
           <tr><td>Test</td><td>0.2366</td><td>91.94%</td><td>0.9189</td><td>10,000</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
         Training and validation took 105.03 s. A device-resident batch of 128 images averaged 1.074 ms
         per forward pass after 10 warmup batches over 100 timed batches (0.00839 ms per image, amortized).
@@ -233,6 +300,7 @@
         loss and was selected before test evaluation. Epoch 8 has slightly higher validation accuracy;
         the checkpoint rule consistently uses loss.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Partition</th><th>Loss</th><th>Accuracy</th><th>Macro-F1</th><th>Images</th></tr></thead>
         <tbody>
@@ -240,6 +308,7 @@
           <tr><td>Test</td><td>0.3254</td><td>88.48%</td><td>0.8835</td><td>10,000</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
         Training and validation took 122.12 s. A device-resident batch of 128 averaged 1.189 ms
         over 100 passes after 10 warmups (0.00929 ms per image, amortized), excluding loading/transfers.
@@ -259,6 +328,7 @@
         the standard attention path after a numerical inference correction documented in the notes.
         Epoch 10 has the lowest validation loss and was selected before the final test evaluation.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <thead><tr><th>Partition</th><th>Loss</th><th>Accuracy</th><th>Macro-F1</th><th>Images</th></tr></thead>
         <tbody>
@@ -266,6 +336,7 @@
           <tr><td>Test</td><td>0.4085</td><td>85.55%</td><td>0.8524</td><td>10,000</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
         Training and validation took 139.45 s on the same Windows/CUDA stack and GTX 1660 SUPER
         used for CNN/LSTM. A device-resident batch of 128 averaged 2.061 ms over
@@ -280,35 +351,39 @@
         <img src="A1/runs/m2/transformer/learning_curves.png" alt="Transformer training and validation loss, accuracy and macro-F1 over ten epochs" />
         <figcaption>Transformer learning curves; checkpoint selection uses the lowest validation loss.</figcaption>
       </figure>
-      <h3>Five-model test comparison</h3>
+      <h3 id="test-comparison">Five-model test comparison</h3>
       <p>
         Every row uses the same official 10,000-image test set, seed-42 training/validation split,
         train-only normalization and validation-loss checkpoint rule. Models were trained for ten
         epochs without augmentation. Accuracy and macro-F1 below are test metrics; the earlier
         validation tables describe checkpoint selection. Model names link to the saved test evidence.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <caption>Selected checkpoints on the official test set</caption>
         <thead><tr><th>Model</th><th>Epoch</th><th>Test accuracy</th><th>Test macro-F1</th><th>Parameters</th></tr></thead>
         <tbody>
-          <tr><td><a href="A1/runs/cuda_baselines/linear/test_summary.json">Linear</a></td><td>9</td><td>84.26%</td><td>0.841694</td><td>7,850</td></tr>
-          <tr><td><a href="A1/runs/cuda_baselines/mlp/test_summary.json">MLP</a></td><td>9</td><td>88.16%</td><td>0.880775</td><td>235,146</td></tr>
+          <tr><td><a href="A1/runs/m1/linear/test_summary.json">Linear</a></td><td>9</td><td>84.26%</td><td>0.841694</td><td>7,850</td></tr>
+          <tr><td><a href="A1/runs/m1/mlp/test_summary.json">MLP</a></td><td>9</td><td>88.16%</td><td>0.880775</td><td>235,146</td></tr>
           <tr><td><a href="A1/runs/m2/cnn/test_summary.json">CNN</a></td><td>10</td><td>91.94%</td><td>0.918886</td><td>421,642</td></tr>
           <tr><td><a href="A1/runs/m2/lstm/test_summary.json">LSTM</a></td><td>9</td><td>88.48%</td><td>0.883496</td><td>82,186</td></tr>
           <tr><td><a href="A1/runs/m2/transformer/test_summary.json">Transformer</a></td><td>10</td><td>85.55%</td><td>0.852387</td><td>71,946</td></tr>
         </tbody>
       </table>
+      </div>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <caption>Recorded training times and shared-hardware inference measurements</caption>
         <thead><tr><th>Model</th><th>Training + validation</th><th>Forward / 128 images</th><th>Full test pass</th></tr></thead>
         <tbody>
-          <tr><td>Linear</td><td><a href="A1/runs/cuda_baselines/linear/summary.json">90.85 s (CUDA)</a></td><td>0.060 ms</td><td>1.110 s</td></tr>
-          <tr><td>MLP</td><td><a href="A1/runs/cuda_baselines/mlp/summary.json">96.69 s (CUDA)</a></td><td>0.326 ms</td><td>1.410 s</td></tr>
+          <tr><td>Linear</td><td><a href="A1/runs/m1/linear/summary.json">90.85 s (CUDA)</a></td><td>0.060 ms</td><td>1.110 s</td></tr>
+          <tr><td>MLP</td><td><a href="A1/runs/m1/mlp/summary.json">96.69 s (CUDA)</a></td><td>0.326 ms</td><td>1.410 s</td></tr>
           <tr><td>CNN</td><td><a href="A1/runs/m2/cnn/summary.json">105.03 s (CUDA)</a></td><td>1.074 ms</td><td>1.382 s</td></tr>
           <tr><td>LSTM</td><td><a href="A1/runs/m2/lstm/summary.json">122.12 s (CUDA)</a></td><td>1.189 ms</td><td>1.237 s</td></tr>
           <tr><td>Transformer</td><td><a href="A1/runs/m2/transformer/summary.json">139.45 s (CUDA)</a></td><td>2.061 ms</td><td>1.595 s</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
         All inference measurements use float32, evaluation mode and the same GTX 1660 SUPER,
         Windows and PyTorch 2.9.1+cu128 environment. Forward timing averages 100 passes of a
@@ -364,7 +439,7 @@
     </section>
 
     <section>
-      <h2>Error analysis</h2>
+      <h2 id="errors">Error analysis</h2>
       <p>
         We recomputed the following counts from all 10,000 saved predictions per model.
         Each class has 1,000 test images, so low Shirt recall is not explained by a smaller
@@ -372,6 +447,7 @@
         The correct and incorrect grids each show twelve examples sampled with seed 42;
         the grids illustrate individual cases, while the full matrices support frequency claims.
       </p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
       <table>
         <caption>Shirt is the lowest-recall and lowest-F1 class for every model</caption>
         <thead><tr><th>Model</th><th>Total errors</th><th>Missed shirts / 1,000</th><th>Shirt recall</th><th>Shirt F1</th></tr></thead>
@@ -383,9 +459,10 @@
           <tr><td>Transformer</td><td>1,445</td><td>511</td><td>48.9%</td><td>0.5920</td></tr>
         </tbody>
       </table>
+      </div>
       <p>
         Confusions within T-shirt/top, Pullover, Coat and Shirt account for 938 Linear errors,
-        730 MLP errors, 532 CNN errors, 727 LSTM errors and 904 Transformer errors: roughly
+        759 MLP errors, 532 CNN errors, 727 LSTM errors and 904 Transformer errors: roughly
         60&ndash;66% of each model's mistakes. This agrees with the similar upper-body silhouettes
         seen in EDA. It suggests a shared difficulty with these categories at 28&times;28 resolution,
         although these counts alone cannot separate image ambiguity from model limitations.
@@ -479,15 +556,15 @@
         the observed errors; the images alone do not prove their cause.
       </p>
       <figure>
-        <img src="A1/runs/cuda_baselines/linear/confusion_matrix.png" alt="Linear confusion counts on all 10,000 official test images" />
+        <img src="A1/runs/m1/linear/confusion_matrix.png" alt="Linear confusion counts on all 10,000 official test images" />
         <figcaption>Linear confusion matrix: true classes in rows, predictions in columns.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/cuda_baselines/linear/correct_examples.png" alt="Twelve correct Linear test predictions sampled with seed 42" />
+        <img src="A1/runs/m1/linear/correct_examples.png" alt="Twelve correct Linear test predictions sampled with seed 42" />
         <figcaption>Correct Linear examples, sampled with seed 42.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/cuda_baselines/linear/incorrect_examples.png" alt="Twelve incorrect Linear test predictions sampled with seed 42" />
+        <img src="A1/runs/m1/linear/incorrect_examples.png" alt="Twelve incorrect Linear test predictions sampled with seed 42" />
         <figcaption>Incorrect Linear examples; softmax confidence is not calibrated.</figcaption>
       </figure>
       <h3>MLP errors</h3>
@@ -497,21 +574,21 @@
         Architecture and capacity change together, so this does not isolate nonlinearity.</p>
       <p>Image 4159 is Pullover predicted as T-shirt/top (84.0% confidence). Image 930 is T-shirt/top predicted as Shirt (52.8% confidence). Image 7442 is Pullover predicted as Coat (55.4% confidence). Softmax confidence is uncalibrated.</p>
       <figure>
-        <img src="A1/runs/cuda_baselines/mlp/confusion_matrix.png" alt="MLP confusion counts on all 10,000 official test images" />
+        <img src="A1/runs/m1/mlp/confusion_matrix.png" alt="MLP confusion counts on all 10,000 official test images" />
         <figcaption>MLP confusion matrix: true classes in rows, predictions in columns.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/cuda_baselines/mlp/correct_examples.png" alt="Twelve correct MLP test predictions sampled with seed 42" />
+        <img src="A1/runs/m1/mlp/correct_examples.png" alt="Twelve correct MLP test predictions sampled with seed 42" />
         <figcaption>Correct MLP examples, sampled with seed 42.</figcaption>
       </figure>
       <figure>
-        <img src="A1/runs/cuda_baselines/mlp/incorrect_examples.png" alt="Twelve incorrect MLP test predictions sampled with seed 42" />
+        <img src="A1/runs/m1/mlp/incorrect_examples.png" alt="Twelve incorrect MLP test predictions sampled with seed 42" />
         <figcaption>Incorrect MLP examples; softmax confidence is not calibrated.</figcaption>
       </figure>
     </section>
 
     <section>
-      <h2>Limitations and conclusion</h2>
+      <h2 id="conclusion">Limitations and conclusion</h2>
       <ul>
         <li>One seed and one validation split give no estimate of training variance or statistical significance; the 32-image MLP/LSTM difference needs repeated-seed evaluation.</li>
         <li>The same ten-epoch Adam budget supports a controlled protocol, but does not establish that each architecture is equally well tuned or converged. Parameter counts, representations and architectures also differ.</li>
@@ -541,20 +618,30 @@
     </section>
 
     <section>
-      <h2>Links</h2>
+      <h2 id="deliverables">Report, slides and source files</h2>
       <ul>
-        <li>Generated five-model comparison: <a href="A1/runs/m2/comparison/comparison.md">table</a> &middot; <a href="A1/runs/m2/comparison/comparison.csv">CSV</a> &middot; <a href="A1/runs/m2/comparison/comparison.png">plot</a></li>
-        <li>Source code: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1">github.com/VVTN13/DL-ASS/tree/branch/A1</a></li>
-        <li>EDA and training notebook: <a href="https://github.com/VVTN13/DL-ASS/blob/branch/A1/dl1-261.ipynb">A1/dl1-261.ipynb</a></li>
-        <li>Checkpoints: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1/runs/cuda_baselines">A1/runs/cuda_baselines</a> &middot; reproduction instructions: <a href="https://github.com/VVTN13/DL-ASS/blob/branch/A1/README.md">A1/README.md</a></li>
+        <li>Five-model comparison: <a href="#test-comparison">current test results and timings</a>. Model names in the table link to the corresponding saved metrics.</li>
+        <li>Source code: <a href="A1/a1/models.py">model definitions</a> &middot; <a href="A1/a1/data.py">data pipeline</a> &middot; <a href="A1/a1/train.py">training</a> &middot; <a href="A1/a1/evaluate.py">evaluation</a></li>
+        <li>EDA and training notebook: <a href="A1/dl1-261.ipynb">A1/dl1-261.ipynb</a></li>
+        <li>Checkpoints: <a href="A1/runs/m1/linear/best.pt">Linear</a> &middot; <a href="A1/runs/m1/mlp/best.pt">MLP</a> &middot; <a href="A1/runs/m2/cnn/best.pt">CNN</a> &middot; <a href="A1/runs/m2/lstm/best.pt">LSTM</a> &middot; <a href="A1/runs/m2/transformer/best.pt">Transformer</a></li>
+        <li>Reproduction instructions: <a href="A1/README.md">A1/README.md</a>. Current baseline files are under <code>A1/runs/m1/</code>; the current baseline config writes new runs to <code>A1/runs/cuda_baselines/</code>. Use the explicit checkpoint links above to inspect the results reported here.</li>
         <li>Pipeline notes: <a href="A1/docs/overall.md">A1/docs/overall.md</a></li>
-        <li>CNN notes: <a href="A1/docs/CNN.md">A1/docs/CNN.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1/runs/m2/cnn">A1/runs/m2/cnn</a></li>
-        <li>LSTM notes: <a href="A1/docs/LSTM.md">A1/docs/LSTM.md</a> &middot; checkpoint and results: <a href="https://github.com/VVTN13/DL-ASS/tree/branch/A1/runs/m2/lstm">A1/runs/m2/lstm</a></li>
+        <li>Baseline notes: <a href="A1/docs/LINEAR.md">Linear</a> &middot; <a href="A1/docs/MLP.md">MLP</a></li>
+        <li>CNN notes: <a href="A1/docs/CNN.md">A1/docs/CNN.md</a> &middot; results: <a href="A1/runs/m2/cnn/test_summary.json">test metrics</a> &middot; <a href="A1/runs/m2/cnn/verification.json">verification</a></li>
+        <li>LSTM notes: <a href="A1/docs/LSTM.md">A1/docs/LSTM.md</a> &middot; results: <a href="A1/runs/m2/lstm/test_summary.json">test metrics</a> &middot; <a href="A1/runs/m2/lstm/verification.json">verification</a></li>
         <li>Transformer notes: <a href="A1/docs/TRANSFORMER.md">A1/docs/TRANSFORMER.md</a> &middot; checkpoint and results: <a href="A1/runs/m2/transformer/summary.json">run summary</a> &middot; <a href="A1/runs/m2/transformer/best.pt">checkpoint</a> &middot; <a href="A1/runs/m2/transformer/verification.json">verification</a></li>
-        <li>Report: <a href="A1/report-part3/complete-report/report.pdf">complete PDF</a> &middot; <a href="A1/report-part3/complete-report/report.html">HTML</a> &middot; <a href="A1/report-part3/complete-report/README.md">editable source and build instructions</a></li>
-        <li>Slides: not yet supplied.</li>
-        <li>YouTube presentation: URL not yet supplied.</li>
+        <li>Report: <a href="A1/report/report-part3/complete-report/report.pdf">PDF</a> &middot; <a href="A1/report/report-part3/complete-report/report.html">HTML</a> &middot; <a href="A1/report/report-part3/complete-report/README.md">editable source and build instructions</a></li>
+        <li>Presentation slides (PDF): <a href="A1/docs/study-guide/Fashion-MNIST%20Comparison.pdf">15-slide version</a> &middot; <a href="A1/docs/study-guide/Fashion-MNIST%20Comparison%20-%20Expanded.pdf">20-slide expanded version</a> &middot; <a href="A1/docs/study-guide/Fashion-MNIST%20Model%20Deep%20Dives.pdf">model explanations</a></li>
+        <li>YouTube presentation: <a href="https://youtu.be/yS9-sq3oh1s">CO3133-Semester-261 &mdash; Group 9 &mdash; Assignment 1</a></li>
       </ul>
+      <p class="note"><strong>Version note:</strong> the linked report, slides and older generated comparison use an earlier MLP result (88.50%, epoch 8) and historical baseline training records. This page uses the current saved CUDA checkpoints (MLP 88.16%, epoch 9). Consult the metric and checkpoint links above for the exact runs behind this page.</p>
+    </section>
+
+    <section>
+      <h2 id="presentation">Video presentation</h2>
+      <p><a href="https://youtu.be/yS9-sq3oh1s">Watch Group 9's Assignment 1 presentation on YouTube</a>.</p>
+      <iframe class="video-frame" src="https://www.youtube-nocookie.com/embed/yS9-sq3oh1s" title="CO3133 Semester 261 Group 9 Assignment 1 presentation" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <p class="note">If the embedded player is unavailable, use the YouTube link above.</p>
     </section>
 
     <section>
@@ -567,11 +654,11 @@
         <li>Writing <code>A1/README.md</code> (setup and reproduction instructions) and <code>A1/docs/M1_ARCHITECTURE.md</code>.</li>
         <li>Fixing code and environment issues, such as MPS/CUDA/CPU device selection and library version errors.</li>
       </ul>
-      <p>The group reviewed all AI output before including it. The full log is in <a href="https://github.com/VVTN13/DL-ASS/blob/branch/AI_USAGE.md">AI_USAGE.md</a>.</p>
+      <p>The group reviewed the earlier AI output before including it. OpenAI Codex assisted with this page's October 2026 revision: checking saved metrics and artifact paths, correcting links and an error count, improving the mobile layout, and adding the presentation links. The existing project log is available in <a href="AI_USAGE.md">AI_USAGE.md</a>.</p>
     </section>
 
     <footer>
-      <p>Last updated: 27/10/2026</p>
+      <p>Last updated: <time datetime="2026-10-28">28 October 2026</time></p>
     </footer>
   </div>
 </body>

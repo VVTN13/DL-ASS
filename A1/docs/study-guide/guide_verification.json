@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-28",
+  "scope": "Current checkout, direct checkpoint verification; no retraining",
+  "models": {
+    "lstm": {
+      "status": "passed",
+      "device": "cuda",
+      "test_images_recomputed": 10000,
+      "validation_recomputed": {
+        "loss": 0.28324007042249044,
+        "accuracy": 0.898,
+        "macro_f1": 0.8967244499469139,
+        "samples": 6000
+      },
+      "checkpoint_sha256": "2f14e36af88417dcd6e8e4104fc1b54fded12073a8521be68b8c5acb7b11c36f",
+      "parameters": 82186,
+      "cpu_device_max_logit_difference": 2.4080276489257812e-05,
+      "checks": [
+        "source/split/config/checkpoint hashes",
+        "normalization",
+        "all test labels, predictions, confidences and loss",
+        "accuracy, macro-F1 and confusion matrix",
+        "checkpoint selection from history",
+        "CPU/device labels on 128 images",
+        "four PNGs"
+      ]
+    },
+    "transformer": {
+      "status": "passed",
+      "device": "cuda",
+      "test_images_recomputed": 10000,
+      "validation_recomputed": {
+        "loss": 0.3712691234747569,
+        "accuracy": 0.8643333333333333,
+        "macro_f1": 0.8617052960256968,
+        "samples": 6000
+      },
+      "checkpoint_sha256": "276de361df32738746ebdef82197be360527a55ffd57d4036d765b0dfc9f0b80",
+      "parameters": 71946,
+      "cpu_device_max_logit_difference": 1.9073486328125e-06,
+      "checks": [
+        "source/split/config/checkpoint hashes",
+        "normalization",
+        "all test labels, predictions, confidences and loss",
+        "accuracy, macro-F1 and confusion matrix",
+        "checkpoint selection from history",
+        "CPU/device labels on 128 images",
+        "four PNGs"
+      ]
+    }
+  },
+  "manual_lstm_equations_match": true
+}
