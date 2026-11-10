@@ -679,6 +679,91 @@ Added the user-supplied CBraMod and AttnSleep BibTeX entries in
 `A2/references.bib` and attribution in the README, checked against the authors'
 official repositories. No staging, commit, push or model changes were made.
 
+### A2 completed AttnSleep run and final English documentation — 10 November 2026
+
+Imported the owner's completed cloud run `sleep_waveform_20261110_134729_471355`
+into the fixed AttnSleep final directory, with flat checkpoint paths. Preserved
+the original cloud directory, executed notebook and a local backup of the older
+aggregate-only run. Verified all five checkpoint/source hashes and strict state
+loading; all 195,469 identities, labels and participant split/fold assignments;
+train-only weights, selected epochs and histories; complete 170,537-row pooled
+validation and 24,932-row test probability exports; and all twelve metrics.
+The pooled matrix equals the sum of the five selected-fold matrices.
+
+The cloud and local dataset serialization hashes differ. Their sample metadata
+and recorded preprocessing agree, and the active AttnSleep adapter/author module
+are identical. A 128-example CPU float32 soft-voting reconstruction agrees with
+all original labels, with maximum probability difference 0.000339 versus CUDA
+AMP. This check does not prove bitwise equality of every waveform. Original
+cloud fingerprints remain intact; separately verified local reconstruction
+metadata support the documented reload workflow. The cloud Git commit is unknown.
+
+Updated the main report, its figures/evidence, run inventory and assignment page
+using the new AttnSleep result and 4,466.29-second training/validation total.
+Kept the original paired preprocessing-recipe study explicitly separate from
+the new main rerun. Translated the complete A2 README into English and restored
+the runnable notebook's eleven cells, fixed overwrite path and clean outputs;
+the executed cloud notebook remains archived as evidence. User-requested scope
+exclusions were respected. No model was retrained and `spec_model/` was untouched.
+
+The updated 26-page PDF compiled without LaTeX warnings and was visually reviewed.
+Its website copy and final source ZIP were synchronized. Synthetic CPU training,
+evaluation, reload and overwrite checks passed with the English instructions;
+the actual completed AttnSleep run also reloads using those instructions.
+Git commands were prepared for the owner; no staging, commit or push was performed.
+
+### Assignment 2 — theory, metric definitions and ensemble ablation (10 November 2026)
+
+**Tool:** OpenAI Codex. **Requested by / final review responsibility:** Nguyen
+Hoang Quoc. **Stage:** final report revision.
+
+**Prompt summary:** Expand each evaluation metric into its own subsection,
+especially kappa and MGm; highlight the leading Transformer development results;
+use the existing EEG thesis as a guide to theoretical detail and check the
+report against the Assignment 2 rubric, especially EDA, leakage and ablation.
+
+**Contribution:** Expanded EEG context, proposal-to-final scope, grouped splitting,
+CNN and Transformer mechanisms, transfer learning, metric formulas and
+interpretation. Reused explanatory ideas from the thesis without transferring its
+ASD results, binary-task assumptions or claims of unbiased grouped validation.
+Added primary-paper and official-documentation references. Bolded actual column
+leaders, retaining the N3 exceptions. Updated the report guide, historical
+proposal status, assignment page and final PDF/source bundle.
+
+**Additional analysis:** Designed and executed a post-hoc, inference-only
+Transformer ensemble ablation using all 24,932 test epochs and the five existing
+fold checkpoints. Compared all five individual predictors with equal-weight
+soft voting under CPU float32, without retraining, best-test-fold selection or
+fitting ensemble weights. Mean individual macro-F1 was 0.743078 and ensemble
+macro-F1 0.756452; a paired 2,000-replicate participant bootstrap gave a 95%
+percentile interval of [0.010096, 0.016583] for the difference. The analysis is
+conditional on fixed models and an already inspected test cohort. Three labels
+differ from the archived CUDA ensemble; the original main metrics remain intact.
+
+**Verification:** Checked all six predictors' aggregate metrics independently
+with scikit-learn and imbalanced-learn, plus probability sums, sample identities,
+prediction CSV consistency and checkpoint hashes. The revised 35-page report
+compiled without LaTeX warnings; rendered pages were reviewed for layout and
+equations. Human authors remain responsible for reviewing scientific claims and
+the suitability of the inference ablation for their submission. No training,
+Git commit or remote push was performed in this revision.
+
+**Affected materials:** `A2/DL-ASS-A2/main.tex`, bibliography, README, evidence,
+analysis outputs, PDF/source bundle; `A2/SLEEP_DATASET_PROPOSAL.md`,
+`A2/G09_A2_Report.pdf`, `assignment2.html` and this disclosure.
+
+### Assignment 2 — final table and caption polish (10 November 2026)
+
+At Nguyen Hoang Quoc's request, OpenAI Codex highlighted the largest value in
+each of the twelve held-out test metric columns, shortened figure/table captions
+and added brief navigation titles for their lists. Column maxima were checked
+against the existing table values; no measurements changed. Necessary figure
+interpretation details were retained in the surrounding prose. The report was
+recompiled and rendered for layout review, with its PDF copies, evidence and
+source bundle synchronized. Publication commands use explicit A2 paths and
+exclude local datasets, checkpoints and legacy experiment notebooks. No Git
+commit or push was performed; the owner retains final review responsibility.
+
 ## Assignment 3
 
 | Field | Value |

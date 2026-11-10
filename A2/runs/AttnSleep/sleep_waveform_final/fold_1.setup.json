@@ -79,5 +79,6 @@
     0.24,
     0.3
   ],
-  "origin": "reconstructed from saved full-data participant folds"
+  "parameters": 522805,
+  "trainable_parameters": 522805
 }

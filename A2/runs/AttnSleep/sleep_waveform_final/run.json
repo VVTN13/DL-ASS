@@ -1,25 +1,52 @@
 {
   "layout_version": 3,
-  "record_type": "imported historical run",
-  "imported_utc": "2026-11-10T10:58:53.492326+00:00",
-  "fingerprints_recorded_at": "layout import; not the historical training execution",
-  "status": "metrics_only_checkpoints_pending",
-  "created_utc": null,
+  "created_utc": "2026-11-10T13:47:39.688015+00:00",
+  "status": "evaluated",
+  "completed_folds": [
+    {
+      "fold": 1,
+      "checkpoint": "fold_1.pt",
+      "sha256": "8f98f87cfeda9ac912c70ad1c4a12af93ec9ca2def512047c01507df4395d0be"
+    },
+    {
+      "fold": 2,
+      "checkpoint": "fold_2.pt",
+      "sha256": "e7586ba08aa0bee97c56aafaf08643c42647ea16bddbaa84cfb8d800bca31eb5"
+    },
+    {
+      "fold": 3,
+      "checkpoint": "fold_3.pt",
+      "sha256": "0f721bd2ee9482d6827ee6de154dd4391d689f36581cc52aec3406276890e746"
+    },
+    {
+      "fold": 4,
+      "checkpoint": "fold_4.pt",
+      "sha256": "a55aa71a7f11da3e643296a2f7a868613b897bd03101907e5ddc3554be521ba1"
+    },
+    {
+      "fold": 5,
+      "checkpoint": "fold_5.pt",
+      "sha256": "a6cbaba92ad7205de13b12b4489e1d86912c727bff35bf04e716a99ad9459216"
+    }
+  ],
   "git_commit": null,
   "git_dirty": null,
-  "completed_folds": [],
   "source_sha256": {
-    "model_lib.py": "3be1f44b8e619c858840afb5c39b3597794989c464dabcc32e7da1d27a9244f7",
+    "training.ipynb": "11695037eb81a336f6c47025d9ce7093cbfa54495d7c25c049082917ceb00360",
+    "run_utils.py": "90925ae95f57651660408372c66c1d8cf56dd5cf73de5ae732d392a37a9ac2e0",
+    "model_lib.py": "d5053cff4e77dc745bd3fb74e67aabe3d427131632fc66e3c93c66bca765eeba",
     "attnsleep.py": "2f4b86e3a1d16f75da9ee172e9e4062f1229d573785a3a32005b7adb39d43e38",
     "cbramod.py": "6d20c9ff2ead27c628214076b6bb9330cc5912d6ddea1b613749a7d73a43d01d",
-    "criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c"
+    "criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c",
+    "requirements.txt": "117d44e2864477ef785401808fa5208daa1e1cb738e2b9a5442ede112adb5367",
+    "configs/AttnSleep.json": "a5fb60103be4a2019a40422658ec6ec4375e3d4e81037705d4f359501d397166"
   },
   "fold_manifest": "sleep_exploration/cv_folds.csv",
-  "fold_manifest_sha256": "55ad72751ea3b114489f5e720b890a8de3d312bd24c09f10126f0eee82b1970c",
+  "fold_manifest_sha256": null,
   "dataset": {
-    "path": "dataset/sleep_waveform.pt",
-    "bytes": 9389410875,
-    "sha256": "6769b1cba2f577ec9f52ecc2adfb932e9f66d7d30a4d8211f8d882ccc4e09d76",
+    "path": "/sleep_waveform.pt",
+    "bytes": 9389409467,
+    "sha256": "2cb92cfc8464e2e40b5a59807e0a6e72f3a50e5e0b737ddb2aaa4bc71e43cf34",
     "shape": [
       195469,
       2,
@@ -43,9 +70,32 @@
   },
   "pretrained_sha256": null,
   "environment": {
-    "gpu": "RTX 3090",
-    "evidence": "owner confirmation; observed package versions in environment.txt"
+    "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+    "platform": "Linux-5.15.0-202-generic-x86_64-with-glibc2.39",
+    "torch": "2.14.1+cu132",
+    "cuda": "13.2",
+    "cudnn": 92400,
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "gpu_memory_bytes": 25295323136,
+    "deterministic_algorithms": false,
+    "cudnn_benchmark": false
   },
-  "historical_provenance": "provenance.json",
-  "test_predictions_available": false
+  "test_ensemble_folds": 5,
+  "record_type": "completed cloud run imported without retraining",
+  "original_run_id": "sleep_waveform_20261110_134729_471355",
+  "original_run_manifest": "source/cloud_run.json",
+  "original_config": "source/cloud_config.json",
+  "test_predictions_available": true,
+  "verified_local_reconstruction": {
+    "dataset_sha256": "6769b1cba2f577ec9f52ecc2adfb932e9f66d7d30a4d8211f8d882ccc4e09d76",
+    "source_sha256": {
+      "model_lib.py": "3be1f44b8e619c858840afb5c39b3597794989c464dabcc32e7da1d27a9244f7",
+      "attnsleep.py": "2f4b86e3a1d16f75da9ee172e9e4062f1229d573785a3a32005b7adb39d43e38",
+      "cbramod.py": "6d20c9ff2ead27c628214076b6bb9330cc5912d6ddea1b613749a7d73a43d01d",
+      "criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c"
+    },
+    "verification": "verification.json",
+    "scope": "Exact sample metadata and folds; identical active AttnSleep class and author module; 128/128 CPU soft-voting argmax agreement. Cloud/local dataset serializations differ."
+  }
 }

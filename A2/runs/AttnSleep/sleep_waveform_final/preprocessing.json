@@ -1,0 +1,4522 @@
+{
+  "config": {
+    "representation": "waveform",
+    "channels": [
+      "EEG Fpz-Cz",
+      "EEG Pz-Oz"
+    ],
+    "class_map": {
+      "W": 0,
+      "N1": 1,
+      "N2": 2,
+      "N3": 3,
+      "REM": 4
+    },
+    "source_sfreq": 100,
+    "target_sfreq": 200,
+    "epoch_seconds": 30,
+    "wake_margin_seconds": 1800,
+    "sample_shape": [
+      2,
+      30,
+      200
+    ],
+    "filter": {
+      "low_hz": 0.3,
+      "high_hz": 35.0,
+      "method": "fir",
+      "phase": "zero",
+      "fir_window": "hamming",
+      "fir_design": "firwin",
+      "filter_length": "auto",
+      "l_trans_bandwidth": 0.3,
+      "h_trans_bandwidth": 8.75,
+      "pad": "reflect_limited"
+    },
+    "resample": {
+      "method": "scipy.signal.resample_poly",
+      "up": 2,
+      "down": 1,
+      "window": [
+        "kaiser",
+        5.0
+      ],
+      "padtype": "line"
+    },
+    "amplitude": "microvolts / 100",
+    "volts_multiplier": 10000.0,
+    "population_normalization": null,
+    "notch_filter": null,
+    "filter_scope": "continuous recording before epoch extraction"
+  },
+  "summary": {
+    "status": "complete",
+    "config": {
+      "representation": "waveform",
+      "channels": [
+        "EEG Fpz-Cz",
+        "EEG Pz-Oz"
+      ],
+      "class_map": {
+        "W": 0,
+        "N1": 1,
+        "N2": 2,
+        "N3": 3,
+        "REM": 4
+      },
+      "source_sfreq": 100,
+      "target_sfreq": 200,
+      "epoch_seconds": 30,
+      "wake_margin_seconds": 1800,
+      "sample_shape": [
+        2,
+        30,
+        200
+      ],
+      "filter": {
+        "low_hz": 0.3,
+        "high_hz": 35.0,
+        "method": "fir",
+        "phase": "zero",
+        "fir_window": "hamming",
+        "fir_design": "firwin",
+        "filter_length": "auto",
+        "l_trans_bandwidth": 0.3,
+        "h_trans_bandwidth": 8.75,
+        "pad": "reflect_limited"
+      },
+      "resample": {
+        "method": "scipy.signal.resample_poly",
+        "up": 2,
+        "down": 1,
+        "window": [
+          "kaiser",
+          5.0
+        ],
+        "padtype": "line"
+      },
+      "amplitude": "microvolts / 100",
+      "volts_multiplier": 10000.0,
+      "population_normalization": null,
+      "notch_filter": null,
+      "filter_scope": "continuous recording before epoch extraction"
+    },
+    "recordings": [
+      {
+        "recording": "SC4001",
+        "participant": "SC400",
+        "epochs": 841,
+        "class_counts": {
+          "W": 188,
+          "N1": 58,
+          "N2": 250,
+          "N3": 220,
+          "REM": 125
+        },
+        "source_sha256": {
+          "SC4001E0-PSG.edf": "2b40a18adf76af69a42d6db1f30f31d26b369f6d27ca0050ef30147ef892b131",
+          "SC4001EC-Hypnogram.edf": "a4cf67694ade1b52a0ddd06d5817fd45d2d3e8bac5302f640f3e9cfbbf12a996"
+        },
+        "shard_sha256": "af10ad65353b366e535b762048d9806f7f77886e4ab68dbdca180bc1c27165f7",
+        "seconds": 0.787206334003713,
+        "annotation_interval_counts": {
+          "Sleep stage W": 12,
+          "Sleep stage 1": 24,
+          "Sleep stage 2": 40,
+          "Sleep stage 3": 48,
+          "Sleep stage 4": 23,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4002",
+        "participant": "SC400",
+        "epochs": 1127,
+        "class_counts": {
+          "W": 183,
+          "N1": 59,
+          "N2": 373,
+          "N3": 297,
+          "REM": 215
+        },
+        "source_sha256": {
+          "SC4002E0-PSG.edf": "bf91934cdbf7c9577bc91b411462ddb51c418e17e10a2f59a15feeeb917b0a5f",
+          "SC4002EC-Hypnogram.edf": "76e8457a67eaaaa62c7f6cc6e098fbe1c0a9c3fa02fa90ea01460aa481d71e82"
+        },
+        "shard_sha256": "ed125f4d7ae2b984710a16f9c048bfed8ef91ff9b9c403f0a6893f269f64fbc7",
+        "seconds": 0.7196249160042498,
+        "annotation_interval_counts": {
+          "Sleep stage W": 23,
+          "Sleep stage 1": 32,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 30,
+          "Sleep stage 4": 16,
+          "Movement time": 1,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4011",
+        "participant": "SC401",
+        "epochs": 1103,
+        "class_counts": {
+          "W": 157,
+          "N1": 109,
+          "N2": 562,
+          "N3": 105,
+          "REM": 170
+        },
+        "source_sha256": {
+          "SC4011E0-PSG.edf": "9e4c34f3f631275990fd7a2d61a24e998c7b03eb9b37ebe5cd7c8323d8310a15",
+          "SC4011EH-Hypnogram.edf": "5bbf7b4ed8a95c8d20e4347b08c2ded2ee21e2dac4680dedf629795adc2edc83"
+        },
+        "shard_sha256": "94bc8a1370287eb8827e40e56b5dce72b94e9a5a911b2d527cd8d69d7d22b0e4",
+        "seconds": 0.7130435839935672,
+        "annotation_interval_counts": {
+          "Sleep stage W": 15,
+          "Sleep stage 1": 33,
+          "Sleep stage 2": 40,
+          "Sleep stage 3": 21,
+          "Sleep stage 4": 8,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4012",
+        "participant": "SC401",
+        "epochs": 1186,
+        "class_counts": {
+          "W": 162,
+          "N1": 92,
+          "N2": 660,
+          "N3": 96,
+          "REM": 176
+        },
+        "source_sha256": {
+          "SC4012E0-PSG.edf": "1aa575e87d16f6c8f73c186d7a64a212de919bb9cbb62ac7c1750d3896852095",
+          "SC4012EC-Hypnogram.edf": "b6323df8b3867a5fdbd80f0cd8233b59659ac496fa48c8c7277f48bfbb1d9a0e"
+        },
+        "shard_sha256": "32b5b38fee6d25260f52251e3a0ba8ace2cebff78e65857f857cd04f1838c2ff",
+        "seconds": 0.7067355420003878,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 42,
+          "Sleep stage 2": 55,
+          "Sleep stage 3": 29,
+          "Sleep stage 4": 9,
+          "Sleep stage R": 18,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4021",
+        "participant": "SC402",
+        "epochs": 1025,
+        "class_counts": {
+          "W": 128,
+          "N1": 94,
+          "N2": 545,
+          "N3": 95,
+          "REM": 163
+        },
+        "source_sha256": {
+          "SC4021E0-PSG.edf": "810adaedf42621e389ca767274045fbafb123bbc5d99bc15ce2c5bacb52e378c",
+          "SC4021EH-Hypnogram.edf": "62b49b26bf08941cb0e974cfeeb0a820bf7dd43fb0c66dd89b4c3a6c0ee45dd8"
+        },
+        "shard_sha256": "84ee76799f07417f2dbf0ab842ce2aa9d65f41e1202652281ae9f9476d357761",
+        "seconds": 0.6880492079944815,
+        "annotation_interval_counts": {
+          "Sleep stage W": 9,
+          "Sleep stage 1": 22,
+          "Sleep stage 2": 56,
+          "Sleep stage 3": 43,
+          "Sleep stage 4": 15,
+          "Sleep stage R": 15,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4022",
+        "participant": "SC402",
+        "epochs": 1009,
+        "class_counts": {
+          "W": 125,
+          "N1": 184,
+          "N2": 402,
+          "N3": 119,
+          "REM": 179
+        },
+        "source_sha256": {
+          "SC4022E0-PSG.edf": "8573b32d49ff646b8c1c3589380346be02dc4f25ebcbabb05626cbdffd96d93a",
+          "SC4022EJ-Hypnogram.edf": "5289ca8a9417307cbbf8b2a4e511909ac742c69d45c17aee7f1731a2a98c49ce"
+        },
+        "shard_sha256": "48f01554d379b6ce92597956f9920170b1b4b55cc456c68d5b80f39bcc626697",
+        "seconds": 0.6799820000014734,
+        "annotation_interval_counts": {
+          "Sleep stage W": 6,
+          "Sleep stage 1": 52,
+          "Sleep stage 2": 63,
+          "Sleep stage 3": 34,
+          "Sleep stage 4": 11,
+          "Sleep stage R": 11,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4031",
+        "participant": "SC403",
+        "epochs": 952,
+        "class_counts": {
+          "W": 140,
+          "N1": 61,
+          "N2": 485,
+          "N3": 57,
+          "REM": 209
+        },
+        "source_sha256": {
+          "SC4031E0-PSG.edf": "ce2314a60dd6e1437f9cd720c2e59c23aabe471e4821f9544593109a9b0715dd",
+          "SC4031EC-Hypnogram.edf": "7ec3d3c8d8f1a89d48df4cc85be374fbdf70d4b5ec5ec321c03d586dd2cc1617"
+        },
+        "shard_sha256": "d8c5f90d484d1011a9347a748c61d5dd93d379cd79396383c03de844371a7420",
+        "seconds": 0.7568581250088755,
+        "annotation_interval_counts": {
+          "Sleep stage W": 14,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 42,
+          "Sleep stage 3": 21,
+          "Sleep stage 4": 1,
+          "Sleep stage R": 10,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4032",
+        "participant": "SC403",
+        "epochs": 911,
+        "class_counts": {
+          "W": 136,
+          "N1": 45,
+          "N2": 400,
+          "N3": 131,
+          "REM": 199
+        },
+        "source_sha256": {
+          "SC4032E0-PSG.edf": "a2ae46bb9b9752bff538e1e9a0ad95f5a5eab8f654a4cd22d9f503b11b584b9d",
+          "SC4032EP-Hypnogram.edf": "0ef073c5cfba31459732be96cc51e7106d5650c1db1b9669f10c0482844c5641"
+        },
+        "shard_sha256": "339bb088a54361d9112de1af49860bb4084617de664c2c80c40826c596ed3a98",
+        "seconds": 0.6144469999999274,
+        "annotation_interval_counts": {
+          "Sleep stage W": 13,
+          "Sleep stage 1": 20,
+          "Sleep stage 2": 33,
+          "Sleep stage 3": 28,
+          "Sleep stage 4": 16,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4041",
+        "participant": "SC404",
+        "epochs": 1235,
+        "class_counts": {
+          "W": 200,
+          "N1": 166,
+          "N2": 620,
+          "N3": 53,
+          "REM": 196
+        },
+        "source_sha256": {
+          "SC4041E0-PSG.edf": "28ae3a51cca93bb1502a2c613b4a84758d09feee042b925a09a7cdce0c1bf4f5",
+          "SC4041EC-Hypnogram.edf": "da33d90216e031a6b04c9ebaddcdf7abc223f1e61fd5899093815c7aea65e39a"
+        },
+        "shard_sha256": "6c502955265aedc855dc7fee4a52cd3712e520db5139ea7ea6bf54a676d055a2",
+        "seconds": 0.6470290410070447,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 43,
+          "Sleep stage 2": 47,
+          "Sleep stage 3": 15,
+          "Sleep stage R": 24,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4042",
+        "participant": "SC404",
+        "epochs": 1200,
+        "class_counts": {
+          "W": 185,
+          "N1": 137,
+          "N2": 514,
+          "N3": 94,
+          "REM": 270
+        },
+        "source_sha256": {
+          "SC4042E0-PSG.edf": "a03fad405e182599e3204aeeedfde56e5f0ccc9107e63d1747317371bcccb20d",
+          "SC4042EC-Hypnogram.edf": "28ece9383d5c49f375a34d63c1226cd0eb8c5a4bb9f887eb80c18caccd3bc544"
+        },
+        "shard_sha256": "69c4da280f2da889bdbf6bd439d03abb8d3ceedacbce390cc9e03152200d2334",
+        "seconds": 0.691328250002698,
+        "annotation_interval_counts": {
+          "Sleep stage W": 16,
+          "Sleep stage 1": 51,
+          "Sleep stage 2": 48,
+          "Sleep stage 3": 22,
+          "Sleep stage R": 33,
+          "Movement time": 4,
+          "Sleep stage 4": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4051",
+        "participant": "SC405",
+        "epochs": 672,
+        "class_counts": {
+          "W": 208,
+          "N1": 44,
+          "N2": 217,
+          "N3": 135,
+          "REM": 68
+        },
+        "source_sha256": {
+          "SC4051E0-PSG.edf": "e460a9589726f19a1fe544fb79c46f82562229f19696e0c0fb5ffd9f959dab7c",
+          "SC4051EC-Hypnogram.edf": "3551410c52b819efbe6297d333ee729e4f5c7ba11c0cae6d321feee79a39ed43"
+        },
+        "shard_sha256": "de9e17d78501847227649665d5dd83499e709122ba3ed27fec362d5747e228aa",
+        "seconds": 0.6325935830100207,
+        "annotation_interval_counts": {
+          "Sleep stage W": 12,
+          "Sleep stage 1": 19,
+          "Sleep stage 2": 45,
+          "Sleep stage 3": 39,
+          "Sleep stage 4": 11,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4052",
+        "participant": "SC405",
+        "epochs": 1246,
+        "class_counts": {
+          "W": 222,
+          "N1": 114,
+          "N2": 616,
+          "N3": 114,
+          "REM": 180
+        },
+        "source_sha256": {
+          "SC4052E0-PSG.edf": "a3f7bb20aa097b1865b9851ab414892396525414e014c310555de1ee1de1705b",
+          "SC4052EC-Hypnogram.edf": "4b3f236c98808407386c5c815ee0e2f68330e902dba3b744625981858cb668d9"
+        },
+        "shard_sha256": "795ce89906fec44946ef63611694be8f9f8043702b07a7449ad1194b297c266e",
+        "seconds": 0.7209342089918209,
+        "annotation_interval_counts": {
+          "Sleep stage W": 29,
+          "Sleep stage 1": 43,
+          "Sleep stage 2": 32,
+          "Sleep stage 3": 14,
+          "Sleep stage 4": 6,
+          "Movement time": 2,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4061",
+        "participant": "SC406",
+        "epochs": 843,
+        "class_counts": {
+          "W": 142,
+          "N1": 56,
+          "N2": 407,
+          "N3": 136,
+          "REM": 102
+        },
+        "source_sha256": {
+          "SC4061E0-PSG.edf": "8a1c1d812f3207e006c8f1ae7b7a9d5625a8aaba09869aea42562ac61d1c984a",
+          "SC4061EC-Hypnogram.edf": "a99705c2b75462acb6d422681526265e476f0b01708eee2e845d0d89b5aa1ae8"
+        },
+        "shard_sha256": "17aab5a2c1fb99efa10e7ee62bceae5b7cda2929bc172b48b2dbd50c58f4edac",
+        "seconds": 0.6888108329876559,
+        "annotation_interval_counts": {
+          "Sleep stage W": 13,
+          "Sleep stage 1": 18,
+          "Sleep stage 2": 27,
+          "Sleep stage 3": 11,
+          "Sleep stage 4": 4,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4062",
+        "participant": "SC406",
+        "epochs": 1016,
+        "class_counts": {
+          "W": 193,
+          "N1": 90,
+          "N2": 417,
+          "N3": 129,
+          "REM": 187
+        },
+        "source_sha256": {
+          "SC4062E0-PSG.edf": "1b5e626a290030f334c5e5bf5e31b1960e3d63fdaf9a6c0f1227a3b1a045c328",
+          "SC4062EC-Hypnogram.edf": "2f22cf8744e481f3fcb08b22ed884a7b382f5a7d88fea5a13afb6f526ad55e40"
+        },
+        "shard_sha256": "d8104286a974dfe2a10f0d29d13d1c7284783e05ad4353ee5f6ec516e5b08fde",
+        "seconds": 0.7046037499967497,
+        "annotation_interval_counts": {
+          "Sleep stage W": 14,
+          "Sleep stage 1": 25,
+          "Sleep stage 2": 26,
+          "Sleep stage 3": 17,
+          "Sleep stage 4": 9,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4071",
+        "participant": "SC407",
+        "epochs": 976,
+        "class_counts": {
+          "W": 124,
+          "N1": 89,
+          "N2": 403,
+          "N3": 162,
+          "REM": 198
+        },
+        "source_sha256": {
+          "SC4071E0-PSG.edf": "417081e551fb60e3a735059c5df4ee2cf320cb342c563e666cb2b3fde98f64e3",
+          "SC4071EC-Hypnogram.edf": "f81cfe51fa83a91096e4ba0538168ada9f604e8cb5f9c40849ebdd22c1cfeafd"
+        },
+        "shard_sha256": "4cbab725c87b8c280a34fd51e218138cc695dd16c8f68f41c6ed09da9e37f6c2",
+        "seconds": 0.686584542010678,
+        "annotation_interval_counts": {
+          "Sleep stage W": 5,
+          "Sleep stage 1": 23,
+          "Sleep stage 2": 33,
+          "Sleep stage 3": 27,
+          "Sleep stage 4": 16,
+          "Sleep stage R": 11,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4072",
+        "participant": "SC407",
+        "epochs": 1273,
+        "class_counts": {
+          "W": 407,
+          "N1": 84,
+          "N2": 392,
+          "N3": 222,
+          "REM": 168
+        },
+        "source_sha256": {
+          "SC4072E0-PSG.edf": "98a17086389930ded26aacbf80f87edf64c575db03f81397aacd85da605c1a0d",
+          "SC4072EH-Hypnogram.edf": "a87fa7816b6b5c82b2d4d1f9d4b7ff3984232ab2af2a54eeb4b705cfba446f5a"
+        },
+        "shard_sha256": "f9f525c24b63844b4e6cd68c611c4a6dacc9bdfaffe55ea3d335f6ceb941d377",
+        "seconds": 0.6600533750024624,
+        "annotation_interval_counts": {
+          "Sleep stage W": 9,
+          "Sleep stage 1": 40,
+          "Sleep stage 2": 43,
+          "Sleep stage 3": 37,
+          "Sleep stage 4": 18,
+          "Sleep stage R": 31,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4081",
+        "participant": "SC408",
+        "epochs": 1134,
+        "class_counts": {
+          "W": 323,
+          "N1": 68,
+          "N2": 262,
+          "N3": 350,
+          "REM": 131
+        },
+        "source_sha256": {
+          "SC4081E0-PSG.edf": "3210ff3851996b1d04fb879765ebb3de6012152fab6fcbb11896c7636068e6dc",
+          "SC4081EC-Hypnogram.edf": "626b6c685079aa3d185f7af69098b973940733e0cbe9c5d7435495afafdcca2f"
+        },
+        "shard_sha256": "aec20365aaa0ec6639fd634f3887c040de2c7cf34ce19a6984d3ca3ee30b80e6",
+        "seconds": 0.7086788330052514,
+        "annotation_interval_counts": {
+          "Sleep stage W": 9,
+          "Sleep stage 1": 14,
+          "Sleep stage 2": 42,
+          "Sleep stage 3": 53,
+          "Sleep stage 4": 19,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4082",
+        "participant": "SC408",
+        "epochs": 1054,
+        "class_counts": {
+          "W": 144,
+          "N1": 39,
+          "N2": 329,
+          "N3": 282,
+          "REM": 260
+        },
+        "source_sha256": {
+          "SC4082E0-PSG.edf": "50a97c156be1ba5af3383d50610c98d1c9610cd2adbf725f011fb11fcb5c4970",
+          "SC4082EP-Hypnogram.edf": "6e51f4ff704d9d0d82fdfd0faf32fa746c596a7f9647708ca5e7a3c0736ac841"
+        },
+        "shard_sha256": "7ea2878e1f8511fe6b3b382ba2f423360146abfc3f9ac97016aaf9a8699611ca",
+        "seconds": 0.6791352919972269,
+        "annotation_interval_counts": {
+          "Sleep stage W": 12,
+          "Sleep stage 1": 23,
+          "Sleep stage 2": 55,
+          "Sleep stage 3": 46,
+          "Sleep stage 4": 11,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4091",
+        "participant": "SC409",
+        "epochs": 1132,
+        "class_counts": {
+          "W": 150,
+          "N1": 19,
+          "N2": 561,
+          "N3": 170,
+          "REM": 232
+        },
+        "source_sha256": {
+          "SC4091E0-PSG.edf": "db5ac16a5438a0ff1e67dbf4c729e3b42ffc131c3e586370c8f8297591960476",
+          "SC4091EC-Hypnogram.edf": "6200f80f2314fc7aefc05c1c7a745776d2631f20115d818b6dcecae663c590d9"
+        },
+        "shard_sha256": "2aa0b91e7fbeb3693557f20e0edbe97848c2d6b678c617c50a0a31bb989e20f1",
+        "seconds": 0.6681154580001021,
+        "annotation_interval_counts": {
+          "Sleep stage W": 8,
+          "Sleep stage 1": 10,
+          "Sleep stage 2": 54,
+          "Sleep stage 3": 39,
+          "Sleep stage 4": 9,
+          "Sleep stage R": 17,
+          "Movement time": 10,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4092",
+        "participant": "SC409",
+        "epochs": 1104,
+        "class_counts": {
+          "W": 139,
+          "N1": 81,
+          "N2": 512,
+          "N3": 107,
+          "REM": 265
+        },
+        "source_sha256": {
+          "SC4092E0-PSG.edf": "f7156e1468052f57ce9e4d5b9f378e792663f962805d6b754951139f484ddaff",
+          "SC4092EC-Hypnogram.edf": "d8798c39a56fafbfbb54b371308e4f87913582666fabb3e4b8d765bf0fc4eb21"
+        },
+        "shard_sha256": "176d4409eee13020c04dcd05d278724af365ca999dd628f285774f5a1402fc56",
+        "seconds": 0.7570075830008136,
+        "annotation_interval_counts": {
+          "Sleep stage W": 7,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 13,
+          "Sleep stage R": 12,
+          "Movement time": 12,
+          "Sleep stage 4": 4,
+          "Sleep stage ?": 2
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4101",
+        "participant": "SC410",
+        "epochs": 1104,
+        "class_counts": {
+          "W": 155,
+          "N1": 65,
+          "N2": 671,
+          "N3": 6,
+          "REM": 207
+        },
+        "source_sha256": {
+          "SC4101E0-PSG.edf": "90f0cb69b101e60f7ebc1d52216677a5aa420fbd2dce3909eaaca373d921a099",
+          "SC4101EC-Hypnogram.edf": "1dc87ff1ee449fd66c3254df2073a66c4e1e902ec11143434a82db30eb1622d7"
+        },
+        "shard_sha256": "6479324b2b31f3fcfde62d1764f534619f949859eb915d8a0baadac1e05bb77c",
+        "seconds": 0.6875464999902761,
+        "annotation_interval_counts": {
+          "Sleep stage W": 14,
+          "Sleep stage 1": 15,
+          "Sleep stage 2": 22,
+          "Sleep stage 3": 6,
+          "Sleep stage R": 4,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4102",
+        "participant": "SC410",
+        "epochs": 1092,
+        "class_counts": {
+          "W": 144,
+          "N1": 117,
+          "N2": 607,
+          "N3": 25,
+          "REM": 199
+        },
+        "source_sha256": {
+          "SC4102E0-PSG.edf": "39f77131435557473aafaba59bf8f21c3d76886f570b1df5bfada40f0bb6f9af",
+          "SC4102EC-Hypnogram.edf": "b87e8a1e4068d0f6784bfd36c5c6fefbf852418941ed6491e50d1ba4e2376f8e"
+        },
+        "shard_sha256": "4f602bb30274db6fd5fd587898c578a53b5713af9a2f8e850f4952221464e7f4",
+        "seconds": 0.7732875000074273,
+        "annotation_interval_counts": {
+          "Sleep stage W": 12,
+          "Sleep stage 1": 41,
+          "Sleep stage 2": 50,
+          "Sleep stage 3": 10,
+          "Sleep stage R": 3,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4111",
+        "participant": "SC411",
+        "epochs": 928,
+        "class_counts": {
+          "W": 126,
+          "N1": 13,
+          "N2": 502,
+          "N3": 129,
+          "REM": 158
+        },
+        "source_sha256": {
+          "SC4111E0-PSG.edf": "6bb1ba9fdf0bfab05aeba98edded640ce65a05d286115ceadb38dd8d4dfae0b8",
+          "SC4111EC-Hypnogram.edf": "da132682072ae2998ef82d3737a3220685e2483b90cf7042ae819cce675cd6d6"
+        },
+        "shard_sha256": "5724ee8caa0200a633f6802bf301399eb53b644352da9c441218e94e7cacac6c",
+        "seconds": 0.6645105420029722,
+        "annotation_interval_counts": {
+          "Sleep stage W": 6,
+          "Sleep stage 1": 5,
+          "Sleep stage 2": 50,
+          "Sleep stage 3": 49,
+          "Sleep stage 4": 8,
+          "Sleep stage R": 6,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4112",
+        "participant": "SC411",
+        "epochs": 802,
+        "class_counts": {
+          "W": 126,
+          "N1": 18,
+          "N2": 396,
+          "N3": 111,
+          "REM": 151
+        },
+        "source_sha256": {
+          "SC4112E0-PSG.edf": "a255c27825e388c0c309a92e23fa94931dbaa6dffbdb1f49988ce46106e99b70",
+          "SC4112EC-Hypnogram.edf": "fbba528361798834f24b7476672ef4958cb695ff9d17c6ea48117c266491a3d3"
+        },
+        "shard_sha256": "8996d21a17fb14ebb77697ee167243752affdde2e66f7d2c434698813c9bafcd",
+        "seconds": 0.7504013330035377,
+        "annotation_interval_counts": {
+          "Sleep stage W": 7,
+          "Sleep stage 1": 11,
+          "Sleep stage 2": 45,
+          "Sleep stage 3": 42,
+          "Sleep stage 4": 13,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4121",
+        "participant": "SC412",
+        "epochs": 1052,
+        "class_counts": {
+          "W": 176,
+          "N1": 48,
+          "N2": 463,
+          "N3": 107,
+          "REM": 258
+        },
+        "source_sha256": {
+          "SC4121E0-PSG.edf": "2453150077736b8f4817bb5c20e58d6160fc6cd9e8e47531982847a71c9be4e0",
+          "SC4121EC-Hypnogram.edf": "ad90e2e20a9ee3d61e8434f2c2efab49583b31c6ed8350157535a5cb085c88ad"
+        },
+        "shard_sha256": "9a7e5716269e6542491299b555801ca0f14d15a6185bd52568472713e4f17423",
+        "seconds": 0.6962728749931557,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 33,
+          "Sleep stage 2": 38,
+          "Sleep stage 3": 20,
+          "Sleep stage 4": 9,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 4
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4122",
+        "participant": "SC412",
+        "epochs": 977,
+        "class_counts": {
+          "W": 290,
+          "N1": 121,
+          "N2": 287,
+          "N3": 80,
+          "REM": 199
+        },
+        "source_sha256": {
+          "SC4122E0-PSG.edf": "d73a3d5eeb27ca58b0481fe5b821e3661ac8118943918bb450fcda5b9426b219",
+          "SC4122EV-Hypnogram.edf": "47a19bf81c9bb6d16afc8f3f7296324420d07bd144372abb97e7aac5637a093c"
+        },
+        "shard_sha256": "6fb79ce80715a7d1ed6a9a7bc1f5fd1f613b714a5453f144feb9544de491905d",
+        "seconds": 0.6627330000046641,
+        "annotation_interval_counts": {
+          "Sleep stage W": 31,
+          "Sleep stage 1": 38,
+          "Sleep stage 2": 36,
+          "Sleep stage R": 5,
+          "Sleep stage 3": 25,
+          "Sleep stage 4": 14,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4131",
+        "participant": "SC413",
+        "epochs": 1028,
+        "class_counts": {
+          "W": 155,
+          "N1": 57,
+          "N2": 497,
+          "N3": 147,
+          "REM": 172
+        },
+        "source_sha256": {
+          "SC4131E0-PSG.edf": "443586b0f2c620d073405b938314357eb33ef1a03eb0eca36b6d1861f31d8665",
+          "SC4131EC-Hypnogram.edf": "d724153bfa0c4267ced28cc975025e5674e13e2ce4e1f751cad6a30e549f9232"
+        },
+        "shard_sha256": "b376ba467156227bd6d5c3f5e96e1f14d83754dd789a283a37277ba1d614087e",
+        "seconds": 0.6907614579977235,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 25,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 31,
+          "Sleep stage 4": 22,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4141",
+        "participant": "SC414",
+        "epochs": 1004,
+        "class_counts": {
+          "W": 187,
+          "N1": 29,
+          "N2": 404,
+          "N3": 151,
+          "REM": 233
+        },
+        "source_sha256": {
+          "SC4141E0-PSG.edf": "eb14f483f5675798fdda51954d6914c9442884cda02cebb6af44c96ac3cd12e5",
+          "SC4141EU-Hypnogram.edf": "1e8dc03d9a2159752db262cc5ef1b3140f147445de969b9820292eb3861e2b32"
+        },
+        "shard_sha256": "20ea8ee5cede11498cd190818c405a305f6a3b40f352cd1329bc1702a3da66c8",
+        "seconds": 0.6711331249971408,
+        "annotation_interval_counts": {
+          "Sleep stage W": 20,
+          "Sleep stage 1": 16,
+          "Sleep stage 2": 30,
+          "Sleep stage 3": 30,
+          "Sleep stage 4": 18,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4142",
+        "participant": "SC414",
+        "epochs": 952,
+        "class_counts": {
+          "W": 181,
+          "N1": 27,
+          "N2": 386,
+          "N3": 145,
+          "REM": 213
+        },
+        "source_sha256": {
+          "SC4142E0-PSG.edf": "82c964718136068b1c477caef3cb5476662f67fc2677019335ae7c5548e9804c",
+          "SC4142EU-Hypnogram.edf": "a0e130492b73876fd7cb6a1607a9f83dea31428e14fbba6ebcf28a771aecf3bb"
+        },
+        "shard_sha256": "dc2a5d59850365c06a1f6946354fc323d1ed712269021f927f3033c36d8e625a",
+        "seconds": 0.6826559170003748,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 18,
+          "Sleep stage 2": 30,
+          "Sleep stage 3": 29,
+          "Sleep stage 4": 21,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4151",
+        "participant": "SC415",
+        "epochs": 952,
+        "class_counts": {
+          "W": 172,
+          "N1": 41,
+          "N2": 354,
+          "N3": 177,
+          "REM": 208
+        },
+        "source_sha256": {
+          "SC4151E0-PSG.edf": "e2d4dda6a1aa7b58394e102e44ba03924f14f4a19bdff1808d96e0d09fd0f74e",
+          "SC4151EC-Hypnogram.edf": "72e8bf03e6400baac7af5980c340450ebe59a97fca1f5f7ddbe1c94464ddfbf9"
+        },
+        "shard_sha256": "9fd1782632b18e3cbfb8963e3eab301368c7912c6cc2e9c296492d6f03a04fa0",
+        "seconds": 0.6681162909953855,
+        "annotation_interval_counts": {
+          "Sleep stage W": 8,
+          "Sleep stage 1": 12,
+          "Sleep stage 2": 28,
+          "Movement time": 4,
+          "Sleep stage 3": 30,
+          "Sleep stage R": 4,
+          "Sleep stage 4": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4152",
+        "participant": "SC415",
+        "epochs": 1762,
+        "class_counts": {
+          "W": 807,
+          "N1": 47,
+          "N2": 438,
+          "N3": 178,
+          "REM": 292
+        },
+        "source_sha256": {
+          "SC4152E0-PSG.edf": "936ef842d001ae64e5b85c542435b1c79856391059ab7dd375205afffa818660",
+          "SC4152EC-Hypnogram.edf": "299112b745b5caf02a95ea00c7cc0b007c0f6fe5ce317d2d52d77011bc16f095"
+        },
+        "shard_sha256": "11ba2e0dd1fcb091be10cfc348cb6a70faad124ff6d4b3f532ddeb7880ef4e30",
+        "seconds": 0.8279282090079505,
+        "annotation_interval_counts": {
+          "Sleep stage W": 8,
+          "Sleep stage 1": 8,
+          "Sleep stage 2": 28,
+          "Sleep stage R": 8,
+          "Sleep stage 3": 32,
+          "Sleep stage 4": 17,
+          "Movement time": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4161",
+        "participant": "SC416",
+        "epochs": 1144,
+        "class_counts": {
+          "W": 216,
+          "N1": 55,
+          "N2": 448,
+          "N3": 165,
+          "REM": 260
+        },
+        "source_sha256": {
+          "SC4161E0-PSG.edf": "60a3e257b0dd97893415fa46c79c2ffad63d37445f3b6e0e0b0f67b5e71eeee6",
+          "SC4161EC-Hypnogram.edf": "407ff5ffa150e618c90ab27dc64e459312b6a05352fd7c39b98cc2d34fc7846f"
+        },
+        "shard_sha256": "afa3685d5e887ad073c7dfdf5d929168dd20807fd43e04fea2bc925c9e5adc18",
+        "seconds": 0.6580772089946549,
+        "annotation_interval_counts": {
+          "Sleep stage W": 15,
+          "Sleep stage 1": 21,
+          "Sleep stage 2": 40,
+          "Sleep stage 3": 45,
+          "Sleep stage 4": 21,
+          "Sleep stage R": 8,
+          "Movement time": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4162",
+        "participant": "SC416",
+        "epochs": 1003,
+        "class_counts": {
+          "W": 179,
+          "N1": 42,
+          "N2": 459,
+          "N3": 128,
+          "REM": 195
+        },
+        "source_sha256": {
+          "SC4162E0-PSG.edf": "1e31f71efcd3956d93f48c3102c847badc648198cb45e9c3f621d491ffd42287",
+          "SC4162EC-Hypnogram.edf": "a2c9b668ff1a85d607e49ea092f8def51f9c139d4add01b0033dccdcf09c01ba"
+        },
+        "shard_sha256": "b87e0f6a3920b64a480610cd100f564999df73f32e7f85f262e1314605e0e25d",
+        "seconds": 0.6769811659905827,
+        "annotation_interval_counts": {
+          "Sleep stage W": 8,
+          "Sleep stage 1": 15,
+          "Sleep stage 2": 47,
+          "Sleep stage 3": 42,
+          "Sleep stage 4": 14,
+          "Sleep stage R": 6,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4171",
+        "participant": "SC417",
+        "epochs": 1002,
+        "class_counts": {
+          "W": 176,
+          "N1": 21,
+          "N2": 328,
+          "N3": 215,
+          "REM": 262
+        },
+        "source_sha256": {
+          "SC4171E0-PSG.edf": "01acc3f69ecf38052eac9bc04b0e8154010e111de707aeda3fd40af6a5267ae8",
+          "SC4171EU-Hypnogram.edf": "648653db6ced819f659c8cb3cbd3952a60cac1705b87209fd033268b6b38b749"
+        },
+        "shard_sha256": "7f96ab97d86a3bffbad089b99c4caa65dc2015cd6f71d86bb7701347ba6761d4",
+        "seconds": 0.6585513329919195,
+        "annotation_interval_counts": {
+          "Sleep stage W": 22,
+          "Sleep stage 1": 15,
+          "Sleep stage 2": 53,
+          "Sleep stage 3": 64,
+          "Sleep stage 4": 17,
+          "Movement time": 1,
+          "Sleep stage R": 10,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4172",
+        "participant": "SC417",
+        "epochs": 1773,
+        "class_counts": {
+          "W": 689,
+          "N1": 44,
+          "N2": 687,
+          "N3": 188,
+          "REM": 165
+        },
+        "source_sha256": {
+          "SC4172E0-PSG.edf": "16bc7ac608ec6c3ee0525f8edae17ecb79a940a0734031312712bd0feafc1755",
+          "SC4172EC-Hypnogram.edf": "77dd452951e38478a061d5c7f03528670e8eb943091856db3b86ac690229af5f"
+        },
+        "shard_sha256": "8cfc62fd4e1a6202c3e240635001b5a4002782166bd96d122e144adbd6610d74",
+        "seconds": 0.7084582920069806,
+        "annotation_interval_counts": {
+          "Sleep stage W": 13,
+          "Sleep stage 2": 71,
+          "Sleep stage 3": 56,
+          "Sleep stage 4": 14,
+          "Sleep stage 1": 14,
+          "Movement time": 3,
+          "Sleep stage R": 17,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4181",
+        "participant": "SC418",
+        "epochs": 964,
+        "class_counts": {
+          "W": 138,
+          "N1": 29,
+          "N2": 388,
+          "N3": 291,
+          "REM": 118
+        },
+        "source_sha256": {
+          "SC4181E0-PSG.edf": "f98d5e2c97aa99c57adc886445c23d52dc97541f2b2f84efbc08afb86b7adba5",
+          "SC4181EC-Hypnogram.edf": "9091676b473587c7ec9d35d64464cc0ad3890b6b010418b62aa00d8b6801c5c1"
+        },
+        "shard_sha256": "34fb7b5f642a850fcc12dba63f7c2f6f18d4571f1fcdc98066d133bd4d011eab",
+        "seconds": 0.6647157080005854,
+        "annotation_interval_counts": {
+          "Sleep stage W": 10,
+          "Sleep stage 1": 13,
+          "Sleep stage 2": 55,
+          "Sleep stage 3": 61,
+          "Sleep stage 4": 17,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4182",
+        "participant": "SC418",
+        "epochs": 920,
+        "class_counts": {
+          "W": 147,
+          "N1": 151,
+          "N2": 290,
+          "N3": 216,
+          "REM": 116
+        },
+        "source_sha256": {
+          "SC4182E0-PSG.edf": "c0a059d973b6f414eeb56cf0a06f7cb223c15a3d9caa97c0f02038137fd18606",
+          "SC4182EC-Hypnogram.edf": "07b098b1d478ff8352d0061cdd122e1b5ab0cecf55444a334e4b1c208c79d602"
+        },
+        "shard_sha256": "c00873c6665628be92083826b9e529348079a83862c0f0e57949120e732c1dcb",
+        "seconds": 0.7404349580028793,
+        "annotation_interval_counts": {
+          "Sleep stage W": 9,
+          "Sleep stage 1": 20,
+          "Sleep stage 2": 31,
+          "Sleep stage 3": 26,
+          "Sleep stage 4": 12,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4191",
+        "participant": "SC419",
+        "epochs": 1535,
+        "class_counts": {
+          "W": 188,
+          "N1": 118,
+          "N2": 833,
+          "N3": 110,
+          "REM": 286
+        },
+        "source_sha256": {
+          "SC4191E0-PSG.edf": "b3d8e9d75fa2f54b1aa1dc936b482733e70bdd5b9f0a5809edf57c7ce4c406e2",
+          "SC4191EP-Hypnogram.edf": "bf48c5ddcb7a7e8eff489f273e9d3ffe38f693af0843b727df962572a47a3e24"
+        },
+        "shard_sha256": "21a8a88e7ca9e4ec9997b3258fd074d69f13695e1519bfdc3b13b344c2c3e4a7",
+        "seconds": 0.6740775000071153,
+        "annotation_interval_counts": {
+          "Sleep stage W": 21,
+          "Sleep stage 1": 45,
+          "Sleep stage 2": 54,
+          "Sleep stage 3": 25,
+          "Sleep stage 4": 14,
+          "Sleep stage R": 18,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4192",
+        "participant": "SC419",
+        "epochs": 1274,
+        "class_counts": {
+          "W": 376,
+          "N1": 72,
+          "N2": 434,
+          "N3": 60,
+          "REM": 332
+        },
+        "source_sha256": {
+          "SC4192E0-PSG.edf": "5ef27675d0844242a36c1760f731ae16b75352a16c2f93bbd62eea9cbc22cb0e",
+          "SC4192EV-Hypnogram.edf": "59bd5ea5c5a74356a284fab834e4e8130e7b95b37566419cc8de057594dc0474"
+        },
+        "shard_sha256": "891fbdd75ab51e94752836d9054db4aa6ff64980623220b52e7546fdccd93665",
+        "seconds": 0.6748027920111781,
+        "annotation_interval_counts": {
+          "Sleep stage W": 34,
+          "Sleep stage 1": 24,
+          "Sleep stage 2": 36,
+          "Sleep stage 3": 16,
+          "Sleep stage 4": 1,
+          "Sleep stage R": 12,
+          "Movement time": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4201",
+        "participant": "SC420",
+        "epochs": 1022,
+        "class_counts": {
+          "W": 263,
+          "N1": 39,
+          "N2": 539,
+          "N3": 4,
+          "REM": 177
+        },
+        "source_sha256": {
+          "SC4201E0-PSG.edf": "3ba17c53120b655bfa977f315a1d169d1f19df4af72aa3d7c0d73811fc7820eb",
+          "SC4201EC-Hypnogram.edf": "c277cc95d8808860c79a62116f28b9f2e1ee381bac8ba268b94495069c7a8872"
+        },
+        "shard_sha256": "909cdd53ad8dce5e15d0dde451913797881b4b51e0c2f88608cf54d8d4d181e8",
+        "seconds": 0.7174464159907075,
+        "annotation_interval_counts": {
+          "Sleep stage W": 15,
+          "Sleep stage 1": 15,
+          "Sleep stage 2": 15,
+          "Sleep stage 3": 3,
+          "Sleep stage R": 6,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4202",
+        "participant": "SC420",
+        "epochs": 1021,
+        "class_counts": {
+          "W": 215,
+          "N1": 120,
+          "N2": 479,
+          "N3": 0,
+          "REM": 207
+        },
+        "source_sha256": {
+          "SC4202E0-PSG.edf": "a355b79ddda28e0ca8c2620cf8b381eee15d303748b54b1ab36ee76de7c30d35",
+          "SC4202EC-Hypnogram.edf": "442624c325fed3858e64a0c444c66862df6395d4d424bfb465858103f35aa33d"
+        },
+        "shard_sha256": "3f28fb96059d273c0355b69517e52182b2c09373b84aa3060a0da7f0b8855402",
+        "seconds": 0.6477983330114512,
+        "annotation_interval_counts": {
+          "Sleep stage W": 12,
+          "Sleep stage 1": 18,
+          "Sleep stage 2": 11,
+          "Sleep stage R": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4211",
+        "participant": "SC421",
+        "epochs": 1578,
+        "class_counts": {
+          "W": 745,
+          "N1": 106,
+          "N2": 527,
+          "N3": 49,
+          "REM": 151
+        },
+        "source_sha256": {
+          "SC4211E0-PSG.edf": "f854dbcd3d3b2aeed57f41b5eedd75d559e29b0cde7155e71bf4e72eeb24d7e6",
+          "SC4211EC-Hypnogram.edf": "034e06a4c45a0ba095cf3a624f5ef8360cdcfd03ac23717d60881ea47895b056"
+        },
+        "shard_sha256": "3df702c548a0bcd67464dba1350d5b409181bd6f1d9666d98e66bc0643df7f36",
+        "seconds": 0.7126198750047479,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 18,
+          "Sleep stage 2": 44,
+          "Sleep stage 3": 28,
+          "Movement time": 5,
+          "Sleep stage R": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4212",
+        "participant": "SC421",
+        "epochs": 808,
+        "class_counts": {
+          "W": 189,
+          "N1": 87,
+          "N2": 402,
+          "N3": 43,
+          "REM": 87
+        },
+        "source_sha256": {
+          "SC4212E0-PSG.edf": "7900f773292c0946e28bf9f006d4c7cf4f7165a6f0f5beecce939b50c654902d",
+          "SC4212EC-Hypnogram.edf": "061c879670f183c06298670b1b64e592d729d5aacf1e94e3c05a620395fad3ab"
+        },
+        "shard_sha256": "fb23839b6a849685264bfb0755f4f299d07dc99502d3f964645932764cb9c164",
+        "seconds": 0.6356670829991344,
+        "annotation_interval_counts": {
+          "Sleep stage W": 9,
+          "Sleep stage 1": 14,
+          "Sleep stage 2": 30,
+          "Sleep stage 3": 20,
+          "Sleep stage R": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4221",
+        "participant": "SC422",
+        "epochs": 1099,
+        "class_counts": {
+          "W": 173,
+          "N1": 221,
+          "N2": 461,
+          "N3": 62,
+          "REM": 182
+        },
+        "source_sha256": {
+          "SC4221E0-PSG.edf": "156f2107d2830c63fb7820096e7d94fcbbac244e6a02dcc5d864fcba22818c81",
+          "SC4221EJ-Hypnogram.edf": "4c256956fa213913f3803dd7e482094d72360ee0714678c7dcd1de75f69d8e03"
+        },
+        "shard_sha256": "4dc76f3eb1adec6784e729fa83afd4b851920bbb6c627b0d22ba4fae64060e25",
+        "seconds": 0.6403352079942124,
+        "annotation_interval_counts": {
+          "Sleep stage W": 24,
+          "Sleep stage 1": 45,
+          "Sleep stage 2": 54,
+          "Sleep stage 3": 29,
+          "Sleep stage 4": 2,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4222",
+        "participant": "SC422",
+        "epochs": 1108,
+        "class_counts": {
+          "W": 167,
+          "N1": 90,
+          "N2": 497,
+          "N3": 134,
+          "REM": 220
+        },
+        "source_sha256": {
+          "SC4222E0-PSG.edf": "1057fe3cacf499d1b8918e2532296fb282cb0c81a5fafd907ef2a3fcee3cc6ee",
+          "SC4222EC-Hypnogram.edf": "6764feef6441e068db6d6f1b1fc3f818cbed5dcecf24ffc5d1c827568444df5b"
+        },
+        "shard_sha256": "66a26529623e8f7c3b1e94abf3dcf251f690fea1ef6c54d485519434bddceffa",
+        "seconds": 0.68750195899338,
+        "annotation_interval_counts": {
+          "Sleep stage W": 29,
+          "Sleep stage 1": 31,
+          "Sleep stage 2": 54,
+          "Sleep stage 3": 39,
+          "Sleep stage 4": 19,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4231",
+        "participant": "SC423",
+        "epochs": 904,
+        "class_counts": {
+          "W": 127,
+          "N1": 139,
+          "N2": 414,
+          "N3": 12,
+          "REM": 212
+        },
+        "source_sha256": {
+          "SC4231E0-PSG.edf": "d247ea53f0200a8b9ad4d72952f0fed51b512fda11e7e7568ca2be292e0f85fd",
+          "SC4231EJ-Hypnogram.edf": "479e24b8749df0a747183cda96e56370a40fe1f380a67595628544fc674ef412"
+        },
+        "shard_sha256": "604ba28abf926b21f61f3a91358098ee0ef4a160ce6e13170d61c787ef99bc1c",
+        "seconds": 0.6364496250025695,
+        "annotation_interval_counts": {
+          "Sleep stage W": 8,
+          "Sleep stage 1": 40,
+          "Sleep stage 2": 39,
+          "Sleep stage 3": 10,
+          "Sleep stage R": 11,
+          "Movement time": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4232",
+        "participant": "SC423",
+        "epochs": 1729,
+        "class_counts": {
+          "W": 916,
+          "N1": 382,
+          "N2": 213,
+          "N3": 1,
+          "REM": 217
+        },
+        "source_sha256": {
+          "SC4232E0-PSG.edf": "c3c8d5d8ac24987503eef7d1ed3855ba88094ce3556ab04116c300036ef7955e",
+          "SC4232EV-Hypnogram.edf": "5b6a46b7f1cc1774524677c71c4335b0ec917767c71c04afd7a026d5a1f4a9e6"
+        },
+        "shard_sha256": "386691e902af2f531be4ca0bb4a2acfb5aae4ed799db0730923f8d5dc8b06cfb",
+        "seconds": 0.6627414589893306,
+        "annotation_interval_counts": {
+          "Sleep stage W": 26,
+          "Sleep stage 1": 57,
+          "Sleep stage 2": 42,
+          "Sleep stage R": 16,
+          "Sleep stage 3": 1,
+          "Movement time": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4241",
+        "participant": "SC424",
+        "epochs": 1673,
+        "class_counts": {
+          "W": 846,
+          "N1": 85,
+          "N2": 514,
+          "N3": 44,
+          "REM": 184
+        },
+        "source_sha256": {
+          "SC4241E0-PSG.edf": "d9f4aee0a6abe72281f327d5e991063d5fc92def892d15de0f0898c5c8583975",
+          "SC4241EC-Hypnogram.edf": "40644006bbf529f16a9e286143e4c9632b30ba9f628ec077258770a326088add"
+        },
+        "shard_sha256": "3f03eadb12b400c3e06afb74e6e051852be58be0931a8d6f6d82ba525c96d506",
+        "seconds": 0.6833320839941734,
+        "annotation_interval_counts": {
+          "Sleep stage W": 14,
+          "Sleep stage 1": 19,
+          "Sleep stage 2": 31,
+          "Sleep stage 3": 17,
+          "Sleep stage R": 3,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4242",
+        "participant": "SC424",
+        "epochs": 1775,
+        "class_counts": {
+          "W": 944,
+          "N1": 94,
+          "N2": 556,
+          "N3": 5,
+          "REM": 176
+        },
+        "source_sha256": {
+          "SC4242E0-PSG.edf": "82f6dfa5ffff01d5848657696c73bf01f9acd2ab1cfdc0ae8dfe5cad115b662a",
+          "SC4242EA-Hypnogram.edf": "b29eafaab1b8f81cf2f11585463d69900317dab3101139acfd05ae8a51f00291"
+        },
+        "shard_sha256": "7a2dfc2dc671803dcc78a0d9fa7834b955c5aac45f8b322a85682ddc2a36cc54",
+        "seconds": 0.7126047079946147,
+        "annotation_interval_counts": {
+          "Sleep stage W": 27,
+          "Sleep stage 1": 46,
+          "Sleep stage 2": 27,
+          "Sleep stage 3": 2,
+          "Sleep stage R": 15,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4251",
+        "participant": "SC425",
+        "epochs": 972,
+        "class_counts": {
+          "W": 133,
+          "N1": 102,
+          "N2": 569,
+          "N3": 22,
+          "REM": 146
+        },
+        "source_sha256": {
+          "SC4251E0-PSG.edf": "536ce5f12d3fc73cd48ed33f54def520791eab15b6b28d0ef8c0a05c4106d284",
+          "SC4251EP-Hypnogram.edf": "308f75fba5581b1434ff708bbe22cb46fdeb5557df25c0ede6cfdeeaca0c0f67"
+        },
+        "shard_sha256": "9eb362ad9aa679e4f89293ec418153c4c8603a02bcd1efab621fd0483701f41f",
+        "seconds": 0.6627267919975566,
+        "annotation_interval_counts": {
+          "Sleep stage W": 5,
+          "Sleep stage 1": 19,
+          "Sleep stage 2": 34,
+          "Sleep stage 3": 15,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4252",
+        "participant": "SC425",
+        "epochs": 1020,
+        "class_counts": {
+          "W": 210,
+          "N1": 113,
+          "N2": 425,
+          "N3": 98,
+          "REM": 174
+        },
+        "source_sha256": {
+          "SC4252E0-PSG.edf": "d90270884f8449205a145c35ccfcb46827bcd8e233448a230581ea775302f569",
+          "SC4252EU-Hypnogram.edf": "0b607aa555bd3a372fd0ca275c9702905309a84f3f87bf3a363881cc5942bee5"
+        },
+        "shard_sha256": "794aa7ade8b388a02ac06518ea1e731782d65cebf688b4f9c62dee0430cf9b0c",
+        "seconds": 0.6306364169868175,
+        "annotation_interval_counts": {
+          "Sleep stage W": 26,
+          "Sleep stage 1": 48,
+          "Sleep stage 2": 49,
+          "Sleep stage 3": 21,
+          "Sleep stage 4": 5,
+          "Movement time": 1,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4261",
+        "participant": "SC426",
+        "epochs": 1597,
+        "class_counts": {
+          "W": 627,
+          "N1": 245,
+          "N2": 405,
+          "N3": 94,
+          "REM": 226
+        },
+        "source_sha256": {
+          "SC4261F0-PSG.edf": "fa14d2798e3b8472af2844209cbb5b55f02abfdc8704cbc3a7225b34e114a5c8",
+          "SC4261FM-Hypnogram.edf": "604ee67028077746feef88f577e728d6d3405d43bb5a69fdc945538b657130cb"
+        },
+        "shard_sha256": "430d412c8b645dea9e48455caf91a66627554289a1a96687d55e5776d516035f",
+        "seconds": 0.7186114999931306,
+        "annotation_interval_counts": {
+          "Sleep stage W": 48,
+          "Sleep stage 1": 63,
+          "Sleep stage 2": 40,
+          "Sleep stage 3": 21,
+          "Sleep stage R": 16,
+          "Sleep stage 4": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4262",
+        "participant": "SC426",
+        "epochs": 980,
+        "class_counts": {
+          "W": 167,
+          "N1": 77,
+          "N2": 464,
+          "N3": 79,
+          "REM": 193
+        },
+        "source_sha256": {
+          "SC4262F0-PSG.edf": "c13160af94ae3f1e7f2dbdc62f47bf08007b5c48a10cc58e16af2882b617ec9e",
+          "SC4262FC-Hypnogram.edf": "073ed5611a98bf2b12c3517c3bc07009ef848011246e8f2974b8811d317c9f95"
+        },
+        "shard_sha256": "61277ee8e218010f9af069558c7787be5ecc4a7d4c0b1fb563c4fad99c9b5353",
+        "seconds": 0.6796244170109276,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 17,
+          "Sleep stage 2": 30,
+          "Sleep stage 3": 19,
+          "Sleep stage R": 7,
+          "Sleep stage 4": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4271",
+        "participant": "SC427",
+        "epochs": 1052,
+        "class_counts": {
+          "W": 168,
+          "N1": 72,
+          "N2": 475,
+          "N3": 163,
+          "REM": 174
+        },
+        "source_sha256": {
+          "SC4271F0-PSG.edf": "d00acba983684b66f95a63425e98009552abb3e995add80caaef4a81d86c2db5",
+          "SC4271FC-Hypnogram.edf": "8ad9c72d51e7f822ed82db9369021b3383e509e62a49d71bed89aabb4340114c"
+        },
+        "shard_sha256": "2f12546f651335a73fd750d29f630c847ce10229fd507d282b98cf5f93eb040d",
+        "seconds": 0.6008720829995582,
+        "annotation_interval_counts": {
+          "Sleep stage W": 10,
+          "Sleep stage 1": 12,
+          "Sleep stage 2": 48,
+          "Sleep stage 3": 50,
+          "Sleep stage 4": 16,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4272",
+        "participant": "SC427",
+        "epochs": 1090,
+        "class_counts": {
+          "W": 223,
+          "N1": 87,
+          "N2": 379,
+          "N3": 178,
+          "REM": 223
+        },
+        "source_sha256": {
+          "SC4272F0-PSG.edf": "a1cc979eda628a36b97bb6376a523562e6884a2eae65168f0ffe0c697a74dc03",
+          "SC4272FM-Hypnogram.edf": "ee84605d437db8e2dbb42ad785154b6562ae49eb699f67356ec077f6d2674d20"
+        },
+        "shard_sha256": "3457676e20a4f4c1ba84c63fa67d97466d79262df3436ac332da134e7b26756a",
+        "seconds": 0.7601582500064978,
+        "annotation_interval_counts": {
+          "Sleep stage W": 26,
+          "Sleep stage 1": 40,
+          "Sleep stage 2": 49,
+          "Sleep stage 3": 29,
+          "Sleep stage 4": 8,
+          "Sleep stage R": 16,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4281",
+        "participant": "SC428",
+        "epochs": 1127,
+        "class_counts": {
+          "W": 193,
+          "N1": 76,
+          "N2": 530,
+          "N3": 159,
+          "REM": 169
+        },
+        "source_sha256": {
+          "SC4281G0-PSG.edf": "b75d635c28e0adce938cfe99e633a3eabbff161bf61bef4953dcffca289c71c7",
+          "SC4281GC-Hypnogram.edf": "789bf9dfbda72b11e8c5fc783191e15a2f55531f72f07d07b9af2dd045dc96d4"
+        },
+        "shard_sha256": "4285541976c805a8a0363df08f58e337238ade1995ee30a85d94497ce89896bb",
+        "seconds": 0.672680458999821,
+        "annotation_interval_counts": {
+          "Sleep stage W": 16,
+          "Sleep stage 1": 15,
+          "Sleep stage 2": 25,
+          "Sleep stage 3": 36,
+          "Sleep stage 4": 23,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4282",
+        "participant": "SC428",
+        "epochs": 1070,
+        "class_counts": {
+          "W": 204,
+          "N1": 81,
+          "N2": 474,
+          "N3": 145,
+          "REM": 166
+        },
+        "source_sha256": {
+          "SC4282G0-PSG.edf": "c0f7b2b342d945b3f5e44c25e803c545864b53f683d59f72b000061d4e057944",
+          "SC4282GC-Hypnogram.edf": "b6a7a68f20d179249b30eb41f93d485620f701f70cdeb3234c2d63b72800ced7"
+        },
+        "shard_sha256": "26c44d02c1f627015ede10f9d137fff7db023aff899eadac591880d519feca2f",
+        "seconds": 0.7039919169910718,
+        "annotation_interval_counts": {
+          "Sleep stage W": 15,
+          "Sleep stage 1": 14,
+          "Sleep stage 2": 23,
+          "Sleep stage 3": 24,
+          "Sleep stage 4": 10,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4291",
+        "participant": "SC429",
+        "epochs": 1131,
+        "class_counts": {
+          "W": 244,
+          "N1": 181,
+          "N2": 427,
+          "N3": 104,
+          "REM": 175
+        },
+        "source_sha256": {
+          "SC4291G0-PSG.edf": "dbb7968f148cc21a6c405c7b93036250ec0395d0258b253aa08f391a64565195",
+          "SC4291GA-Hypnogram.edf": "2a5f69739e7accdfaafa3e38bc24d5986dcba171e6ba7f071c68081c9defbc30"
+        },
+        "shard_sha256": "b201387731baa8343b1d2cbdd6cc8c2865ebbf982c1c669e2a202346bda60121",
+        "seconds": 0.6538051669922424,
+        "annotation_interval_counts": {
+          "Sleep stage W": 52,
+          "Sleep stage 1": 101,
+          "Sleep stage 2": 65,
+          "Sleep stage 3": 29,
+          "Sleep stage 4": 19,
+          "Sleep stage R": 34,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4292",
+        "participant": "SC429",
+        "epochs": 1605,
+        "class_counts": {
+          "W": 733,
+          "N1": 49,
+          "N2": 457,
+          "N3": 146,
+          "REM": 220
+        },
+        "source_sha256": {
+          "SC4292G0-PSG.edf": "40bacd47dc057627b4412df56c1a9c0a598b603472ffd7a5cb5d3318395034e5",
+          "SC4292GC-Hypnogram.edf": "23a070cbede288cf71ee041d4779080f699803843a6d4b8097a872942b601e3f"
+        },
+        "shard_sha256": "8288707b679d9281d6898f2f2f1cd721e060c0cfcb0340926796df9c802baf01",
+        "seconds": 0.7625820829998702,
+        "annotation_interval_counts": {
+          "Sleep stage W": 28,
+          "Sleep stage 1": 26,
+          "Sleep stage 2": 32,
+          "Sleep stage 3": 25,
+          "Sleep stage 4": 16,
+          "Sleep stage R": 14,
+          "Movement time": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4301",
+        "participant": "SC430",
+        "epochs": 929,
+        "class_counts": {
+          "W": 211,
+          "N1": 109,
+          "N2": 457,
+          "N3": 30,
+          "REM": 122
+        },
+        "source_sha256": {
+          "SC4301E0-PSG.edf": "1fee615ba81df131a3059f18d4fd0ef49031b193b41e4be1e70432077d7be5bf",
+          "SC4301EC-Hypnogram.edf": "b1789461f7c6bca865bbdec1a874dae163d1182067cf237afa1eecb62d5ea100"
+        },
+        "shard_sha256": "d0eba65c8441f1542c02d04a95d483a3656248340649eb7a267eb558e9602718",
+        "seconds": 0.6133243330114055,
+        "annotation_interval_counts": {
+          "Sleep stage W": 20,
+          "Sleep stage 1": 31,
+          "Sleep stage 2": 45,
+          "Sleep stage 3": 20,
+          "Sleep stage R": 7,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4302",
+        "participant": "SC430",
+        "epochs": 854,
+        "class_counts": {
+          "W": 173,
+          "N1": 96,
+          "N2": 418,
+          "N3": 32,
+          "REM": 135
+        },
+        "source_sha256": {
+          "SC4302E0-PSG.edf": "bf8319f714243c63486d850133515a96ec0f02349ccd99af9199bd661263024b",
+          "SC4302EV-Hypnogram.edf": "bfecfffea38867faf10a881c0da04e4d50da19388d3f01328e44ec2109970f13"
+        },
+        "shard_sha256": "3076c8bf21402c1c2420b275b37cfa29ed1a42e77c8e02215efba1c17797736c",
+        "seconds": 0.6962837089959066,
+        "annotation_interval_counts": {
+          "Sleep stage W": 11,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 42,
+          "Sleep stage 3": 19,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4311",
+        "participant": "SC431",
+        "epochs": 1054,
+        "class_counts": {
+          "W": 358,
+          "N1": 79,
+          "N2": 362,
+          "N3": 113,
+          "REM": 142
+        },
+        "source_sha256": {
+          "SC4311E0-PSG.edf": "e412c43fbe7676b20bd327f6cdf01321dc98b70baa6ef3986889c37cb611d9fc",
+          "SC4311EC-Hypnogram.edf": "fe96aadc484c21d21ace19e986044ba3c1b1582dcabfff817da86cea2a4ae2a2"
+        },
+        "shard_sha256": "eaed6e2fafaa4dad3aa1cfd7e8cb4bc8d8ce1c5f5e6f08157226ad6df2bc4eea",
+        "seconds": 0.6216259170032572,
+        "annotation_interval_counts": {
+          "Sleep stage W": 22,
+          "Sleep stage 1": 23,
+          "Sleep stage 2": 39,
+          "Sleep stage 3": 37,
+          "Sleep stage 4": 14,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4312",
+        "participant": "SC431",
+        "epochs": 1181,
+        "class_counts": {
+          "W": 313,
+          "N1": 152,
+          "N2": 334,
+          "N3": 191,
+          "REM": 191
+        },
+        "source_sha256": {
+          "SC4312E0-PSG.edf": "902c558aa2bb953e14c84e22be4734ae567c68552802dc6816d0d7b3cd32ed69",
+          "SC4312EM-Hypnogram.edf": "49d415058e3ab0908c44ad36be4431737302684da693b4d8207d73e1710da00b"
+        },
+        "shard_sha256": "a0cf26de1e5c12891a568e0ee7a404208fd2ae741c40639dc3ff5cf2d69f9835",
+        "seconds": 0.678339167003287,
+        "annotation_interval_counts": {
+          "Sleep stage W": 54,
+          "Sleep stage 1": 63,
+          "Sleep stage 2": 48,
+          "Sleep stage 3": 37,
+          "Sleep stage 4": 14,
+          "Sleep stage R": 35,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4321",
+        "participant": "SC432",
+        "epochs": 1560,
+        "class_counts": {
+          "W": 646,
+          "N1": 204,
+          "N2": 424,
+          "N3": 0,
+          "REM": 286
+        },
+        "source_sha256": {
+          "SC4321E0-PSG.edf": "a7ab1c3dae7336bd58bbf6cb256114b994d7d2898c828dafa72d982b33755741",
+          "SC4321EC-Hypnogram.edf": "2e7300fcbc243ff52e928e8f997c298fc79fdc55068fc46ffdbbfce93a152f39"
+        },
+        "shard_sha256": "49de4b0d41e47e46c9052f34f58c8ec20a68d1de2d6a7529ffc8a64b42315e82",
+        "seconds": 0.6997261670039734,
+        "annotation_interval_counts": {
+          "Sleep stage W": 14,
+          "Sleep stage 1": 16,
+          "Sleep stage 2": 14,
+          "Sleep stage R": 10,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4322",
+        "participant": "SC432",
+        "epochs": 1021,
+        "class_counts": {
+          "W": 160,
+          "N1": 144,
+          "N2": 475,
+          "N3": 1,
+          "REM": 241
+        },
+        "source_sha256": {
+          "SC4322E0-PSG.edf": "9c46fb276ed8792a85693633feb44d72ad5437dff4099defdec111e46694ed53",
+          "SC4322EC-Hypnogram.edf": "e2d888237b9fc2092d82356d2ad592c5bbfce8d72eca2ef883aac6027d02daba"
+        },
+        "shard_sha256": "25c3820f05a246e5a20ec8a485e6bf1bd6c179bf23605081a40039a039e7c627",
+        "seconds": 0.6484187909954926,
+        "annotation_interval_counts": {
+          "Sleep stage W": 29,
+          "Sleep stage 1": 54,
+          "Sleep stage 2": 33,
+          "Sleep stage R": 16,
+          "Sleep stage 3": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4331",
+        "participant": "SC433",
+        "epochs": 1888,
+        "class_counts": {
+          "W": 1055,
+          "N1": 212,
+          "N2": 453,
+          "N3": 0,
+          "REM": 168
+        },
+        "source_sha256": {
+          "SC4331F0-PSG.edf": "1792d8b8307edbb914c4302386a9bbe4e63129f7ea7761bfeba604a98b32a89d",
+          "SC4331FV-Hypnogram.edf": "a40cd38398a5ec6910ac8b9afc58aa3e7bcccf70177aef28acbc1a2cb84bf876"
+        },
+        "shard_sha256": "3ae4d9a012169ae544054b8fe4542d8275231a40a850e2c6a7e597e8d8c59db1",
+        "seconds": 0.7299862499930896,
+        "annotation_interval_counts": {
+          "Sleep stage W": 36,
+          "Sleep stage 1": 48,
+          "Sleep stage 2": 27,
+          "Sleep stage R": 9,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4332",
+        "participant": "SC433",
+        "epochs": 1312,
+        "class_counts": {
+          "W": 435,
+          "N1": 91,
+          "N2": 648,
+          "N3": 0,
+          "REM": 138
+        },
+        "source_sha256": {
+          "SC4332F0-PSG.edf": "e371e608e3ba228c68ffb198cf11feccaf724b5c240538ec3277262bcf4bf3cb",
+          "SC4332FC-Hypnogram.edf": "b20269e2996d524e26ca3a433af837c8e44a8c948d44c1b38010682aae59813c"
+        },
+        "shard_sha256": "3b4c0398e3b30280ba1e10cfddf7a8e9cc2b3853814a6b8bf9ff2c5b89672f6d",
+        "seconds": 0.671969666989753,
+        "annotation_interval_counts": {
+          "Sleep stage W": 32,
+          "Sleep stage 1": 44,
+          "Sleep stage 2": 27,
+          "Sleep stage R": 9,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4341",
+        "participant": "SC434",
+        "epochs": 1501,
+        "class_counts": {
+          "W": 618,
+          "N1": 150,
+          "N2": 561,
+          "N3": 0,
+          "REM": 172
+        },
+        "source_sha256": {
+          "SC4341F0-PSG.edf": "6f2459accb3a9eaeccab516cee01bb6aa8694e31c291f635338a7f802d6ec84c",
+          "SC4341FA-Hypnogram.edf": "4bf6e9f91d75658a9dbf83781a0eaa1a19d3051dcbb5568e4a740d73b8eb6533"
+        },
+        "shard_sha256": "7f8bba7079108fbb14b7612163ceb55b427475850d9b9d83ed2eb320d97d0506",
+        "seconds": 0.6691850839997642,
+        "annotation_interval_counts": {
+          "Sleep stage W": 10,
+          "Sleep stage 1": 19,
+          "Sleep stage 2": 12,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4342",
+        "participant": "SC434",
+        "epochs": 1582,
+        "class_counts": {
+          "W": 684,
+          "N1": 136,
+          "N2": 596,
+          "N3": 0,
+          "REM": 166
+        },
+        "source_sha256": {
+          "SC4342F0-PSG.edf": "5d467dd147e2ad115d3c0b399ff4f4209a92a258793e21043ba474c02673bdbf",
+          "SC4342FA-Hypnogram.edf": "aea17788608eea25abe7a282aa4914b62073515991e76eebd360f8d6dc715329"
+        },
+        "shard_sha256": "28d04992f5ef9d059615230917bc877c05e97901f9b76843453a85cdb3e99bb3",
+        "seconds": 0.7217664170020726,
+        "annotation_interval_counts": {
+          "Sleep stage W": 10,
+          "Sleep stage 1": 41,
+          "Sleep stage 2": 21,
+          "Sleep stage R": 18,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4351",
+        "participant": "SC435",
+        "epochs": 976,
+        "class_counts": {
+          "W": 351,
+          "N1": 78,
+          "N2": 419,
+          "N3": 104,
+          "REM": 24
+        },
+        "source_sha256": {
+          "SC4351F0-PSG.edf": "81acdd7907f718845841bee1f9eb01c39f776a01f9a2c530f4164e0ae0e5cb62",
+          "SC4351FA-Hypnogram.edf": "eae32c74c37ff618804900ed26f3c7e995a6d82c6eb84b9e0841f0575093a745"
+        },
+        "shard_sha256": "e4a8f60d740176088be9c9df83074687c6080b1741f41b6b25f8c6acc7596d31",
+        "seconds": 0.6490223750006407,
+        "annotation_interval_counts": {
+          "Sleep stage W": 15,
+          "Sleep stage 1": 24,
+          "Sleep stage 2": 61,
+          "Sleep stage 3": 45,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4352",
+        "participant": "SC435",
+        "epochs": 963,
+        "class_counts": {
+          "W": 222,
+          "N1": 66,
+          "N2": 498,
+          "N3": 105,
+          "REM": 72
+        },
+        "source_sha256": {
+          "SC4352F0-PSG.edf": "98ff6eca86334cf24c2df54c32e3448128c5bff9c8b51b504a704a92d1920932",
+          "SC4352FV-Hypnogram.edf": "0a36a8a5adce558d8dddf305a7755cd6a46d9e35b1164a6ec1d6f255be20342d"
+        },
+        "shard_sha256": "6187850449ade7570ec348d45ddc0b7d1025d9543daf460ed08f5d795fa47f22",
+        "seconds": 0.6393102909933077,
+        "annotation_interval_counts": {
+          "Sleep stage W": 20,
+          "Sleep stage 1": 16,
+          "Sleep stage 2": 56,
+          "Sleep stage 3": 46,
+          "Sleep stage 4": 5,
+          "Movement time": 2,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4362",
+        "participant": "SC436",
+        "epochs": 824,
+        "class_counts": {
+          "W": 156,
+          "N1": 53,
+          "N2": 499,
+          "N3": 48,
+          "REM": 68
+        },
+        "source_sha256": {
+          "SC4362F0-PSG.edf": "e9b67e13606abf693138bad8f236e6781de45100b1cdf9b2ce1745a4eed33a44",
+          "SC4362FC-Hypnogram.edf": "13e4568c76fb57bfab7c4f1ff12081609dbe04947bd850dc728f8e5d6663c2bf"
+        },
+        "shard_sha256": "b5ba4dbf6dcdd34c6976263ff22b9da5762e8c757582feb474d7a4e6eeb90cff",
+        "seconds": 0.5354169580095913,
+        "annotation_interval_counts": {
+          "Sleep stage W": 9,
+          "Sleep stage 1": 12,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 23,
+          "Sleep stage R": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4371",
+        "participant": "SC437",
+        "epochs": 918,
+        "class_counts": {
+          "W": 144,
+          "N1": 234,
+          "N2": 484,
+          "N3": 11,
+          "REM": 45
+        },
+        "source_sha256": {
+          "SC4371F0-PSG.edf": "997a20f50ee88646fe228ae85d0a0f0ce4f336f07fd65c13ba6d78e9b0c39638",
+          "SC4371FA-Hypnogram.edf": "83ea9ff27415b36f183dd4492b6016696d6935081a786ad2b602397387b51f79"
+        },
+        "shard_sha256": "bcf0f55d1bf2a7d6935807909f43f2cabbc7f2fd1e99d70461ed9895e206e02f",
+        "seconds": 0.7110495410015574,
+        "annotation_interval_counts": {
+          "Sleep stage W": 7,
+          "Sleep stage 1": 39,
+          "Sleep stage 2": 45,
+          "Sleep stage 3": 10,
+          "Sleep stage R": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4372",
+        "participant": "SC437",
+        "epochs": 1509,
+        "class_counts": {
+          "W": 682,
+          "N1": 282,
+          "N2": 433,
+          "N3": 6,
+          "REM": 106
+        },
+        "source_sha256": {
+          "SC4372F0-PSG.edf": "67e39af089416532e067fb0d7c7487adff76823ef674d5634f5d475b9111cbf4",
+          "SC4372FC-Hypnogram.edf": "3ca01f943a58b327530493911beaa0ea25594f4876bda1cc38951a9de092f235"
+        },
+        "shard_sha256": "b915e8df396a5d623c9d9e0707fb58655edb64259b7af54d4c6aae4c9bbbe988",
+        "seconds": 0.7775662500062026,
+        "annotation_interval_counts": {
+          "Sleep stage W": 18,
+          "Sleep stage 1": 18,
+          "Sleep stage 2": 14,
+          "Sleep stage 3": 5,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4381",
+        "participant": "SC438",
+        "epochs": 1776,
+        "class_counts": {
+          "W": 893,
+          "N1": 95,
+          "N2": 612,
+          "N3": 16,
+          "REM": 160
+        },
+        "source_sha256": {
+          "SC4381F0-PSG.edf": "e34a980d8958ffe35da41ebe91d924ff7d7bb1be81f2bce761b20d43634967a2",
+          "SC4381FC-Hypnogram.edf": "2f737acfb507c8e96d2acd5f41fcaa318366829351fbd494f5ffe6120e3e80d8"
+        },
+        "shard_sha256": "74110fc1831333f2734fccae78e0fb34c45ca0be4dd1269422cab675f7f13a74",
+        "seconds": 0.7355424999987008,
+        "annotation_interval_counts": {
+          "Sleep stage W": 11,
+          "Sleep stage 1": 14,
+          "Sleep stage 2": 25,
+          "Sleep stage 3": 13,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4382",
+        "participant": "SC438",
+        "epochs": 1871,
+        "class_counts": {
+          "W": 979,
+          "N1": 103,
+          "N2": 583,
+          "N3": 37,
+          "REM": 169
+        },
+        "source_sha256": {
+          "SC4382F0-PSG.edf": "f898db13b93d2bb4622b8227d6aedd8741aa654c41ae53cedbbc95ca21d74ed4",
+          "SC4382FW-Hypnogram.edf": "16d69d8a7bc5017b4c7af0aaad689aa634b2c638b4bb2fe7f8d64c8109a51457"
+        },
+        "shard_sha256": "78529e85b6d81a282b0a463f3cb9a9ae03537087b3c73298c67144e5e19b3197",
+        "seconds": 0.6932838749926304,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 33,
+          "Sleep stage 3": 14,
+          "Sleep stage 4": 1,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4401",
+        "participant": "SC440",
+        "epochs": 1064,
+        "class_counts": {
+          "W": 410,
+          "N1": 163,
+          "N2": 377,
+          "N3": 4,
+          "REM": 110
+        },
+        "source_sha256": {
+          "SC4401E0-PSG.edf": "8d82444a5dbcfe71d9854f3e06d5bf9961166cba9b48462985068cd3ccd08439",
+          "SC4401EC-Hypnogram.edf": "b70a4f7573292282d06daecde23b1cff25766c8ca89ebac913ed30291191a96c"
+        },
+        "shard_sha256": "01f2150071ebcda7064f2b10d24d169221abe844bebe1f7c0f4e43f66e5e3f12",
+        "seconds": 0.637414999990142,
+        "annotation_interval_counts": {
+          "Sleep stage W": 32,
+          "Sleep stage 1": 34,
+          "Sleep stage 2": 18,
+          "Sleep stage 3": 3,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4402",
+        "participant": "SC440",
+        "epochs": 1072,
+        "class_counts": {
+          "W": 209,
+          "N1": 92,
+          "N2": 375,
+          "N3": 142,
+          "REM": 254
+        },
+        "source_sha256": {
+          "SC4402E0-PSG.edf": "30094e0f3f53f66d481437b66289c044890930df94b7e75cf685936bb087ea49",
+          "SC4402EW-Hypnogram.edf": "1053234b9c9c58569373207161074b6d1ffcc4693e1d0f722ae7e14336c1bc52"
+        },
+        "shard_sha256": "2defbf93d69ca152dd95b9f8925d1f32c7ac108e4a5d86a53fa3051fc231c804",
+        "seconds": 0.7052452499920037,
+        "annotation_interval_counts": {
+          "Sleep stage W": 27,
+          "Sleep stage 1": 40,
+          "Sleep stage 2": 48,
+          "Sleep stage 3": 36,
+          "Sleep stage 4": 5,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4411",
+        "participant": "SC441",
+        "epochs": 1078,
+        "class_counts": {
+          "W": 181,
+          "N1": 145,
+          "N2": 502,
+          "N3": 46,
+          "REM": 204
+        },
+        "source_sha256": {
+          "SC4411E0-PSG.edf": "32d570e82f81c0e532cd29145b03acae41affbb8df6c543acf962b72e2848401",
+          "SC4411EJ-Hypnogram.edf": "073b005bf8f0804ae52f60b394dd68b00426de8acbc23c6557e236d50edc60f2"
+        },
+        "shard_sha256": "905e73ce5b94ba681fa089b045b575644bd102e27157119eb2789d19e3377eba",
+        "seconds": 0.6704606669954956,
+        "annotation_interval_counts": {
+          "Sleep stage W": 21,
+          "Sleep stage 1": 56,
+          "Sleep stage 2": 68,
+          "Sleep stage 3": 26,
+          "Sleep stage R": 6,
+          "Sleep stage 4": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4412",
+        "participant": "SC441",
+        "epochs": 924,
+        "class_counts": {
+          "W": 178,
+          "N1": 64,
+          "N2": 356,
+          "N3": 226,
+          "REM": 100
+        },
+        "source_sha256": {
+          "SC4412E0-PSG.edf": "de7151a76a417096d44e40f9e9bed3bf887d7f8321ba4243b631e5fe54038057",
+          "SC4412EM-Hypnogram.edf": "5c03e5c699832c91b688eff8004829e7767e8f95cf748bd286d8fcd0e6a2c7e4"
+        },
+        "shard_sha256": "8435d25f48a6c7afb03e505274e40e3f94b21702b7f25839561dfbf07b5b2f41",
+        "seconds": 0.7100832919968525,
+        "annotation_interval_counts": {
+          "Sleep stage W": 21,
+          "Sleep stage 1": 36,
+          "Sleep stage 2": 50,
+          "Sleep stage 3": 53,
+          "Sleep stage 4": 26,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4421",
+        "participant": "SC442",
+        "epochs": 785,
+        "class_counts": {
+          "W": 147,
+          "N1": 34,
+          "N2": 283,
+          "N3": 163,
+          "REM": 158
+        },
+        "source_sha256": {
+          "SC4421E0-PSG.edf": "5e7f23a1df290ec85f251fd2097135aa371dc7ed3d6d073ecd1442bb88d70e05",
+          "SC4421EA-Hypnogram.edf": "77c74118334a1d4a2a6b1be55df611bc16b2721f0c26949331fe5f427787c0ab"
+        },
+        "shard_sha256": "56d10a0d0e7bc63644115ed192418716b89d1320e1f2838cd7cd603141e4929e",
+        "seconds": 0.6744565000117291,
+        "annotation_interval_counts": {
+          "Sleep stage W": 7,
+          "Sleep stage 1": 22,
+          "Sleep stage 2": 39,
+          "Sleep stage 3": 36,
+          "Sleep stage 4": 18,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4422",
+        "participant": "SC442",
+        "epochs": 884,
+        "class_counts": {
+          "W": 215,
+          "N1": 159,
+          "N2": 298,
+          "N3": 124,
+          "REM": 88
+        },
+        "source_sha256": {
+          "SC4422E0-PSG.edf": "1f06c1f24c8d049dad227358e3e898efeff8b634f36310f18db24d6ffcd6c693",
+          "SC4422EA-Hypnogram.edf": "36fe5d418f7e1726f9c10ca9a807ba72678b938fcb632984a10a704033da145e"
+        },
+        "shard_sha256": "f790e738f2e024bd979bfc0ed78b8953bfd0ac8a17b6377e195853ecf01314c1",
+        "seconds": 0.6597696670069126,
+        "annotation_interval_counts": {
+          "Sleep stage W": 24,
+          "Sleep stage 1": 39,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 34,
+          "Sleep stage 4": 20,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4431",
+        "participant": "SC443",
+        "epochs": 699,
+        "class_counts": {
+          "W": 142,
+          "N1": 63,
+          "N2": 331,
+          "N3": 82,
+          "REM": 81
+        },
+        "source_sha256": {
+          "SC4431E0-PSG.edf": "6e9a0836272497616237ae34d7cb70a87bec678b8b774cd065e356c1c1b4a966",
+          "SC4431EM-Hypnogram.edf": "633f97f810e0ca9a6a0e9220eb3d569c5ff5c86152cfd120c6e1d58f46a1a909"
+        },
+        "shard_sha256": "60f3e4b0c970b44aaa2471a08c6fb0bae3577f7bb4cc73c373288a68361786d9",
+        "seconds": 0.7436373749951599,
+        "annotation_interval_counts": {
+          "Sleep stage W": 7,
+          "Sleep stage 1": 27,
+          "Sleep stage 2": 39,
+          "Sleep stage 3": 24,
+          "Sleep stage 4": 7,
+          "Sleep stage R": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4432",
+        "participant": "SC443",
+        "epochs": 962,
+        "class_counts": {
+          "W": 150,
+          "N1": 41,
+          "N2": 430,
+          "N3": 144,
+          "REM": 197
+        },
+        "source_sha256": {
+          "SC4432E0-PSG.edf": "7cfa851e5319a4c7fbea24b8e605630524e42ee327a9b924e3c14bf72a4b99db",
+          "SC4432EM-Hypnogram.edf": "19bc1115502dc7a2e31fc6f817dc6fe1560de21d8e2c6a806a04e5b1a2ce5b21"
+        },
+        "shard_sha256": "d31cc10e3a5151007b51b1a8f6202c70fc62f1fdb7dfa90bc49498ddc5d398bd",
+        "seconds": 0.6485443749988917,
+        "annotation_interval_counts": {
+          "Sleep stage W": 6,
+          "Sleep stage 1": 13,
+          "Sleep stage 2": 33,
+          "Sleep stage 3": 25,
+          "Sleep stage 4": 7,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4441",
+        "participant": "SC444",
+        "epochs": 1195,
+        "class_counts": {
+          "W": 416,
+          "N1": 183,
+          "N2": 405,
+          "N3": 91,
+          "REM": 100
+        },
+        "source_sha256": {
+          "SC4441E0-PSG.edf": "2e4629ee9fc70bf89fedde88805e9a33506bfe5f800b2e3e2dbf8c8b63237c9f",
+          "SC4441EC-Hypnogram.edf": "53d89034a0b51533ffc0a25096dc17715668fad41d6ea117510f0e54e4de8516"
+        },
+        "shard_sha256": "21effdfe2329d50e35c3a109b412981326d08d339b59ee4112e422d75cc7811d",
+        "seconds": 0.6553993330016965,
+        "annotation_interval_counts": {
+          "Sleep stage W": 29,
+          "Sleep stage 1": 32,
+          "Sleep stage 2": 33,
+          "Sleep stage 3": 27,
+          "Sleep stage 4": 12,
+          "Sleep stage R": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4442",
+        "participant": "SC444",
+        "epochs": 1092,
+        "class_counts": {
+          "W": 282,
+          "N1": 92,
+          "N2": 530,
+          "N3": 92,
+          "REM": 96
+        },
+        "source_sha256": {
+          "SC4442E0-PSG.edf": "9e3b01ec4d56ed41d0fb20e699862ee244be38ffed78211a9b0b2bad60aeefd7",
+          "SC4442EV-Hypnogram.edf": "1d2c83c0b217a57f4f9b59f1b7efb4c6c79aa0b49bf9c5526a945a93baf1a92c"
+        },
+        "shard_sha256": "337e16d682e6f18d8a072780eeda90f08a43755476a4638b064df813fb4be49a",
+        "seconds": 0.6812575000076322,
+        "annotation_interval_counts": {
+          "Sleep stage W": 34,
+          "Sleep stage 1": 35,
+          "Sleep stage 2": 42,
+          "Sleep stage 3": 27,
+          "Sleep stage 4": 8,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4451",
+        "participant": "SC445",
+        "epochs": 1208,
+        "class_counts": {
+          "W": 269,
+          "N1": 235,
+          "N2": 258,
+          "N3": 307,
+          "REM": 139
+        },
+        "source_sha256": {
+          "SC4451F0-PSG.edf": "aded35d3395744de786b4ea4f0c92bd4de03cd96ca7741135930f456824e5a59",
+          "SC4451FY-Hypnogram.edf": "77872d764b530cdd2c5f320cee24cf00fc9c2e5c7420838038552c8b8ecf0d14"
+        },
+        "shard_sha256": "d0feb8435bf1ae4097d28342caee2aa67f4d48e7548356d3639e10350a499594",
+        "seconds": 0.7197310839983402,
+        "annotation_interval_counts": {
+          "Sleep stage W": 46,
+          "Sleep stage 1": 59,
+          "Sleep stage 2": 32,
+          "Sleep stage 3": 37,
+          "Sleep stage 4": 27,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4452",
+        "participant": "SC445",
+        "epochs": 1166,
+        "class_counts": {
+          "W": 191,
+          "N1": 162,
+          "N2": 358,
+          "N3": 267,
+          "REM": 188
+        },
+        "source_sha256": {
+          "SC4452F0-PSG.edf": "3eb9bbe644762322f0817edb44098327b4701f752fd41fd01d526f1cb1776565",
+          "SC4452FW-Hypnogram.edf": "8293fd807b176434ebcbb85a0a0e9406276b46265bbed3f1cb33f9b04f668802"
+        },
+        "shard_sha256": "6a7c1a80e9b1364672c50a23cd4d7dd1a12245b568bb0afa1c9100ef1a70152c",
+        "seconds": 0.6257523749954998,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 45,
+          "Sleep stage 2": 53,
+          "Sleep stage 3": 53,
+          "Sleep stage 4": 22,
+          "Sleep stage R": 16,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4461",
+        "participant": "SC446",
+        "epochs": 983,
+        "class_counts": {
+          "W": 196,
+          "N1": 118,
+          "N2": 484,
+          "N3": 9,
+          "REM": 176
+        },
+        "source_sha256": {
+          "SC4461F0-PSG.edf": "2a0012026066f9287436df7c06d10aa6c76d3e0868497a011457f4ef3a3f2ae8",
+          "SC4461FA-Hypnogram.edf": "49d38ed04c2d92c6eaafde5e1a37ab18ae73f865e6913d16f51327cc52b0e151"
+        },
+        "shard_sha256": "7eb20eeacd51c67019ba4bcc167c52855b32ce18e98661ce3df6086fbae2ee17",
+        "seconds": 0.642644833002123,
+        "annotation_interval_counts": {
+          "Sleep stage W": 18,
+          "Sleep stage 1": 33,
+          "Sleep stage 2": 26,
+          "Sleep stage 3": 9,
+          "Sleep stage R": 10,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4462",
+        "participant": "SC446",
+        "epochs": 1022,
+        "class_counts": {
+          "W": 147,
+          "N1": 198,
+          "N2": 472,
+          "N3": 19,
+          "REM": 186
+        },
+        "source_sha256": {
+          "SC4462F0-PSG.edf": "91d44407df7503e28c8811384dc5987bea73deee39286245dedbb03350c2f6b7",
+          "SC4462FJ-Hypnogram.edf": "5c94ccdade9c9365fb7003225cb99a393c505e0eb25cb72ff7648f8b27ca8ecc"
+        },
+        "shard_sha256": "7496fd23a5e902f2d6ff4f9245100819ccb78f5fad08475c90dbbc74a14fd6d8",
+        "seconds": 0.7032274999946821,
+        "annotation_interval_counts": {
+          "Sleep stage W": 10,
+          "Sleep stage 1": 35,
+          "Sleep stage 2": 41,
+          "Sleep stage 3": 17,
+          "Sleep stage R": 10,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4471",
+        "participant": "SC447",
+        "epochs": 1187,
+        "class_counts": {
+          "W": 365,
+          "N1": 78,
+          "N2": 349,
+          "N3": 275,
+          "REM": 120
+        },
+        "source_sha256": {
+          "SC4471F0-PSG.edf": "1216e1fd8c312048e73bc3c3fb1338d56e99a4aeb121875d606c85db7d4e4838",
+          "SC4471FA-Hypnogram.edf": "8acd569ce8c34d0977b05265136262a92789ca10b3005dc6af072711075e6614"
+        },
+        "shard_sha256": "d2a551f9019954f542685e90bdd4deac519bbe1b8257ea48509a2975bd450980",
+        "seconds": 0.6891725419991417,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 48,
+          "Sleep stage 2": 80,
+          "Sleep stage 3": 62,
+          "Sleep stage 4": 26,
+          "Sleep stage R": 10,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4472",
+        "participant": "SC447",
+        "epochs": 2161,
+        "class_counts": {
+          "W": 1437,
+          "N1": 161,
+          "N2": 299,
+          "N3": 144,
+          "REM": 120
+        },
+        "source_sha256": {
+          "SC4472F0-PSG.edf": "d4e611e5fca8dd4619cb9701eaa87d13178f926d8c8a517644e9e0efa3f23a7e",
+          "SC4472FA-Hypnogram.edf": "4efce6d76aac2869ff4c573d0ca0c550b3dee569e6562754e18e1b5e178ba09e"
+        },
+        "shard_sha256": "23684f3fd072c1ec3c2c011fce82c20f53e54bd24852407ef76c11c316d9f517",
+        "seconds": 0.7535561669938033,
+        "annotation_interval_counts": {
+          "Sleep stage W": 42,
+          "Sleep stage 1": 68,
+          "Sleep stage 2": 60,
+          "Sleep stage 3": 36,
+          "Sleep stage 4": 14,
+          "Sleep stage R": 9,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4481",
+        "participant": "SC448",
+        "epochs": 2027,
+        "class_counts": {
+          "W": 926,
+          "N1": 299,
+          "N2": 471,
+          "N3": 95,
+          "REM": 236
+        },
+        "source_sha256": {
+          "SC4481F0-PSG.edf": "7a56e00c22bebe0ecf61dd8f953ecf3ec083e7e8f424a664f6ddf89f308a480c",
+          "SC4481FV-Hypnogram.edf": "456ce586de5540d28628dd0dff223ece2bfb3b37ff3e267e588e47bcaf3745d1"
+        },
+        "shard_sha256": "5518ee0e1a5e5e93fea59681b391eaf4d2865f9a806fadc1a78a2be3f5d3b18e",
+        "seconds": 0.8369213750120252,
+        "annotation_interval_counts": {
+          "Sleep stage W": 53,
+          "Sleep stage 1": 65,
+          "Sleep stage 2": 50,
+          "Sleep stage 3": 33,
+          "Sleep stage R": 11,
+          "Sleep stage 4": 6
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4482",
+        "participant": "SC448",
+        "epochs": 1910,
+        "class_counts": {
+          "W": 968,
+          "N1": 146,
+          "N2": 520,
+          "N3": 116,
+          "REM": 160
+        },
+        "source_sha256": {
+          "SC4482F0-PSG.edf": "34c6706b34f1e8eda2966952e1a2a2f6712583628af35f42845b6f2508e7e094",
+          "SC4482FJ-Hypnogram.edf": "0f4fc4268884ed16b6fc4a151f60b624a1279b4de8b807221092963e07782fd2"
+        },
+        "shard_sha256": "c02343d55da8acc1f6a1e19c273fc7ce3bced6c1eed568a55934db6ac45c036c",
+        "seconds": 0.7541510840092087,
+        "annotation_interval_counts": {
+          "Sleep stage W": 20,
+          "Sleep stage 1": 60,
+          "Sleep stage 2": 62,
+          "Sleep stage 3": 36,
+          "Sleep stage R": 19,
+          "Sleep stage 4": 10
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4491",
+        "participant": "SC449",
+        "epochs": 1101,
+        "class_counts": {
+          "W": 210,
+          "N1": 149,
+          "N2": 512,
+          "N3": 14,
+          "REM": 216
+        },
+        "source_sha256": {
+          "SC4491G0-PSG.edf": "664f8984ee11f1cbe7ae5831d83c93892061903a8914a14e9727fcca968abad5",
+          "SC4491GJ-Hypnogram.edf": "3344a2b845b3cbf57bc7f52fd825ee19dbac12e1577f84b0f3d612e4b033b904"
+        },
+        "shard_sha256": "1ec45c37b1374ade6f40ee5e1f495f9ef7d9e6e87eaac0cd24efaa897dde2a37",
+        "seconds": 0.7244019159988966,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 52,
+          "Sleep stage 2": 41,
+          "Sleep stage 3": 12,
+          "Sleep stage R": 13,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4492",
+        "participant": "SC449",
+        "epochs": 1040,
+        "class_counts": {
+          "W": 307,
+          "N1": 157,
+          "N2": 416,
+          "N3": 27,
+          "REM": 133
+        },
+        "source_sha256": {
+          "SC4492G0-PSG.edf": "7e47f1285d5859c22a8857c3d7247a38cfcd65aef0402278d6d8874f822bb7ce",
+          "SC4492GJ-Hypnogram.edf": "3be7b6f38459261af41a3046fe48200a4db8c9c513227cc0ee8495737b0de28b"
+        },
+        "shard_sha256": "d1b8182eb1eb4c05f750ad8a7f3d50d8f694b4e932c256e1a609c84380eff833",
+        "seconds": 0.5318491669895593,
+        "annotation_interval_counts": {
+          "Sleep stage W": 35,
+          "Sleep stage 1": 59,
+          "Sleep stage 2": 47,
+          "Sleep stage 3": 17,
+          "Sleep stage 4": 1,
+          "Sleep stage R": 8,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4501",
+        "participant": "SC450",
+        "epochs": 1326,
+        "class_counts": {
+          "W": 539,
+          "N1": 190,
+          "N2": 402,
+          "N3": 2,
+          "REM": 193
+        },
+        "source_sha256": {
+          "SC4501E0-PSG.edf": "f190968b451b22d71124c4389062b67ebb2382d11dbe7b71f6d4bd42a3859dec",
+          "SC4501EW-Hypnogram.edf": "abf9ef0f7c6d4f7af3fbfdb2c80a97e8554e795194679565b9ed1fc988d01f1c"
+        },
+        "shard_sha256": "73766591024a5697b7af4e38b1757862cf4f819d0a6838226842d44e5a603722",
+        "seconds": 0.6958569580019685,
+        "annotation_interval_counts": {
+          "Sleep stage W": 18,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 24,
+          "Sleep stage 3": 2,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4502",
+        "participant": "SC450",
+        "epochs": 1103,
+        "class_counts": {
+          "W": 299,
+          "N1": 78,
+          "N2": 493,
+          "N3": 42,
+          "REM": 191
+        },
+        "source_sha256": {
+          "SC4502E0-PSG.edf": "e2f296d88688f3595d3221a0e4dedfbe99f872bb8cddb54bd08dec79b76f9f92",
+          "SC4502EM-Hypnogram.edf": "09da37aa4f2c7bb090c631c49d1452fa0b776736e2319049cf5dc9ec09e9d79b"
+        },
+        "shard_sha256": "4691778ebb1d989b1480ecfe31ac95f0c370d5be4a4e1301fe26f619e7fe4b68",
+        "seconds": 0.6294225419987924,
+        "annotation_interval_counts": {
+          "Sleep stage W": 13,
+          "Sleep stage 1": 32,
+          "Sleep stage 2": 51,
+          "Sleep stage 3": 28,
+          "Sleep stage R": 13,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4511",
+        "participant": "SC451",
+        "epochs": 1087,
+        "class_counts": {
+          "W": 151,
+          "N1": 409,
+          "N2": 398,
+          "N3": 3,
+          "REM": 126
+        },
+        "source_sha256": {
+          "SC4511E0-PSG.edf": "9244438e63c66ec19885336e76570fa272e09582849662d4541226950e5ec12b",
+          "SC4511EJ-Hypnogram.edf": "ff5cabb5347dce8c0706b701e6db5505512791b0da6d2dd18c076f87fb6eadf6"
+        },
+        "shard_sha256": "6951ad6fa9c2942d7a4aae41170ab64a1d7a83990d928d366144da64fc37f779",
+        "seconds": 0.6654200000048149,
+        "annotation_interval_counts": {
+          "Sleep stage W": 23,
+          "Sleep stage 1": 40,
+          "Sleep stage 2": 22,
+          "Sleep stage 3": 3,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4512",
+        "participant": "SC451",
+        "epochs": 954,
+        "class_counts": {
+          "W": 226,
+          "N1": 179,
+          "N2": 435,
+          "N3": 2,
+          "REM": 112
+        },
+        "source_sha256": {
+          "SC4512E0-PSG.edf": "061905f65dde19d5b03ee846edf50ee195870ee1b44c9899da577dbbaaeee2bb",
+          "SC4512EW-Hypnogram.edf": "414a4be8a5a5b41b7c479525ee6cf6b0afcb0a67d2de50be8077a586964821ec"
+        },
+        "shard_sha256": "ec0c852d1ed57d79ded83b4a3d7da6c8bfbee759b6175b05cc5912facc5b0c05",
+        "seconds": 0.6607122080022236,
+        "annotation_interval_counts": {
+          "Sleep stage W": 32,
+          "Sleep stage 1": 35,
+          "Sleep stage 2": 21,
+          "Sleep stage R": 11,
+          "Sleep stage 3": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4522",
+        "participant": "SC452",
+        "epochs": 997,
+        "class_counts": {
+          "W": 283,
+          "N1": 89,
+          "N2": 530,
+          "N3": 11,
+          "REM": 84
+        },
+        "source_sha256": {
+          "SC4522E0-PSG.edf": "6ece627a2e12eb99095c8070d771a8d02f32b95085dad515e718ba087338a66f",
+          "SC4522EM-Hypnogram.edf": "2d3f960276b8d0a021f29da5be1c3ae8e96f44cbc6157cc83c675347a7396e5c"
+        },
+        "shard_sha256": "7b4fa8ec4d631d6a07185841fd0d0b916d36d8b69b9678cd97a701d9f9b22c59",
+        "seconds": 0.643456875011907,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 19,
+          "Sleep stage 2": 19,
+          "Sleep stage R": 5,
+          "Sleep stage 3": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4531",
+        "participant": "SC453",
+        "epochs": 1096,
+        "class_counts": {
+          "W": 242,
+          "N1": 124,
+          "N2": 465,
+          "N3": 85,
+          "REM": 180
+        },
+        "source_sha256": {
+          "SC4531E0-PSG.edf": "ae58a7b3f14426be2e54633d27397aa5d1186d48790b3f91f6c8df9600d2d19a",
+          "SC4531EM-Hypnogram.edf": "f868878c0f9033513671a72a75aa9e34a2a31c1dfed4f87a4a6e040ca100c35a"
+        },
+        "shard_sha256": "0b5f2e11a39db06197bc5c4d3b3e434dedd8c845260c3b255c2f54e7441dc2b1",
+        "seconds": 0.6454177090054145,
+        "annotation_interval_counts": {
+          "Sleep stage W": 23,
+          "Sleep stage 1": 49,
+          "Sleep stage 2": 80,
+          "Sleep stage 3": 42,
+          "Sleep stage R": 10,
+          "Sleep stage 4": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4532",
+        "participant": "SC453",
+        "epochs": 1056,
+        "class_counts": {
+          "W": 175,
+          "N1": 147,
+          "N2": 543,
+          "N3": 21,
+          "REM": 170
+        },
+        "source_sha256": {
+          "SC4532E0-PSG.edf": "66c91fc28e371315f84eb483f629ca2e2c0cda25c1b2645331094da08e197654",
+          "SC4532EV-Hypnogram.edf": "af71ed868eaa43a9acd5638d55689e44cfa0601343ce49b4d5c7603268617492"
+        },
+        "shard_sha256": "4d68eeed2fcaa59ba61bbcc0f5b0f3cb487f8539ca5bcde7b32717168171cfa5",
+        "seconds": 0.6520371250080643,
+        "annotation_interval_counts": {
+          "Sleep stage W": 16,
+          "Sleep stage 1": 38,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 13,
+          "Sleep stage R": 14,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4541",
+        "participant": "SC454",
+        "epochs": 1716,
+        "class_counts": {
+          "W": 820,
+          "N1": 199,
+          "N2": 557,
+          "N3": 5,
+          "REM": 135
+        },
+        "source_sha256": {
+          "SC4541F0-PSG.edf": "ca9224ac66020bd71e1c75394fcc6332520334c367c75d1e4885ea86a543e0a6",
+          "SC4541FA-Hypnogram.edf": "d91f3686fa7b5e473222117d10471c02e859b4eb8b1f99ee0977e1f7e709b5fe"
+        },
+        "shard_sha256": "04001f8aab1714f1b41365d65dd7604417855bd713ba76c99e5a43f5b836f7c9",
+        "seconds": 0.6943351660011103,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 76,
+          "Sleep stage 2": 60,
+          "Sleep stage R": 9,
+          "Sleep stage 3": 5,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4542",
+        "participant": "SC454",
+        "epochs": 1148,
+        "class_counts": {
+          "W": 281,
+          "N1": 208,
+          "N2": 461,
+          "N3": 78,
+          "REM": 120
+        },
+        "source_sha256": {
+          "SC4542F0-PSG.edf": "f872fe4bb0fed00df3c80b2690bd216e48c36d481b567cad2dcd7b3928936c6b",
+          "SC4542FW-Hypnogram.edf": "9fa7ef036dc0c87576b0a353dde155bac5379e6328ad8b9f79ad77adc9c70cfd"
+        },
+        "shard_sha256": "a25f70e18d8fd9f4480742aae5c4bbd0b13413dd1642c45809b1382408d69d5e",
+        "seconds": 0.6527054170001065,
+        "annotation_interval_counts": {
+          "Sleep stage W": 43,
+          "Sleep stage 1": 89,
+          "Sleep stage 2": 76,
+          "Sleep stage 3": 22,
+          "Sleep stage R": 15,
+          "Sleep stage 4": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4551",
+        "participant": "SC455",
+        "epochs": 1047,
+        "class_counts": {
+          "W": 314,
+          "N1": 91,
+          "N2": 487,
+          "N3": 48,
+          "REM": 107
+        },
+        "source_sha256": {
+          "SC4551F0-PSG.edf": "f5cd1f9e38689e8025b3de7aea2a8bfa06a378797f4de34aad006dbdcef9b6a8",
+          "SC4551FC-Hypnogram.edf": "28111a7497214a32e737ae9a7a91198a78c2b56ddc5e6ba50feaa31427e1c761"
+        },
+        "shard_sha256": "6fc280461704732fdacc613638c63cbea3990269ce7e192b89922e5449ea2c68",
+        "seconds": 0.6875002089946065,
+        "annotation_interval_counts": {
+          "Sleep stage W": 24,
+          "Sleep stage 1": 27,
+          "Sleep stage 2": 32,
+          "Sleep stage 3": 20,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4552",
+        "participant": "SC455",
+        "epochs": 1090,
+        "class_counts": {
+          "W": 334,
+          "N1": 115,
+          "N2": 395,
+          "N3": 1,
+          "REM": 245
+        },
+        "source_sha256": {
+          "SC4552F0-PSG.edf": "5ffe3e5c630d9eb64843157ed7c74a31372afe402f2d97c05ebf1a0b033d57fd",
+          "SC4552FW-Hypnogram.edf": "1dbebb9c05574ad02aa47ecc6dbcb9ae79c8c47d3db1939430e1825dff273210"
+        },
+        "shard_sha256": "e58415f38f358936d59d6658572939089315b3a4707a7e03777deede815c4d83",
+        "seconds": 0.7355660419998458,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 32,
+          "Sleep stage 2": 22,
+          "Sleep stage R": 10,
+          "Sleep stage 3": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4561",
+        "participant": "SC456",
+        "epochs": 1237,
+        "class_counts": {
+          "W": 281,
+          "N1": 521,
+          "N2": 272,
+          "N3": 50,
+          "REM": 113
+        },
+        "source_sha256": {
+          "SC4561F0-PSG.edf": "4502a17ad0b338bd11a2f6a1d0663adcb081478f43af96ecac983afca14532ea",
+          "SC4561FJ-Hypnogram.edf": "d8bff828c7e36b2782977ae6604fdaf9e49c49a3a380e23f2bb5470cdd766124"
+        },
+        "shard_sha256": "26b1e998500bab3735a148d004caa25ee4be999f273a6b9ff51e68676968ca37",
+        "seconds": 0.7069240829878254,
+        "annotation_interval_counts": {
+          "Sleep stage W": 42,
+          "Sleep stage 1": 69,
+          "Sleep stage 2": 43,
+          "Sleep stage 3": 19,
+          "Sleep stage R": 10,
+          "Sleep stage 4": 1,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4562",
+        "participant": "SC456",
+        "epochs": 1148,
+        "class_counts": {
+          "W": 283,
+          "N1": 365,
+          "N2": 335,
+          "N3": 28,
+          "REM": 137
+        },
+        "source_sha256": {
+          "SC4562F0-PSG.edf": "f0c225e3a648f47bfd4de3bb5fffc835f378681088fcb34d9db249027e786584",
+          "SC4562FJ-Hypnogram.edf": "abaea931376136b5cb05e12f04413e26821d79e1bf0e4d25753e8927f51f1fdc"
+        },
+        "shard_sha256": "ed0fed19c68a2aa155a0e2c7402919b2b03a24d792a7e5742ae113eee9583f4d",
+        "seconds": 0.6943901670019841,
+        "annotation_interval_counts": {
+          "Sleep stage W": 35,
+          "Sleep stage 1": 63,
+          "Sleep stage 2": 41,
+          "Sleep stage 3": 16,
+          "Sleep stage R": 17,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4571",
+        "participant": "SC457",
+        "epochs": 1227,
+        "class_counts": {
+          "W": 278,
+          "N1": 186,
+          "N2": 513,
+          "N3": 0,
+          "REM": 250
+        },
+        "source_sha256": {
+          "SC4571F0-PSG.edf": "8723c7e85ea8482c67165736a99e87dc868edd8755cdc2fb2349dc411fd00e7f",
+          "SC4571FV-Hypnogram.edf": "65cbc1d2937400b9bd366cb18af4eb3e113d6a0e4a6f78e761a15a92ead21c9e"
+        },
+        "shard_sha256": "d0b97561f5539e676bb2306c5464c91b0aec793ba9492fff6d80046dd4ad0bfc",
+        "seconds": 0.6759232909971615,
+        "annotation_interval_counts": {
+          "Sleep stage W": 59,
+          "Sleep stage 1": 79,
+          "Sleep stage 2": 59,
+          "Sleep stage R": 14,
+          "Sleep stage ?": 2
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4572",
+        "participant": "SC457",
+        "epochs": 1095,
+        "class_counts": {
+          "W": 175,
+          "N1": 104,
+          "N2": 569,
+          "N3": 29,
+          "REM": 218
+        },
+        "source_sha256": {
+          "SC4572F0-PSG.edf": "dba28022ab2126a7038b684e93af34d2d5e1123e9a97adbe313c37439e3a8700",
+          "SC4572FC-Hypnogram.edf": "042bef1cf7c77e17c9187fba963457e029f7edd8057d52bccd863a64be0d5a48"
+        },
+        "shard_sha256": "823d994a4060352ab7ac1f51060064e61f4f6bf9719725f74f4fac2fc629bbc3",
+        "seconds": 0.7170887920074165,
+        "annotation_interval_counts": {
+          "Sleep stage W": 20,
+          "Sleep stage 1": 36,
+          "Sleep stage 2": 48,
+          "Sleep stage 3": 13,
+          "Sleep stage R": 7,
+          "Movement time": 7
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4581",
+        "participant": "SC458",
+        "epochs": 1095,
+        "class_counts": {
+          "W": 194,
+          "N1": 152,
+          "N2": 578,
+          "N3": 10,
+          "REM": 161
+        },
+        "source_sha256": {
+          "SC4581G0-PSG.edf": "23f3465f2b6fef1c7fdcc0552bd88453a38fd08516fec3b556689a3bde7c862e",
+          "SC4581GM-Hypnogram.edf": "7a49c2fe1c743b15e0b84d9f24ea0e383edd081094214de8cdd945a08b6f8115"
+        },
+        "shard_sha256": "3e5c89a3014161cd2ceb1def3114a8d8ce707b58e7e62412c6fc3b888f3c0657",
+        "seconds": 0.7224937499995576,
+        "annotation_interval_counts": {
+          "Sleep stage W": 25,
+          "Sleep stage 1": 67,
+          "Sleep stage 2": 52,
+          "Sleep stage 3": 8,
+          "Sleep stage R": 9,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4582",
+        "participant": "SC458",
+        "epochs": 1175,
+        "class_counts": {
+          "W": 345,
+          "N1": 195,
+          "N2": 543,
+          "N3": 6,
+          "REM": 86
+        },
+        "source_sha256": {
+          "SC4582G0-PSG.edf": "afeb1edb9527666966faaaebc9605702618897c8dff8cd7f6ea9f0df5079588a",
+          "SC4582GP-Hypnogram.edf": "f4a38a3a84f7f41be1fb4f6c3123da213d88d1e3a40c8f857b8f68483bf93e9c"
+        },
+        "shard_sha256": "f137a357c03ee8f9de98557056e06021f5ba8bb62717e31ebfee76c8a2e58b8d",
+        "seconds": 0.6784760000009555,
+        "annotation_interval_counts": {
+          "Sleep stage W": 37,
+          "Sleep stage 1": 71,
+          "Sleep stage 2": 49,
+          "Sleep stage 3": 5,
+          "Sleep stage R": 18,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4591",
+        "participant": "SC459",
+        "epochs": 1840,
+        "class_counts": {
+          "W": 863,
+          "N1": 199,
+          "N2": 363,
+          "N3": 157,
+          "REM": 258
+        },
+        "source_sha256": {
+          "SC4591G0-PSG.edf": "a431cc1ee40111ec37d74db3643bb0cb92577695caa58e2d4741b07ac9521f63",
+          "SC4591GY-Hypnogram.edf": "b12550b005505b2e34d349e1d2954a78eb1fc38b5f560831c77d1d578a693c1b"
+        },
+        "shard_sha256": "43fcb6a556e17564e248da03c45ebce92c5297489707d9322f0fec4e83fc36a6",
+        "seconds": 0.7885945410089334,
+        "annotation_interval_counts": {
+          "Sleep stage W": 44,
+          "Sleep stage 1": 62,
+          "Sleep stage 2": 53,
+          "Sleep stage 3": 21,
+          "Sleep stage R": 14,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4592",
+        "participant": "SC459",
+        "epochs": 1231,
+        "class_counts": {
+          "W": 504,
+          "N1": 194,
+          "N2": 277,
+          "N3": 101,
+          "REM": 155
+        },
+        "source_sha256": {
+          "SC4592G0-PSG.edf": "cdbfa11faa904f2aaa5ac5ee732027926078c54afa43d05cf585f15eda1bdbdb",
+          "SC4592GY-Hypnogram.edf": "4e15d37fd529a714afce9ee0781a0152bd3480476bce0e121107ae75a2eddc75"
+        },
+        "shard_sha256": "915f2f34175f49308782ce35bc2e2e9a2359edcedeba1048d1c4d7fcf15388e0",
+        "seconds": 0.5076275409955997,
+        "annotation_interval_counts": {
+          "Sleep stage W": 67,
+          "Sleep stage 1": 86,
+          "Sleep stage 2": 61,
+          "Sleep stage R": 19,
+          "Sleep stage 3": 32,
+          "Sleep stage 4": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4601",
+        "participant": "SC460",
+        "epochs": 1349,
+        "class_counts": {
+          "W": 601,
+          "N1": 38,
+          "N2": 252,
+          "N3": 288,
+          "REM": 170
+        },
+        "source_sha256": {
+          "SC4601E0-PSG.edf": "159514acb5f9dcbba33e40ab781d4d71e19a5f5cae930846957aa48bd4ff19f4",
+          "SC4601EC-Hypnogram.edf": "bb77c61a47ac4b4fd5eeeda3bac2d3a7f26c232ce5fd69d885992ad0878d0086"
+        },
+        "shard_sha256": "f9bfa4faf9b68b97256000a5d62133e78e837b078c23479e9d1ab79244de5842",
+        "seconds": 0.6445886669971514,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 17,
+          "Sleep stage 2": 58,
+          "Sleep stage 3": 73,
+          "Sleep stage 4": 31,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4602",
+        "participant": "SC460",
+        "epochs": 2043,
+        "class_counts": {
+          "W": 1111,
+          "N1": 223,
+          "N2": 264,
+          "N3": 196,
+          "REM": 249
+        },
+        "source_sha256": {
+          "SC4602E0-PSG.edf": "2a44de77f58ec38d705b5d05d841b8a9f30319d0a760e81ccfd2dd59d53be560",
+          "SC4602EJ-Hypnogram.edf": "794d1fb5b2a1bdf5b24ef34bb0adeac08b7b1ef1c38e63587ec72431370a36f9"
+        },
+        "shard_sha256": "4329c58c6d7b115b040887c833f9f9da1f4e94b37abdba6ff1f1ed63a664ad4d",
+        "seconds": 0.7939804579946212,
+        "annotation_interval_counts": {
+          "Sleep stage W": 28,
+          "Sleep stage 1": 44,
+          "Sleep stage 2": 70,
+          "Sleep stage 3": 70,
+          "Sleep stage 4": 20,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4611",
+        "participant": "SC461",
+        "epochs": 1652,
+        "class_counts": {
+          "W": 715,
+          "N1": 123,
+          "N2": 276,
+          "N3": 139,
+          "REM": 399
+        },
+        "source_sha256": {
+          "SC4611E0-PSG.edf": "3fbe05d888164701ced3dc8f350865123cdf5a882a466e47f56cd027922bfea1",
+          "SC4611EG-Hypnogram.edf": "8cc2aeb5f093e5a8eaac95ab6c071044aae8e0cd5820b0a1bde0a62f681b847b"
+        },
+        "shard_sha256": "b5590b231a66c162f0c7d7ac9e968cea91e699323378da17f83aad554b803ed9",
+        "seconds": 0.6431916669971542,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 37,
+          "Sleep stage 2": 79,
+          "Sleep stage 3": 61,
+          "Sleep stage R": 35,
+          "Sleep stage 4": 18,
+          "Sleep stage ?": 4
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4612",
+        "participant": "SC461",
+        "epochs": 1062,
+        "class_counts": {
+          "W": 208,
+          "N1": 96,
+          "N2": 479,
+          "N3": 65,
+          "REM": 214
+        },
+        "source_sha256": {
+          "SC4612E0-PSG.edf": "8bdccd0d701ebd7fd8ebda6dca7ed00a940e59a0b47c902809753b682f621fbc",
+          "SC4612EA-Hypnogram.edf": "e89cd5b46a7948bd02c2fe9656e4862d1d674caba820f503f78d0d17c7a12a32"
+        },
+        "shard_sha256": "184137425304eaaabf5cbde9bf9cdcd3f4e6fc4a1f710b53816b10847851969c",
+        "seconds": 0.6997053339873673,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 35,
+          "Sleep stage 2": 55,
+          "Sleep stage 3": 36,
+          "Sleep stage 4": 1,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4621",
+        "participant": "SC462",
+        "epochs": 1445,
+        "class_counts": {
+          "W": 332,
+          "N1": 276,
+          "N2": 745,
+          "N3": 14,
+          "REM": 78
+        },
+        "source_sha256": {
+          "SC4621E0-PSG.edf": "9e90774546423253da414db5b0dad26688ca225b1a94b2f14d03b039fd4b3f32",
+          "SC4621EV-Hypnogram.edf": "6a9afd8576d84a0b547c63c0340f8f8953ead1482154126eb4e6498929b8c1c1"
+        },
+        "shard_sha256": "ca6c48a79a16cb7c9791eacac8684bc977b16f9cbe5072d62a6c6878e7e64fb3",
+        "seconds": 0.6386374169960618,
+        "annotation_interval_counts": {
+          "Sleep stage W": 46,
+          "Sleep stage 1": 64,
+          "Sleep stage 2": 60,
+          "Sleep stage R": 8,
+          "Sleep stage 3": 11,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4622",
+        "participant": "SC462",
+        "epochs": 1823,
+        "class_counts": {
+          "W": 926,
+          "N1": 347,
+          "N2": 431,
+          "N3": 4,
+          "REM": 115
+        },
+        "source_sha256": {
+          "SC4622E0-PSG.edf": "eb3fefa488541dd049df24bdc11e8f55455c46e63db35a5c5b40a29c38fb3b4b",
+          "SC4622EJ-Hypnogram.edf": "b9712e1cbfae99276701db99ebfffa25684642425a892883f6684918cfb26e5e"
+        },
+        "shard_sha256": "7faaf7eb9768417faf8803213b3d4f73215877f0c25d543ff12a05269bc1a106",
+        "seconds": 0.7792799169983482,
+        "annotation_interval_counts": {
+          "Sleep stage W": 44,
+          "Sleep stage 1": 85,
+          "Sleep stage 2": 46,
+          "Sleep stage 3": 4,
+          "Sleep stage R": 16,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4631",
+        "participant": "SC463",
+        "epochs": 1063,
+        "class_counts": {
+          "W": 292,
+          "N1": 131,
+          "N2": 481,
+          "N3": 39,
+          "REM": 120
+        },
+        "source_sha256": {
+          "SC4631E0-PSG.edf": "59a05c066cfcdea8e2b40bbf029f37f984551924a0d7fb27592506827d558599",
+          "SC4631EM-Hypnogram.edf": "5444adc5f9c2380fa919730b57fc374df9bfe3328655a69059cb87fefb3b39c8"
+        },
+        "shard_sha256": "98c4d5dc6e35aa96fcc195947d16595be67481091d119b3b5e6489aa6fca6e7d",
+        "seconds": 0.7029423329950077,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 54,
+          "Sleep stage 2": 50,
+          "Sleep stage 3": 17,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4632",
+        "participant": "SC463",
+        "epochs": 1107,
+        "class_counts": {
+          "W": 224,
+          "N1": 157,
+          "N2": 558,
+          "N3": 28,
+          "REM": 140
+        },
+        "source_sha256": {
+          "SC4632E0-PSG.edf": "fae40e7152fdcc3b53f9594404c5846c49b676e8c066e5afc823eb5cde80edc9",
+          "SC4632EA-Hypnogram.edf": "592358bfd3b07564b830a5ae2fbfda92c844c7407dc0370afcd23e6e276562c9"
+        },
+        "shard_sha256": "10f40f18492f236c300a7dd52e56456002c0a4c05e20fcd040c6af9176ae5894",
+        "seconds": 0.750981374992989,
+        "annotation_interval_counts": {
+          "Sleep stage W": 32,
+          "Sleep stage 1": 59,
+          "Sleep stage 2": 54,
+          "Sleep stage 3": 18,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4641",
+        "participant": "SC464",
+        "epochs": 1271,
+        "class_counts": {
+          "W": 632,
+          "N1": 179,
+          "N2": 382,
+          "N3": 0,
+          "REM": 78
+        },
+        "source_sha256": {
+          "SC4641E0-PSG.edf": "34e6bb023cbf49c86a49d7a7e17fe2683df6c8d95506e7b2af5027d9565ea412",
+          "SC4641EP-Hypnogram.edf": "fe230dc4ce12328ca520f9930eab0e59ade566a4f6db68e94a2c9f8bd1d5784f"
+        },
+        "shard_sha256": "61763d902acf1c77e0f05820bc4c746393cc8fdb7699f8f8383d75616e8fb450",
+        "seconds": 0.653023500010022,
+        "annotation_interval_counts": {
+          "Sleep stage W": 19,
+          "Sleep stage 1": 38,
+          "Sleep stage 2": 24,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4642",
+        "participant": "SC464",
+        "epochs": 2049,
+        "class_counts": {
+          "W": 1161,
+          "N1": 243,
+          "N2": 518,
+          "N3": 0,
+          "REM": 127
+        },
+        "source_sha256": {
+          "SC4642E0-PSG.edf": "dff8e369a6cf1ec41c8bfe53b152ec8ec4a3a2f6e33545bfebf170b2d2052a85",
+          "SC4642EP-Hypnogram.edf": "7e92a705b135c343c7dd1e5797062a9df9ae71284d2c71cb326d6a6a42c2ffb7"
+        },
+        "shard_sha256": "38591c5cdb62df3ab4460c6e370d2e13a47fba7d6d2edf2b6af50014d479a51b",
+        "seconds": 0.7748677499912446,
+        "annotation_interval_counts": {
+          "Sleep stage W": 17,
+          "Sleep stage 1": 41,
+          "Sleep stage 2": 28,
+          "Sleep stage R": 3,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4651",
+        "participant": "SC465",
+        "epochs": 2644,
+        "class_counts": {
+          "W": 1424,
+          "N1": 100,
+          "N2": 821,
+          "N3": 140,
+          "REM": 159
+        },
+        "source_sha256": {
+          "SC4651E0-PSG.edf": "787ea17f2c17002f2cb10fe14666312bf3b70b1b9d4d5a05ce6979bf526b5e3c",
+          "SC4651EP-Hypnogram.edf": "b85977a4ba24da596423136168824362cf0e35a389d2c85d74fa88ce15ee7f34"
+        },
+        "shard_sha256": "ed48c948ca081a7d0d147bfa5aeafa4466f012729d2f0397fde2cecc228dc853",
+        "seconds": 0.8211914169951342,
+        "annotation_interval_counts": {
+          "Sleep stage W": 32,
+          "Sleep stage 2": 102,
+          "Sleep stage 1": 40,
+          "Sleep stage 3": 54,
+          "Sleep stage 4": 10,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4652",
+        "participant": "SC465",
+        "epochs": 1929,
+        "class_counts": {
+          "W": 865,
+          "N1": 204,
+          "N2": 463,
+          "N3": 186,
+          "REM": 211
+        },
+        "source_sha256": {
+          "SC4652E0-PSG.edf": "3660d6e473f9fbf2f16926ac3e20ab8ecc34469005b60ca669314b2f817b0baf",
+          "SC4652EG-Hypnogram.edf": "4818141d39aca0bcd2122de1ed78983cae489d7e145068dfe989291f566244c9"
+        },
+        "shard_sha256": "79e7cedde71b56944cff8d8bbff7f3c0a0e79773574a05db06c2fa7eefc59038",
+        "seconds": 0.7994183749979129,
+        "annotation_interval_counts": {
+          "Sleep stage W": 48,
+          "Sleep stage 1": 103,
+          "Sleep stage 2": 125,
+          "Sleep stage 3": 77,
+          "Sleep stage 4": 21,
+          "Sleep stage R": 24,
+          "Movement time": 1,
+          "Sleep stage ?": 2
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4661",
+        "participant": "SC466",
+        "epochs": 2026,
+        "class_counts": {
+          "W": 1079,
+          "N1": 375,
+          "N2": 422,
+          "N3": 40,
+          "REM": 110
+        },
+        "source_sha256": {
+          "SC4661E0-PSG.edf": "6dcda270a926186044d7213ceb66e0be08019cd26061f299de53bf553e60f58b",
+          "SC4661EJ-Hypnogram.edf": "5f39485dc9eaab9d8a67f4a14914e0e44b0f9fab0ccb30c596746f12c1de8666"
+        },
+        "shard_sha256": "b07fa67f805bc824c0912fc0e2f94cf47b1006395e5ba18d145e45551abe2f3c",
+        "seconds": 0.7281309590034653,
+        "annotation_interval_counts": {
+          "Sleep stage W": 51,
+          "Sleep stage 1": 77,
+          "Sleep stage 2": 50,
+          "Sleep stage 3": 22,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 2
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4662",
+        "participant": "SC466",
+        "epochs": 1994,
+        "class_counts": {
+          "W": 1017,
+          "N1": 235,
+          "N2": 414,
+          "N3": 78,
+          "REM": 250
+        },
+        "source_sha256": {
+          "SC4662E0-PSG.edf": "950ccc9d7bb9e6bdae44d7366da4a8e2cfd65129080662d6972b1175724bae3d",
+          "SC4662EJ-Hypnogram.edf": "bb12848cfde5324b26cbc686cb0eb9a85f97f9b208ea81ef1d1c9452d9766bb1"
+        },
+        "shard_sha256": "a4ae5c90656df90abc1e2b08aa3aeca53f034800667278b0ab2d341e486494ea",
+        "seconds": 0.8541521669976646,
+        "annotation_interval_counts": {
+          "Sleep stage W": 38,
+          "Sleep stage 1": 60,
+          "Sleep stage 2": 45,
+          "Sleep stage 3": 29,
+          "Sleep stage 4": 4,
+          "Sleep stage R": 14,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4671",
+        "participant": "SC467",
+        "epochs": 1968,
+        "class_counts": {
+          "W": 939,
+          "N1": 356,
+          "N2": 507,
+          "N3": 17,
+          "REM": 149
+        },
+        "source_sha256": {
+          "SC4671G0-PSG.edf": "8cca66512eaf30a95f6c0f95d843b3ad269bce3a21b59d8041425e094e98b06a",
+          "SC4671GJ-Hypnogram.edf": "19b001efa1d72fd21899b05a93170ae3123d7eb90045e6055be70eb4f742de14"
+        },
+        "shard_sha256": "af316c5d0a696a30a2e12d2f5de7267a8aa9f7ccaa1f97eb8cb0a8d162c51066",
+        "seconds": 0.7008923340035835,
+        "annotation_interval_counts": {
+          "Sleep stage W": 57,
+          "Sleep stage 1": 89,
+          "Sleep stage 2": 62,
+          "Sleep stage R": 9,
+          "Sleep stage 3": 11,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4672",
+        "participant": "SC467",
+        "epochs": 1021,
+        "class_counts": {
+          "W": 345,
+          "N1": 213,
+          "N2": 339,
+          "N3": 29,
+          "REM": 95
+        },
+        "source_sha256": {
+          "SC4672G0-PSG.edf": "bc1a1a473c31b32d51a611de0f8f796c725348de8240d02ee3594027f0366bf2",
+          "SC4672GV-Hypnogram.edf": "bb95c97dc66c2c9af5c330dbaa671ccdb9518f364df002b9f2a57318c58ca490"
+        },
+        "shard_sha256": "3080f9085421bd6cdcc0313873678229c4b4f5df6af20922ffefb50add84df30",
+        "seconds": 0.6461681249929825,
+        "annotation_interval_counts": {
+          "Sleep stage W": 32,
+          "Sleep stage 1": 34,
+          "Sleep stage 2": 29,
+          "Sleep stage R": 5,
+          "Sleep stage 3": 13,
+          "Sleep stage 4": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4701",
+        "participant": "SC470",
+        "epochs": 1717,
+        "class_counts": {
+          "W": 736,
+          "N1": 143,
+          "N2": 698,
+          "N3": 35,
+          "REM": 105
+        },
+        "source_sha256": {
+          "SC4701E0-PSG.edf": "3129763abd6f97cabff714b023a6e9309362c4ea3486ea43b4a6003eb61ed79d",
+          "SC4701EC-Hypnogram.edf": "42fdc61097d8a8600a56b0cf2e50b9cd2aa22e08a8df6e325b05ffef441a8c73"
+        },
+        "shard_sha256": "e94df40fa954efbf108353f749ab0f2973b6587e9cb7f0276cb99e8a2949519e",
+        "seconds": 0.7018576249975013,
+        "annotation_interval_counts": {
+          "Sleep stage W": 20,
+          "Sleep stage 1": 23,
+          "Sleep stage 2": 37,
+          "Sleep stage 3": 24,
+          "Sleep stage R": 4,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4702",
+        "participant": "SC470",
+        "epochs": 1515,
+        "class_counts": {
+          "W": 707,
+          "N1": 233,
+          "N2": 444,
+          "N3": 33,
+          "REM": 98
+        },
+        "source_sha256": {
+          "SC4702E0-PSG.edf": "ac15421803386dcb96a12544f500f8e20e02dc5eae5cf02bbf9383a46483564b",
+          "SC4702EA-Hypnogram.edf": "491994eac91a17d4d81595a50ac57ea10f59333fe2873606ed91a8a094e3b548"
+        },
+        "shard_sha256": "0f7b07f5ff5caced401e4c538c770e1cb05486895c8fc0f8e79b806626ba79ae",
+        "seconds": 0.6609625419951044,
+        "annotation_interval_counts": {
+          "Sleep stage W": 25,
+          "Sleep stage 1": 43,
+          "Sleep stage 2": 40,
+          "Sleep stage 3": 19,
+          "Sleep stage R": 5,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 5
+      },
+      {
+        "recording": "SC4711",
+        "participant": "SC471",
+        "epochs": 1413,
+        "class_counts": {
+          "W": 452,
+          "N1": 234,
+          "N2": 605,
+          "N3": 4,
+          "REM": 118
+        },
+        "source_sha256": {
+          "SC4711E0-PSG.edf": "ed64a3caf10cf47f8bb8d640934d5f2237c22d91f7d2178c2af2daee87f6c542",
+          "SC4711EC-Hypnogram.edf": "3ecb30c82679d16382caa03059cfd99d69e7794a6671e1cf9d6c0764bcf67738"
+        },
+        "shard_sha256": "05de0f28687cb74f28f9887af81be914061378c2e7d50ae59bfcec78c337203b",
+        "seconds": 0.6938269169913838,
+        "annotation_interval_counts": {
+          "Sleep stage W": 37,
+          "Sleep stage 1": 41,
+          "Sleep stage 2": 34,
+          "Sleep stage 3": 4,
+          "Sleep stage R": 11,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4712",
+        "participant": "SC471",
+        "epochs": 1241,
+        "class_counts": {
+          "W": 430,
+          "N1": 230,
+          "N2": 446,
+          "N3": 0,
+          "REM": 135
+        },
+        "source_sha256": {
+          "SC4712E0-PSG.edf": "14b1709e1028681c9b21e92e0d56f5c58dfd04168127bf14e422ed4f1b30cba6",
+          "SC4712EA-Hypnogram.edf": "b08ed680ff10d7e6c8e2cb9c66c5df86b6a40211935e5376e181c2444e135376"
+        },
+        "shard_sha256": "60ddddb4fc7b9acfd1bc80b55df30465ff49c765c1993b15ebfce88d96b70ab5",
+        "seconds": 0.7174808749987278,
+        "annotation_interval_counts": {
+          "Sleep stage W": 39,
+          "Sleep stage 1": 69,
+          "Sleep stage 2": 31,
+          "Sleep stage R": 17,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4721",
+        "participant": "SC472",
+        "epochs": 1031,
+        "class_counts": {
+          "W": 257,
+          "N1": 259,
+          "N2": 341,
+          "N3": 0,
+          "REM": 174
+        },
+        "source_sha256": {
+          "SC4721E0-PSG.edf": "a9f50f14d24b1eed65c310d7a3f04f0204b6024306aac98a83f432acf841ae5b",
+          "SC4721EC-Hypnogram.edf": "08448d6ed3f9254946c4d4c19935c4bc8b4f3d26b3cd58717f401dc55ed6a772"
+        },
+        "shard_sha256": "10e87ddca4d4b91b9e767f206d091d6990000407baa42dd2b18f24e7cf7d0d2e",
+        "seconds": 0.5877762080053799,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 12,
+          "Sleep stage R": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4722",
+        "participant": "SC472",
+        "epochs": 1130,
+        "class_counts": {
+          "W": 310,
+          "N1": 240,
+          "N2": 444,
+          "N3": 0,
+          "REM": 136
+        },
+        "source_sha256": {
+          "SC4722E0-PSG.edf": "c4613d39f8319be41bdb62aa92acf204c9f04381d8a34fd4e4ab4988de9b71ff",
+          "SC4722EM-Hypnogram.edf": "29145efc5b90863aae5a3f9bb71e49fffb18aabf1444a623606f9f8b773b34bd"
+        },
+        "shard_sha256": "c6a3c8401a7d7e70bc320b8d2c067322317e5d69f54deed94f71f486465a0c52",
+        "seconds": 0.6520510410045972,
+        "annotation_interval_counts": {
+          "Sleep stage W": 39,
+          "Sleep stage 1": 67,
+          "Sleep stage 2": 40,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4731",
+        "participant": "SC473",
+        "epochs": 2667,
+        "class_counts": {
+          "W": 1840,
+          "N1": 222,
+          "N2": 470,
+          "N3": 0,
+          "REM": 135
+        },
+        "source_sha256": {
+          "SC4731E0-PSG.edf": "89a75b551ee82d2f5c58b66e21ce08d3d75bef5945a0ce8f7ee8358b1c3de6a2",
+          "SC4731EM-Hypnogram.edf": "6498f19b42300a897ed5255618a07b8a01d31bc24aa59ee3ad72f27ebfdc41bf"
+        },
+        "shard_sha256": "c64c5b401cdf779e24a72766396f691dae77e8c5b7901e55fff30a4a914e2bb8",
+        "seconds": 0.7805376669857651,
+        "annotation_interval_counts": {
+          "Sleep stage W": 35,
+          "Sleep stage 1": 60,
+          "Sleep stage 2": 30,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4732",
+        "participant": "SC473",
+        "epochs": 2318,
+        "class_counts": {
+          "W": 1349,
+          "N1": 470,
+          "N2": 363,
+          "N3": 0,
+          "REM": 136
+        },
+        "source_sha256": {
+          "SC4732E0-PSG.edf": "f4193bddc89f443bfdf8b604c859d7a36762e9a6ba01b1ea068dd5aeab295c26",
+          "SC4732EJ-Hypnogram.edf": "b0180b2a43ad1d8be372ba18dffdfe13f1c1767bbda734f83f9dff53d78a637a"
+        },
+        "shard_sha256": "adfaf3826aecad77d5f44dc5913275bf5c966891a035634c9ae3f2a7f593bbb9",
+        "seconds": 0.7433527079992928,
+        "annotation_interval_counts": {
+          "Sleep stage W": 74,
+          "Sleep stage 1": 101,
+          "Sleep stage 2": 33,
+          "Sleep stage R": 8,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 1
+      },
+      {
+        "recording": "SC4741",
+        "participant": "SC474",
+        "epochs": 2210,
+        "class_counts": {
+          "W": 1229,
+          "N1": 158,
+          "N2": 610,
+          "N3": 0,
+          "REM": 213
+        },
+        "source_sha256": {
+          "SC4741E0-PSG.edf": "8c82bad260fd0542684a185423fb7f657bedfe3ee19d75defeedefc95c68513e",
+          "SC4741EA-Hypnogram.edf": "23178ebef9a0e48bb7109cdb3775b151f998e99ade86ae6f80d14698aa94eeb5"
+        },
+        "shard_sha256": "2b3f7375df667b3517260ac6958f22744b93be25a1ad5585a8ca7ec38675d7a2",
+        "seconds": 0.7279524999903515,
+        "annotation_interval_counts": {
+          "Sleep stage W": 18,
+          "Sleep stage 1": 37,
+          "Sleep stage 2": 25,
+          "Sleep stage R": 9,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4742",
+        "participant": "SC474",
+        "epochs": 1063,
+        "class_counts": {
+          "W": 308,
+          "N1": 207,
+          "N2": 340,
+          "N3": 0,
+          "REM": 208
+        },
+        "source_sha256": {
+          "SC4742E0-PSG.edf": "e8ac7e5f918a486b4b50a5f9120bdb6100030d2cc78e543dc515ca93a844b878",
+          "SC4742EC-Hypnogram.edf": "93648f89f3a85afc7b7cdcf2ac538ebd277a9f96be8efab40bc23a6af0b7297a"
+        },
+        "shard_sha256": "8aade19ba29e3d13298601d2897e203258f329f99d4606a4b059fd4105444b16",
+        "seconds": 0.6969807910063537,
+        "annotation_interval_counts": {
+          "Sleep stage W": 25,
+          "Sleep stage 1": 34,
+          "Sleep stage 2": 18,
+          "Sleep stage R": 8,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4751",
+        "participant": "SC475",
+        "epochs": 2044,
+        "class_counts": {
+          "W": 1428,
+          "N1": 102,
+          "N2": 467,
+          "N3": 0,
+          "REM": 47
+        },
+        "source_sha256": {
+          "SC4751E0-PSG.edf": "729410456af6d506451e8e83fd5417e8c7fff44a62928595be461b2de328aa2c",
+          "SC4751EC-Hypnogram.edf": "0ea8d8af121072c1129a6663b32eac04f6e5ad2c1323c41dd8c6c3b1732462c3"
+        },
+        "shard_sha256": "61633609156ded2373fbf2eb31473c7ca4f05576c42b266b75f23ca03f4afc2f",
+        "seconds": 0.7157051249960205,
+        "annotation_interval_counts": {
+          "Sleep stage W": 21,
+          "Sleep stage 1": 20,
+          "Sleep stage 2": 14,
+          "Sleep stage R": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4752",
+        "participant": "SC475",
+        "epochs": 1049,
+        "class_counts": {
+          "W": 378,
+          "N1": 143,
+          "N2": 436,
+          "N3": 20,
+          "REM": 72
+        },
+        "source_sha256": {
+          "SC4752E0-PSG.edf": "46ac47b9db0968e69c680138c6d9297f836400dae4a8e0377cbf6ff694e7b594",
+          "SC4752EM-Hypnogram.edf": "20ceec1da858775339d575c0911dfb86d03d3ad3545dd22e51a1cff9f19041e8"
+        },
+        "shard_sha256": "ecd9a23d7a43ef15391a88f79539b7303ac54702b4b3742b72fb5b7b9933e406",
+        "seconds": 0.6378617500013206,
+        "annotation_interval_counts": {
+          "Sleep stage W": 24,
+          "Sleep stage 1": 47,
+          "Sleep stage 2": 44,
+          "Sleep stage 3": 15,
+          "Sleep stage R": 7,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4761",
+        "participant": "SC476",
+        "epochs": 1683,
+        "class_counts": {
+          "W": 1069,
+          "N1": 127,
+          "N2": 425,
+          "N3": 27,
+          "REM": 35
+        },
+        "source_sha256": {
+          "SC4761E0-PSG.edf": "00c9ddf8eab34ebd4aa6228da85d0cf25738cb9b7c1e0c5dc9b354ba242374d2",
+          "SC4761EP-Hypnogram.edf": "54c201f60bb66f27129c698ef23be91c8300e889197498cd6bc4ec2883d19d56"
+        },
+        "shard_sha256": "3b37ba09f4fc90c012a9b1c5629b3ff3f9732c778a153088179971de6c027828",
+        "seconds": 0.6955042499903357,
+        "annotation_interval_counts": {
+          "Sleep stage W": 28,
+          "Sleep stage 1": 47,
+          "Sleep stage 2": 39,
+          "Sleep stage ?": 3,
+          "Sleep stage 3": 12,
+          "Sleep stage R": 8
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4762",
+        "participant": "SC476",
+        "epochs": 2662,
+        "class_counts": {
+          "W": 1839,
+          "N1": 161,
+          "N2": 268,
+          "N3": 0,
+          "REM": 394
+        },
+        "source_sha256": {
+          "SC4762E0-PSG.edf": "39cf3d194c492fd3523c91d2a9e8a93d1381022f68e512d97ff2604c173496aa",
+          "SC4762EG-Hypnogram.edf": "34b43d5bd6db89a9b8cc4501dea7af5521bd5448da7beb7df9a4689530977a6a"
+        },
+        "shard_sha256": "c72a45184cd89ffe75cad88ebbc10b5953427d77cc49629250aa6edd7bd98422",
+        "seconds": 0.7969170840078732,
+        "annotation_interval_counts": {
+          "Sleep stage W": 33,
+          "Sleep stage 1": 83,
+          "Sleep stage 2": 54,
+          "Sleep stage ?": 13,
+          "Movement time": 14,
+          "Sleep stage R": 57
+        },
+        "split": "development",
+        "validation_fold": 2
+      },
+      {
+        "recording": "SC4771",
+        "participant": "SC477",
+        "epochs": 1325,
+        "class_counts": {
+          "W": 402,
+          "N1": 348,
+          "N2": 461,
+          "N3": 5,
+          "REM": 109
+        },
+        "source_sha256": {
+          "SC4771G0-PSG.edf": "c2e0c386f51063fdd949b6cc46d94c67122908058b4359775b0f1de2ba444d04",
+          "SC4771GC-Hypnogram.edf": "89956b672f857399d18cc7153de06a594d6b0765399b9ae953f40cab854e2121"
+        },
+        "shard_sha256": "5d8ee5d097555e80435f3064ac88553aa381703e677518d966bfd8a4704da2b7",
+        "seconds": 0.6775276670086896,
+        "annotation_interval_counts": {
+          "Sleep stage W": 44,
+          "Sleep stage 1": 54,
+          "Sleep stage 2": 20,
+          "Sleep stage 3": 5,
+          "Sleep stage R": 12,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4772",
+        "participant": "SC477",
+        "epochs": 1324,
+        "class_counts": {
+          "W": 753,
+          "N1": 111,
+          "N2": 240,
+          "N3": 87,
+          "REM": 133
+        },
+        "source_sha256": {
+          "SC4772G0-PSG.edf": "93a258889fa15be89e2354522c7cdbdac01ec6f89457c5bc1155be06143d3b6a",
+          "SC4772GC-Hypnogram.edf": "e05f7cdb7ce0887c1925c282680179ab778963c7fbe9d50f14db6fd30fd88885"
+        },
+        "shard_sha256": "4e5f0c3ef145eaf9535ec2a858ddfd5d4611c2aed6bfbc3312103bc67b396211",
+        "seconds": 0.5902598749962635,
+        "annotation_interval_counts": {
+          "Sleep stage W": 30,
+          "Sleep stage 1": 30,
+          "Sleep stage 2": 35,
+          "Sleep stage R": 6,
+          "Sleep stage 3": 27,
+          "Sleep stage 4": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 4
+      },
+      {
+        "recording": "SC4801",
+        "participant": "SC480",
+        "epochs": 1241,
+        "class_counts": {
+          "W": 288,
+          "N1": 203,
+          "N2": 595,
+          "N3": 13,
+          "REM": 142
+        },
+        "source_sha256": {
+          "SC4801G0-PSG.edf": "1a205f40b583c6dea9457265aaa32474c3952addb2414390f94220ab6147c676",
+          "SC4801GC-Hypnogram.edf": "795afac28f7ebf1f4dadaf08ffa24c8714e2a7e9281aceacbe2ad8e0152d158d"
+        },
+        "shard_sha256": "2a3bd73805f4baa69509877fff6a79f6b02e32c657652c6707994124871a7f2b",
+        "seconds": 0.654241208001622,
+        "annotation_interval_counts": {
+          "Sleep stage W": 55,
+          "Sleep stage 1": 56,
+          "Sleep stage 2": 28,
+          "Sleep stage 3": 10,
+          "Sleep stage R": 15,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4802",
+        "participant": "SC480",
+        "epochs": 1229,
+        "class_counts": {
+          "W": 342,
+          "N1": 204,
+          "N2": 541,
+          "N3": 6,
+          "REM": 136
+        },
+        "source_sha256": {
+          "SC4802G0-PSG.edf": "65cc29d0bdaacd23e4da3bee2dfb3cf345f5b8f32f54e356300e693b9369a528",
+          "SC4802GV-Hypnogram.edf": "dbb649127c4ebf57ed7413f22a53dff642c01d028285a48e76f9ea1509d2e2f7"
+        },
+        "shard_sha256": "15586cbd7f44e479d1ebed9bbd34496798a9945bb9a6c64ced4fcea452daf06a",
+        "seconds": 0.7610274999897229,
+        "annotation_interval_counts": {
+          "Sleep stage W": 46,
+          "Sleep stage 1": 56,
+          "Sleep stage 2": 38,
+          "Sleep stage R": 13,
+          "Sleep stage 3": 4,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4811",
+        "participant": "SC481",
+        "epochs": 1293,
+        "class_counts": {
+          "W": 360,
+          "N1": 88,
+          "N2": 528,
+          "N3": 121,
+          "REM": 196
+        },
+        "source_sha256": {
+          "SC4811G0-PSG.edf": "a1f7e825cef31cd8361c5a31bf4357aeea6c502979c6bd7574b755445e1c27f0",
+          "SC4811GG-Hypnogram.edf": "b0f4deaec1bd69c3da0cf486ab73a1eee056fa76125c8f60be3e79d31bf4a680"
+        },
+        "shard_sha256": "51c04baecb13e63568b8a801fe346ddea950db43886f6cadf7155a29363ee267",
+        "seconds": 0.6247824580059387,
+        "annotation_interval_counts": {
+          "Sleep stage W": 34,
+          "Sleep stage 2": 58,
+          "Sleep stage 1": 55,
+          "Sleep stage 3": 43,
+          "Sleep stage 4": 14,
+          "Sleep stage R": 20,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4812",
+        "participant": "SC481",
+        "epochs": 1183,
+        "class_counts": {
+          "W": 458,
+          "N1": 138,
+          "N2": 347,
+          "N3": 102,
+          "REM": 138
+        },
+        "source_sha256": {
+          "SC4812G0-PSG.edf": "de9a75c00b0d8743e88a837dd0bf4e2f4b0d44b3fb7e0f3b9b623f3e627b40cc",
+          "SC4812GV-Hypnogram.edf": "61790f8b92be81685cb6d695e509eeebb7f37538057093dfd2e5c8dcfc872038"
+        },
+        "shard_sha256": "76bd8a4e6050f3ab998c66b97c595e4a7110ff8a8246ff0fed4f687e3532196c",
+        "seconds": 0.6072759160015266,
+        "annotation_interval_counts": {
+          "Sleep stage W": 29,
+          "Sleep stage 1": 37,
+          "Sleep stage 2": 35,
+          "Sleep stage 3": 27,
+          "Sleep stage R": 12,
+          "Sleep stage 4": 10,
+          "Movement time": 2,
+          "Sleep stage ?": 1
+        },
+        "split": "test",
+        "validation_fold": -1
+      },
+      {
+        "recording": "SC4821",
+        "participant": "SC482",
+        "epochs": 1704,
+        "class_counts": {
+          "W": 841,
+          "N1": 66,
+          "N2": 407,
+          "N3": 162,
+          "REM": 228
+        },
+        "source_sha256": {
+          "SC4821G0-PSG.edf": "c542d3fc22d7462d57504217cd26eef2051efaabdd0777855937a2c83d35059f",
+          "SC4821GC-Hypnogram.edf": "4271e32498aac568e0ab24597d7e70deb84ea58e63c9a46bd792e051becefcd5"
+        },
+        "shard_sha256": "79fc73686f3727e21fccc4cffdb8ab5278b3e35ad44b98f0820ab7190054a309",
+        "seconds": 0.7058910000050673,
+        "annotation_interval_counts": {
+          "Sleep stage W": 25,
+          "Sleep stage 1": 20,
+          "Sleep stage 2": 34,
+          "Sleep stage 3": 40,
+          "Sleep stage 4": 27,
+          "Sleep stage R": 6,
+          "Movement time": 1,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      },
+      {
+        "recording": "SC4822",
+        "participant": "SC482",
+        "epochs": 1366,
+        "class_counts": {
+          "W": 510,
+          "N1": 121,
+          "N2": 400,
+          "N3": 156,
+          "REM": 179
+        },
+        "source_sha256": {
+          "SC4822G0-PSG.edf": "96b340922db50e40bef0a41f4ea7364a9b785631371bf8bf221898fad990ba0d",
+          "SC4822GC-Hypnogram.edf": "b97ecb2e02f9fb54a0771fbb9dab30a04921e7d22e4fad0b4ddef6324f1f0065"
+        },
+        "shard_sha256": "092592ab15a1f13a5557a4e444799ceaab6cf3fd16800275f1270613b5ebe2b6",
+        "seconds": 0.7567444579908624,
+        "annotation_interval_counts": {
+          "Sleep stage W": 33,
+          "Sleep stage 1": 36,
+          "Sleep stage 2": 36,
+          "Sleep stage 3": 36,
+          "Sleep stage 4": 18,
+          "Sleep stage R": 6,
+          "Sleep stage ?": 1
+        },
+        "split": "development",
+        "validation_fold": 3
+      }
+    ],
+    "fold_manifest_sha256": "55ad72751ea3b114489f5e720b890a8de3d312bd24c09f10126f0eee82b1970c",
+    "source_code_sha256": "b721f53d07858b53acc8e82e401ee2442fa738cb129242342900c93418b00644",
+    "cnn_reference": "/Users/quocjacob/Desktop/DL-ASS/A2/dataset/sleep_edf.pt",
+    "cnn_reference_checked": true,
+    "archive_checksums_checked": true,
+    "versions": {
+      "python": "3.13.15",
+      "mne": "1.13.2",
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "torch": "2.14.0"
+    },
+    "epochs": 195469,
+    "participants": 78,
+    "class_counts": {
+      "W": 65941,
+      "N1": 21522,
+      "N2": 69132,
+      "N3": 13039,
+      "REM": 25835
+    },
+    "seconds": 110.4057676250086
+  },
+  "sampling": null
+}

@@ -50,18 +50,24 @@ and run the last two notebook cells. They load `RUN_DIR / "fold_1.pt"` through
 
 The supplied CNN, Transformer and CBraMod checkpoints now sit directly in their
 `sleep_waveform_final/` directories. All 15 hashes are unchanged. AttnSleep's
-historical metrics/logs are present; its checkpoints and prediction CSV have
-not yet been supplied locally. Training it will replace its historical run
-with the newly measured results.
+completed run `sleep_waveform_20261110_134729_471355` has been imported into its
+fixed final directory, adding five verified checkpoints, full validation/test
+probabilities, histories and environment records. Its test accuracy is 0.797008
+and macro-F1 is 0.750589; logged training/validation time is 4,466.29 seconds.
+`verification.json` documents metric, identity, checkpoint and reconstruction
+checks. Original cloud paths and hashes are retained under `source/`.
 
-Historical `run.json` records explicitly identify imported evidence. Unknown
+The three earlier models' `run.json` records identify retrospective evidence. Unknown
 training commit/time remain null; recorded dataset/code hashes were obtained
 at import, not from the original cloud machine. Original model notebooks and
-printed logs retain their historical paths as provenance.
+printed logs retain their historical paths as provenance. AttnSleep has recorded
+runtime metadata, but no cloud Git commit. Its prior aggregate-only canonical
+run is backed up locally under `../releases/attnsleep-before-completed-run/`.
+The original timestamped cloud directory is retained locally and ignored.
 
 `../spec_model/` is preserved intact: 15 original checkpoints and 9 CSVs. It is
 now ignored and removed from the Git index after the owner confirmed a cloud
-backup. Commit and push that removal to update the remote branch; local files
-remain. The current notebook never writes there. Old local bundles in
+backup; removal was committed as `f85a3a4`. Local files remain. The current
+notebook never writes there. Old local bundles in
 `../releases/` retain their historical
 folder layouts and are not the current run layout.

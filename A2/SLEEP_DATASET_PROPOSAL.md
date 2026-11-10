@@ -6,6 +6,30 @@
 27 October 2026. This is the confirmation date; the instructor's original
 decision date was not supplied.
 
+## Final implementation update — 10 November 2026
+
+The final report uses **195,469 eligible waveform epochs**, with all 78
+participants and 153 nights. Development contains 170,537 epochs from 66
+participants; the fixed test group contains 24,932 epochs from 12 participants.
+The per-participant quota is disabled. The common input is `(2, 30, 200)` at
+200 Hz in microvolts divided by 100, with the documented single-channel adapter
+for AttnSleep.
+
+The completed comparison comprises Custom CNN, the 30-token temporal
+Transformer, AttnSleep and fully fine-tuned CBraMod. Five participant-grouped
+development folds select checkpoints by validation macro-F1; the final predictor
+averages the five fold models' test probabilities. It does not refit one model
+on all development participants. Reported measures are accuracy, balanced
+accuracy, macro-F1, kappa, MGm, macro-precision, macro-recall and per-stage F1.
+See [the final report guide](DL-ASS-A2/README.md) and
+[the current reproduction guide](README.md).
+
+The original proposal and M2 notes below are retained as historical records.
+Their spectrogram representation, small-data quota, AUROC experiments and planned
+refit/freeze comparison describe earlier plans, not the final trained pipeline.
+
+## Historical proposal and M2 development notes
+
 **M2 protocol update, confirmed by the group member on 28 October 2026:**
 The current 6,474-epoch waveform subset and participant-grouped cross-validation
 protocol have been accepted. `preprocessing.py` selects 83 epochs for each of 78

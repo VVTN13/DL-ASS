@@ -1,0 +1,243 @@
+{
+  "source_run": "A2/runs/AttnSleep/sleep_waveform_20261110_134729_471355",
+  "status": "passed",
+  "checks": [
+    "checkpoint and source hashes",
+    "strict weight loading",
+    "all sample identities and splits",
+    "train-only class weights",
+    "all 12 metrics from predictions/confusion matrices",
+    "cv summary and best epochs",
+    "128-example CPU soft-voting probe"
+  ],
+  "folds": [
+    {
+      "fold": 1,
+      "epochs": 26,
+      "best_epoch": 16,
+      "seconds": 948.8255803585052,
+      "median_epoch_seconds": 36.301846504211426
+    },
+    {
+      "fold": 2,
+      "epochs": 33,
+      "best_epoch": 29,
+      "seconds": 1149.8797960281372,
+      "median_epoch_seconds": 35.37956213951111
+    },
+    {
+      "fold": 3,
+      "epochs": 22,
+      "best_epoch": 12,
+      "seconds": 777.038388967514,
+      "median_epoch_seconds": 36.26702010631561
+    },
+    {
+      "fold": 4,
+      "epochs": 24,
+      "best_epoch": 15,
+      "seconds": 858.3848869800568,
+      "median_epoch_seconds": 36.89427375793457
+    },
+    {
+      "fold": 5,
+      "epochs": 24,
+      "best_epoch": 14,
+      "seconds": 732.1590430736542,
+      "median_epoch_seconds": 30.88189387321472
+    }
+  ],
+  "checkpoints": [
+    {
+      "fold": 1,
+      "sha256": "8f98f87cfeda9ac912c70ad1c4a12af93ec9ca2def512047c01507df4395d0be",
+      "bytes": 2121813
+    },
+    {
+      "fold": 2,
+      "sha256": "e7586ba08aa0bee97c56aafaf08643c42647ea16bddbaa84cfb8d800bca31eb5",
+      "bytes": 2121813
+    },
+    {
+      "fold": 3,
+      "sha256": "0f721bd2ee9482d6827ee6de154dd4391d689f36581cc52aec3406276890e746",
+      "bytes": 2121813
+    },
+    {
+      "fold": 4,
+      "sha256": "a55aa71a7f11da3e643296a2f7a868613b897bd03101907e5ddc3554be521ba1",
+      "bytes": 2121813
+    },
+    {
+      "fold": 5,
+      "sha256": "a6cbaba92ad7205de13b12b4489e1d86912c727bff35bf04e716a99ad9459216",
+      "bytes": 2121813
+    }
+  ],
+  "predictions": {
+    "pooled_validation": {
+      "samples": 170537,
+      "metrics": [
+        0.7982197411705377,
+        0.7420017327821272,
+        0.7456303378408734,
+        0.7225683055852337,
+        0.8351302419346546,
+        0.7523037727215589,
+        0.7420017327821272,
+        0.9172780381767544,
+        0.44334612997402356,
+        0.8375795095071261,
+        0.8187283123991985,
+        0.7112196991472646
+      ],
+      "confusion_matrix": [
+        [
+          54013,
+          4658,
+          334,
+          27,
+          934
+        ],
+        [
+          2565,
+          9643,
+          5087,
+          68,
+          2078
+        ],
+        [
+          339,
+          5741,
+          49248,
+          1401,
+          2025
+        ],
+        [
+          28,
+          55,
+          2052,
+          8376,
+          18
+        ],
+        [
+          857,
+          3963,
+          2121,
+          60,
+          14846
+        ]
+      ],
+      "predictions_sha256": "f0937f921e27c932b8bf0ef44e83e2881de666d72d5f15c3850529f334eff138"
+    },
+    "test": {
+      "samples": 24932,
+      "metrics": [
+        0.7970078613829616,
+        0.7610011778375497,
+        0.7505893151825972,
+        0.724963638849564,
+        0.8467746813217272,
+        0.748989662654571,
+        0.7610011778375497,
+        0.8841582401986873,
+        0.4080229226361031,
+        0.8473047958779231,
+        0.8361626529806554,
+        0.7772979642196175
+      ],
+      "confusion_matrix": [
+        [
+          4984,
+          665,
+          115,
+          8,
+          203
+        ],
+        [
+          245,
+          1068,
+          444,
+          3,
+          321
+        ],
+        [
+          28,
+          932,
+          8551,
+          425,
+          442
+        ],
+        [
+          7,
+          18,
+          366,
+          2118,
+          1
+        ],
+        [
+          35,
+          471,
+          330,
+          2,
+          3150
+        ]
+      ],
+      "predictions_sha256": "31d3e4915474114e3df585aa9888544ca08ed0c89769701b0366b2517aab3aa8"
+    }
+  },
+  "cv_mean": [
+    0.7981093532894977,
+    0.7417598527610391,
+    0.7450913560942517,
+    0.7222491210582163,
+    0.8346655320687925,
+    0.7534169361508083,
+    0.7417598527610391,
+    0.9164116569209735,
+    0.44318167479191944,
+    0.837199817877449,
+    0.8174323575739362,
+    0.7112312733069805
+  ],
+  "cv_std": [
+    0.009435107622662418,
+    0.007841695618310116,
+    0.005273913875615251,
+    0.011187529449710755,
+    0.004467736575024846,
+    0.003722080653612238,
+    0.007841695618310116,
+    0.011719090856939158,
+    0.013094740011152533,
+    0.015454253014461706,
+    0.03362608871647757,
+    0.011331738107172905
+  ],
+  "cpu_probe": {
+    "samples": 128,
+    "matching_argmax": 128,
+    "max_probability_difference": 0.0003389312255859256,
+    "precision": "CPU float32 versus recorded CUDA AMP"
+  },
+  "dataset": {
+    "recorded_sha256": "2cb92cfc8464e2e40b5a59807e0a6e72f3a50e5e0b737ddb2aaa4bc71e43cf34",
+    "local_sha256": "6769b1cba2f577ec9f52ecc2adfb932e9f66d7d30a4d8211f8d882ccc4e09d76",
+    "byte_identical": false,
+    "metadata_and_sample_identities_match": true
+  },
+  "source": {
+    "active_attnsleep_class_identical": true,
+    "author_attnsleep_module_identical": true,
+    "library_difference": "Only the unrelated custom Transformer and its embedding differ."
+  },
+  "pooled_vs_best_cm_l1": 0,
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "total_seconds": 4466.287695407867,
+  "median_epoch_seconds": 35.69731616973877,
+  "date": "2026-11-10",
+  "limitations": [
+    "Recorded cloud dataset SHA-256 differs from the available local serialization; all sample identities, metadata and fold assignments match. The 128-example CPU probe does not prove bitwise equality of every waveform.",
+    "Training Git commit is unavailable because the cloud run was outside a Git checkout."
+  ]
+}

@@ -1,0 +1,488 @@
+{
+  "record_type": "experiment evidence inventory; three retrospective runs and one recorded completed cloud run",
+  "recorded_on": "2026-11-10",
+  "common": {
+    "dataset": "dataset/sleep_waveform.pt",
+    "shape": [
+      195469,
+      2,
+      30,
+      200
+    ],
+    "development_samples": 170537,
+    "test_samples": 24932,
+    "n_splits": 5,
+    "seed": 42,
+    "max_epochs": 80,
+    "optimizer": "Adam",
+    "amsgrad": true,
+    "amp": "CUDA autocast + GradScaler",
+    "num_workers": 4,
+    "prefetch_factor": 2,
+    "persistent_workers": true,
+    "pin_memory": true,
+    "selection_metric": "validation macro-F1",
+    "early_stopping": {
+      "patience": 10,
+      "min_delta": 0.001
+    },
+    "loss": "weighted CrossEntropyLoss; weights computed only from training labels",
+    "class_weight_mu": [
+      0.3,
+      0.4,
+      0.3,
+      0.2,
+      0.3
+    ],
+    "historical_loss_logging": "CNN, Transformer and CBraMod: batch-size weighted mean; completed AttnSleep rerun: corrected sum-of-target-weights aggregation.",
+    "fold_manifest": "sleep_exploration/cv_folds.csv",
+    "fold_manifest_sha256": "55ad72751ea3b114489f5e720b890a8de3d312bd24c09f10126f0eee82b1970c",
+    "full_fold_check": "current saved IDs match SGKF(n_splits=5,shuffle=True,random_state=42) and report supports",
+    "hardware": {
+      "gpu": "RTX 3090",
+      "evidence": "user confirmation 2026-11-10; not an archived device snapshot"
+    },
+    "model_source_sha256_observed_for_report": "3be1f44b8e619c858840afb5c39b3597794989c464dabcc32e7da1d27a9244f7",
+    "detailed_results": "DL-ASS-A2/evidence.json"
+  },
+  "runs": [
+    {
+      "model_name": "StandardCNN2D",
+      "model_kwargs": {
+        "in_channels": 2,
+        "num_classes": 5
+      },
+      "source_notebook": "training-cnn.ipynb",
+      "source_notebook_sha256": "22d6c7f33c9a2de42562b0c6016200dde20bf0b42885739bc00f2f7ecfb6c2fa",
+      "lr": 1e-05,
+      "batch_size": 64,
+      "weight_decay": 0.0001,
+      "scheduler": {
+        "name": "CosineAnnealingLR",
+        "T_max": 80,
+        "eta_min": 1e-06
+      },
+      "fold_logs": [
+        {
+          "fold": 1,
+          "epochs": 49,
+          "best_epoch": 45,
+          "seconds": 1693.55,
+          "median_epoch_seconds": 34.58
+        },
+        {
+          "fold": 2,
+          "epochs": 54,
+          "best_epoch": 44,
+          "seconds": 1864.95,
+          "median_epoch_seconds": 34.44
+        },
+        {
+          "fold": 3,
+          "epochs": 42,
+          "best_epoch": 33,
+          "seconds": 1446.14,
+          "median_epoch_seconds": 34.474999999999994
+        },
+        {
+          "fold": 4,
+          "epochs": 43,
+          "best_epoch": 33,
+          "seconds": 1477.17,
+          "median_epoch_seconds": 34.05
+        },
+        {
+          "fold": 5,
+          "epochs": 59,
+          "best_epoch": 49,
+          "seconds": 2045.34,
+          "median_epoch_seconds": 34.5
+        }
+      ],
+      "checkpoints_observed_locally": [
+        {
+          "path": "runs/StandardCNN2D/sleep_waveform_final/fold_1.pt",
+          "sha256": "82e7f94c9cfcbfe1ed0df41092f7343630c0e62cecc012cdd1f4e520b7f3d719",
+          "strict_load": true,
+          "legacy_path": "spec_model/StandardCNN2D/StandardCNN2D_sleep_waveform_fold_1.pt"
+        },
+        {
+          "path": "runs/StandardCNN2D/sleep_waveform_final/fold_2.pt",
+          "sha256": "bc587ffaf58bdd0b8d0bcd072ba316f62696e372ff53adc22df9856867ad561c",
+          "strict_load": true,
+          "legacy_path": "spec_model/StandardCNN2D/StandardCNN2D_sleep_waveform_fold_2.pt"
+        },
+        {
+          "path": "runs/StandardCNN2D/sleep_waveform_final/fold_3.pt",
+          "sha256": "10b3ae4cc08e7faf184bc0f80a1e43099ba383ccb8589b6ffe6992a10034015f",
+          "strict_load": true,
+          "legacy_path": "spec_model/StandardCNN2D/StandardCNN2D_sleep_waveform_fold_3.pt"
+        },
+        {
+          "path": "runs/StandardCNN2D/sleep_waveform_final/fold_4.pt",
+          "sha256": "5629163f017654882b9556b859d48bef2ec686c6d71ed7e32638944eadc092df",
+          "strict_load": true,
+          "legacy_path": "spec_model/StandardCNN2D/StandardCNN2D_sleep_waveform_fold_4.pt"
+        },
+        {
+          "path": "runs/StandardCNN2D/sleep_waveform_final/fold_5.pt",
+          "sha256": "367faac38e23dd4c83ee7eeabb81015d54cac833e80becc49149d98d7318b9af",
+          "strict_load": true,
+          "legacy_path": "spec_model/StandardCNN2D/StandardCNN2D_sleep_waveform_fold_5.pt"
+        }
+      ],
+      "execution_timestamp": null,
+      "training_commit": null,
+      "training_package_versions": {
+        "torch": "2.14.1+cu132",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "imbalanced-learn": "0.14.2",
+        "pandas": "3.1.1",
+        "scipy": "1.18.1",
+        "matplotlib": "3.11.2"
+      },
+      "environment_evidence": "Package installation output in cell 1; partial record, not a complete runtime lock. Python 3.12 indicated by installation path."
+    },
+    {
+      "model_name": "Transformer",
+      "model_kwargs": {
+        "in_channels": 2,
+        "num_classes": 5
+      },
+      "source_notebook": "training-Transformer.ipynb",
+      "source_notebook_sha256": "bfa32977d8b661f7be82cc2f348a98c94810e98257d3f059d6fb03acde56b67d",
+      "lr": 3e-05,
+      "batch_size": 64,
+      "weight_decay": 0.0001,
+      "scheduler": {
+        "name": "CosineAnnealingLR",
+        "T_max": 80,
+        "eta_min": 1e-06
+      },
+      "fold_logs": [
+        {
+          "fold": 1,
+          "epochs": 30,
+          "best_epoch": 20,
+          "seconds": 2515.16,
+          "median_epoch_seconds": 83.835
+        },
+        {
+          "fold": 2,
+          "epochs": 23,
+          "best_epoch": 15,
+          "seconds": 1941.82,
+          "median_epoch_seconds": 84.12
+        },
+        {
+          "fold": 3,
+          "epochs": 28,
+          "best_epoch": 18,
+          "seconds": 2230.02,
+          "median_epoch_seconds": 79.57
+        },
+        {
+          "fold": 4,
+          "epochs": 33,
+          "best_epoch": 24,
+          "seconds": 2628.79,
+          "median_epoch_seconds": 79.4
+        },
+        {
+          "fold": 5,
+          "epochs": 36,
+          "best_epoch": 26,
+          "seconds": 2922.02,
+          "median_epoch_seconds": 81.195
+        }
+      ],
+      "checkpoints_observed_locally": [
+        {
+          "path": "runs/Transformer/sleep_waveform_final/fold_1.pt",
+          "sha256": "4256bd20dfa32d61a9f7760ed2968e9148db3f4b5c4ceef7a388dcb62013911a",
+          "strict_load": true,
+          "legacy_path": "spec_model/Transformer/Transformer_sleep_waveform_fold_1.pt"
+        },
+        {
+          "path": "runs/Transformer/sleep_waveform_final/fold_2.pt",
+          "sha256": "2b996a9ca9a998f98a165e958e91995659c3bbfca0002d0a155551a3a4de52f3",
+          "strict_load": true,
+          "legacy_path": "spec_model/Transformer/Transformer_sleep_waveform_fold_2.pt"
+        },
+        {
+          "path": "runs/Transformer/sleep_waveform_final/fold_3.pt",
+          "sha256": "86c10c14480d98a3103fdf46383c517ddb0e830fdd6ce7ab8916115a22496f15",
+          "strict_load": true,
+          "legacy_path": "spec_model/Transformer/Transformer_sleep_waveform_fold_3.pt"
+        },
+        {
+          "path": "runs/Transformer/sleep_waveform_final/fold_4.pt",
+          "sha256": "f3c6dbeda17dcb0ea6fdd1c81893e0761021078dd21345bf3b5e72b12da0696a",
+          "strict_load": true,
+          "legacy_path": "spec_model/Transformer/Transformer_sleep_waveform_fold_4.pt"
+        },
+        {
+          "path": "runs/Transformer/sleep_waveform_final/fold_5.pt",
+          "sha256": "b2ec8b7bdf77e3b66ad85084dc3b74386bbacae5044794f5f15e7fc1f9d6b2e0",
+          "strict_load": true,
+          "legacy_path": "spec_model/Transformer/Transformer_sleep_waveform_fold_5.pt"
+        }
+      ],
+      "execution_timestamp": null,
+      "training_commit": null,
+      "training_package_versions": {
+        "torch": "2.14.1+cu132",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "imbalanced-learn": "0.14.2",
+        "pandas": "3.1.1",
+        "scipy": "1.18.1",
+        "matplotlib": "3.11.2"
+      },
+      "environment_evidence": "Package installation output in cell 1; partial record, not a complete runtime lock. Python 3.12 indicated by installation path."
+    },
+    {
+      "model_name": "AttnSleep",
+      "model_kwargs": {
+        "channel_index": 0
+      },
+      "source_notebook": "runs/AttnSleep/sleep_waveform_final/source/completed_training.ipynb",
+      "source_notebook_sha256": "3845e5f7106ba9004627ec30b82a04be48b7ce6e2eefeebd3b207f8e2e900a8f",
+      "lr": 0.001,
+      "batch_size": 128,
+      "weight_decay": 0.001,
+      "scheduler": {
+        "name": "MultiStepLR",
+        "milestones": [
+          10
+        ],
+        "gamma": 0.1
+      },
+      "fold_logs": [
+        {
+          "fold": 1,
+          "epochs": 26,
+          "best_epoch": 16,
+          "seconds": 948.8255803585052,
+          "median_epoch_seconds": 36.301846504211426
+        },
+        {
+          "fold": 2,
+          "epochs": 33,
+          "best_epoch": 29,
+          "seconds": 1149.8797960281372,
+          "median_epoch_seconds": 35.37956213951111
+        },
+        {
+          "fold": 3,
+          "epochs": 22,
+          "best_epoch": 12,
+          "seconds": 777.038388967514,
+          "median_epoch_seconds": 36.26702010631561
+        },
+        {
+          "fold": 4,
+          "epochs": 24,
+          "best_epoch": 15,
+          "seconds": 858.3848869800568,
+          "median_epoch_seconds": 36.89427375793457
+        },
+        {
+          "fold": 5,
+          "epochs": 24,
+          "best_epoch": 14,
+          "seconds": 732.1590430736542,
+          "median_epoch_seconds": 30.88189387321472
+        }
+      ],
+      "checkpoints_observed_locally": [
+        {
+          "path": "runs/AttnSleep/sleep_waveform_final/fold_1.pt",
+          "sha256": "8f98f87cfeda9ac912c70ad1c4a12af93ec9ca2def512047c01507df4395d0be",
+          "bytes": 2121813
+        },
+        {
+          "path": "runs/AttnSleep/sleep_waveform_final/fold_2.pt",
+          "sha256": "e7586ba08aa0bee97c56aafaf08643c42647ea16bddbaa84cfb8d800bca31eb5",
+          "bytes": 2121813
+        },
+        {
+          "path": "runs/AttnSleep/sleep_waveform_final/fold_3.pt",
+          "sha256": "0f721bd2ee9482d6827ee6de154dd4391d689f36581cc52aec3406276890e746",
+          "bytes": 2121813
+        },
+        {
+          "path": "runs/AttnSleep/sleep_waveform_final/fold_4.pt",
+          "sha256": "a55aa71a7f11da3e643296a2f7a868613b897bd03101907e5ddc3554be521ba1",
+          "bytes": 2121813
+        },
+        {
+          "path": "runs/AttnSleep/sleep_waveform_final/fold_5.pt",
+          "sha256": "a6cbaba92ad7205de13b12b4489e1d86912c727bff35bf04e716a99ad9459216",
+          "bytes": 2121813
+        }
+      ],
+      "execution_timestamp": "2026-11-10T13:47:39.688015+00:00",
+      "training_commit": null,
+      "training_package_versions": {
+        "torch": "2.14.1+cu132",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "imbalanced-learn": "0.14.2",
+        "pandas": "3.1.1",
+        "scipy": "1.18.1",
+        "matplotlib": "3.11.2"
+      },
+      "environment_evidence": "Runtime run.json plus full installed-distribution listing in runs/AttnSleep/sleep_waveform_final/environment.txt.",
+      "record_type": "completed cloud run",
+      "run_directory": "runs/AttnSleep/sleep_waveform_final",
+      "original_run_id": "sleep_waveform_20261110_134729_471355",
+      "environment": {
+        "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+        "platform": "Linux-5.15.0-202-generic-x86_64-with-glibc2.39",
+        "torch": "2.14.1+cu132",
+        "cuda": "13.2",
+        "cudnn": 92400,
+        "device": "cuda",
+        "gpu": "NVIDIA GeForce RTX 3090",
+        "gpu_memory_bytes": 25295323136,
+        "deterministic_algorithms": false,
+        "cudnn_benchmark": false
+      },
+      "git_commit": null,
+      "created_utc": "2026-11-10T13:47:39.688015+00:00",
+      "loss_logging": "sum-of-target-weights normalized epoch loss",
+      "verification": "runs/AttnSleep/sleep_waveform_final/verification.json",
+      "dataset_recorded": {
+        "path": "/sleep_waveform.pt",
+        "bytes": 9389409467,
+        "sha256": "2cb92cfc8464e2e40b5a59807e0a6e72f3a50e5e0b737ddb2aaa4bc71e43cf34",
+        "shape": [
+          195469,
+          2,
+          30,
+          200
+        ],
+        "development_samples": 170537,
+        "test_samples": 24932,
+        "channels": [
+          "EEG Fpz-Cz",
+          "EEG Pz-Oz"
+        ],
+        "sfreq": 200,
+        "class_map": {
+          "W": 0,
+          "N1": 1,
+          "N2": 2,
+          "N3": 3,
+          "REM": 4
+        }
+      }
+    },
+    {
+      "model_name": "CBraModClassifier",
+      "model_kwargs": {
+        "in_channels": 2,
+        "checkpoint_path": "pretrained_weights/pretrained_weights.pth",
+        "freeze_encoder": false
+      },
+      "source_notebook": "training-cbra.ipynb",
+      "source_notebook_sha256": "a53e7120a3e3aa0bb3349d87b3a122c70c4b552e2d18ba970533fee037c7d47c",
+      "lr": 3e-05,
+      "batch_size": 128,
+      "weight_decay": 0.0001,
+      "scheduler": {
+        "name": "CosineAnnealingLR",
+        "T_max": 80,
+        "eta_min": 1e-06
+      },
+      "fold_logs": [
+        {
+          "fold": 1,
+          "epochs": 29,
+          "best_epoch": 19,
+          "seconds": 2850.31,
+          "median_epoch_seconds": 98.38
+        },
+        {
+          "fold": 2,
+          "epochs": 19,
+          "best_epoch": 9,
+          "seconds": 1870.3600000000001,
+          "median_epoch_seconds": 98.32
+        },
+        {
+          "fold": 3,
+          "epochs": 25,
+          "best_epoch": 15,
+          "seconds": 2466.88,
+          "median_epoch_seconds": 98.63
+        },
+        {
+          "fold": 4,
+          "epochs": 22,
+          "best_epoch": 13,
+          "seconds": 2177.61,
+          "median_epoch_seconds": 98.845
+        },
+        {
+          "fold": 5,
+          "epochs": 28,
+          "best_epoch": 23,
+          "seconds": 2731.21,
+          "median_epoch_seconds": 97.52
+        }
+      ],
+      "checkpoints_observed_locally": [
+        {
+          "path": "runs/CBraModClassifier/sleep_waveform_final/fold_1.pt",
+          "sha256": "a554650eb612471e78239e9913ab85866ebd314d9bb5a2e6bc5bad4d07e1c7fe",
+          "strict_load": true,
+          "legacy_path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_1.pt"
+        },
+        {
+          "path": "runs/CBraModClassifier/sleep_waveform_final/fold_2.pt",
+          "sha256": "cd6d3d82274f5817279c51cd6db98454e86bb0966031e56482106ba4e90efe3c",
+          "strict_load": true,
+          "legacy_path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_2.pt"
+        },
+        {
+          "path": "runs/CBraModClassifier/sleep_waveform_final/fold_3.pt",
+          "sha256": "d9a88c2691ab233633c47d298f859f697c5ed490667adf0c063008af5b4af364",
+          "strict_load": true,
+          "legacy_path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_3.pt"
+        },
+        {
+          "path": "runs/CBraModClassifier/sleep_waveform_final/fold_4.pt",
+          "sha256": "d49adccca04c25c66fa7ec04976946f6403e2e6f8e5223f1912587500003e1bb",
+          "strict_load": true,
+          "legacy_path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_4.pt"
+        },
+        {
+          "path": "runs/CBraModClassifier/sleep_waveform_final/fold_5.pt",
+          "sha256": "27a6602d98ea524242588eb18fb8bf92633738d0c0748e02c2577ecce26e1477",
+          "strict_load": true,
+          "legacy_path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_5.pt"
+        }
+      ],
+      "execution_timestamp": null,
+      "training_commit": null,
+      "training_package_versions": {
+        "torch": "2.14.1+cu132",
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "imbalanced-learn": "0.14.2",
+        "pandas": "3.1.1",
+        "scipy": "1.18.1",
+        "matplotlib": "3.11.2"
+      },
+      "environment_evidence": "Package installation output in cell 1; partial record, not a complete runtime lock. Python 3.12 indicated by installation path."
+    }
+  ],
+  "limitations": [
+    "CNN, Transformer and CBraMod historical commit/time remain unknown; their versions are partial installation-log evidence. AttnSleep has a recorded start time and complete installed-package list, but no cloud Git commit.",
+    "AttnSleep now has all five checkpoints, complete probability CSVs, recorded hardware/versions and verification in its final run; the original cloud Git commit remains unavailable.",
+    "New runs record config, versions, code snapshots, exact sample/fold IDs, hashes, epoch histories and evaluation probabilities automatically."
+  ]
+}
