@@ -1,0 +1,4 @@
+,Overall,Overall,Overall,Overall,Overall,Overall,Overall,Per-class F1,Per-class F1,Per-class F1,Per-class F1,Per-class F1
+,Accuracy,Balanced Accuracy,F1,Kappa,MGm,Precision,Recall,W,N1,N2,N3,REM
+partition,,,,,,,,,,,,
+Held-out test,0.796446,0.764654,0.750965,0.725067,0.849365,0.747263,0.764654,0.886711,0.414611,0.847147,0.835478,0.77088

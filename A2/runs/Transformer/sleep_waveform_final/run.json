@@ -1,0 +1,77 @@
+{
+  "layout_version": 3,
+  "record_type": "imported historical run",
+  "imported_utc": "2026-11-10T10:58:53.366805+00:00",
+  "fingerprints_recorded_at": "layout import; not the historical training execution",
+  "status": "imported_with_checkpoints",
+  "created_utc": null,
+  "git_commit": null,
+  "git_dirty": null,
+  "completed_folds": [
+    {
+      "fold": 1,
+      "checkpoint": "fold_1.pt",
+      "sha256": "4256bd20dfa32d61a9f7760ed2968e9148db3f4b5c4ceef7a388dcb62013911a"
+    },
+    {
+      "fold": 2,
+      "checkpoint": "fold_2.pt",
+      "sha256": "2b996a9ca9a998f98a165e958e91995659c3bbfca0002d0a155551a3a4de52f3"
+    },
+    {
+      "fold": 3,
+      "checkpoint": "fold_3.pt",
+      "sha256": "86c10c14480d98a3103fdf46383c517ddb0e830fdd6ce7ab8916115a22496f15"
+    },
+    {
+      "fold": 4,
+      "checkpoint": "fold_4.pt",
+      "sha256": "f3c6dbeda17dcb0ea6fdd1c81893e0761021078dd21345bf3b5e72b12da0696a"
+    },
+    {
+      "fold": 5,
+      "checkpoint": "fold_5.pt",
+      "sha256": "b2ec8b7bdf77e3b66ad85084dc3b74386bbacae5044794f5f15e7fc1f9d6b2e0"
+    }
+  ],
+  "source_sha256": {
+    "model_lib.py": "3be1f44b8e619c858840afb5c39b3597794989c464dabcc32e7da1d27a9244f7",
+    "attnsleep.py": "2f4b86e3a1d16f75da9ee172e9e4062f1229d573785a3a32005b7adb39d43e38",
+    "cbramod.py": "6d20c9ff2ead27c628214076b6bb9330cc5912d6ddea1b613749a7d73a43d01d",
+    "criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c"
+  },
+  "fold_manifest": "sleep_exploration/cv_folds.csv",
+  "fold_manifest_sha256": "55ad72751ea3b114489f5e720b890a8de3d312bd24c09f10126f0eee82b1970c",
+  "dataset": {
+    "path": "dataset/sleep_waveform.pt",
+    "bytes": 9389410875,
+    "sha256": "6769b1cba2f577ec9f52ecc2adfb932e9f66d7d30a4d8211f8d882ccc4e09d76",
+    "shape": [
+      195469,
+      2,
+      30,
+      200
+    ],
+    "development_samples": 170537,
+    "test_samples": 24932,
+    "channels": [
+      "EEG Fpz-Cz",
+      "EEG Pz-Oz"
+    ],
+    "sfreq": 200,
+    "class_map": {
+      "W": 0,
+      "N1": 1,
+      "N2": 2,
+      "N3": 3,
+      "REM": 4
+    }
+  },
+  "pretrained_sha256": null,
+  "environment": {
+    "gpu": "RTX 3090",
+    "evidence": "owner confirmation; observed package versions in environment.txt"
+  },
+  "historical_provenance": "provenance.json",
+  "test_predictions_available": true
+}

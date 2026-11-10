@@ -1,0 +1,4 @@
+,Overall,Overall,Overall,Overall,Overall,Overall,Overall,Per-class F1,Per-class F1,Per-class F1,Per-class F1,Per-class F1
+,Accuracy,Balanced Accuracy,F1,Kappa,MGm,Precision,Recall,W,N1,N2,N3,REM
+partition,,,,,,,,,,,,
+Pooled validation (5/5 folds),0.80579,0.743591,0.750417,0.732136,0.836491,0.761096,0.743591,0.92937,0.451782,0.83802,0.807007,0.725904

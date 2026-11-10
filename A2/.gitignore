@@ -19,15 +19,24 @@ __pycache__/
 # Local logs and temporary files
 *.log
 tmp/
-# New training runs stay local; the curated final evidence is versioned.
+# Fixed run per model/dataset. Version small results; keep trained weights local.
 /runs/*
 !/runs/README.md
-!/runs/final/
-!/runs/final/**/*.log
-/runs/final/**/*.pt
-/runs/final/**/*.pth
+!/runs/StandardCNN2D/
+!/runs/Transformer/
+!/runs/AttnSleep/
+!/runs/CBraModClassifier/
+/runs/*/*
+!/runs/*/*_final/
+!/runs/*/*_final/**/*.log
+/runs/**/*.pt
+/runs/**/*.pth
 
 # Local experiment notebooks; training.ipynb is the runnable entry point.
 # Already tracked notebooks need `git rm --cached` separately to stop tracking.
 /training-*.ipynb
+
+# Legacy local packages and new checkpoint binaries stay outside ordinary Git.
+/releases/
+/spec_model/
 

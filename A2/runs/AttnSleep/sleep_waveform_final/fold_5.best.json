@@ -1,0 +1,62 @@
+{
+  "selection_metric": "validation macro-F1",
+  "best_epoch": 18,
+  "metrics": {
+    "epoch": 18.0,
+    "seconds": 12.08,
+    "train_loss": 0.4974,
+    "train_acc": 0.8194,
+    "train_bal_acc": 0.759,
+    "train_mgm": 0.847,
+    "train_prec": 0.7761,
+    "train_rec": 0.759,
+    "train_f1": 0.7663,
+    "train_kappa": 0.75,
+    "val_loss": 0.5563,
+    "val_acc": 0.8017,
+    "val_bal_acc": 0.7437,
+    "val_mgm": 0.8347,
+    "val_prec": 0.7506,
+    "val_rec": 0.7437,
+    "val_f1": 0.7461,
+    "val_kappa": 0.7286
+  },
+  "confusion_matrix": [
+    [
+      11612,
+      758,
+      55,
+      8,
+      170
+    ],
+    [
+      608,
+      1856,
+      1095,
+      19,
+      397
+    ],
+    [
+      46,
+      876,
+      9747,
+      361,
+      485
+    ],
+    [
+      4,
+      12,
+      371,
+      1924,
+      8
+    ],
+    [
+      221,
+      835,
+      682,
+      33,
+      3347
+    ]
+  ],
+  "origin": "original printed epoch log; precision preserved"
+}

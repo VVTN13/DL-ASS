@@ -1,0 +1,51 @@
+{
+  "layout_version": 3,
+  "record_type": "imported historical run",
+  "imported_utc": "2026-11-10T10:58:53.492326+00:00",
+  "fingerprints_recorded_at": "layout import; not the historical training execution",
+  "status": "metrics_only_checkpoints_pending",
+  "created_utc": null,
+  "git_commit": null,
+  "git_dirty": null,
+  "completed_folds": [],
+  "source_sha256": {
+    "model_lib.py": "3be1f44b8e619c858840afb5c39b3597794989c464dabcc32e7da1d27a9244f7",
+    "attnsleep.py": "2f4b86e3a1d16f75da9ee172e9e4062f1229d573785a3a32005b7adb39d43e38",
+    "cbramod.py": "6d20c9ff2ead27c628214076b6bb9330cc5912d6ddea1b613749a7d73a43d01d",
+    "criss_cross_transformer.py": "90e90b8c98ca7eb543c44e32afc29674d3f71cb090692ad9f82db3a43edf334c"
+  },
+  "fold_manifest": "sleep_exploration/cv_folds.csv",
+  "fold_manifest_sha256": "55ad72751ea3b114489f5e720b890a8de3d312bd24c09f10126f0eee82b1970c",
+  "dataset": {
+    "path": "dataset/sleep_waveform.pt",
+    "bytes": 9389410875,
+    "sha256": "6769b1cba2f577ec9f52ecc2adfb932e9f66d7d30a4d8211f8d882ccc4e09d76",
+    "shape": [
+      195469,
+      2,
+      30,
+      200
+    ],
+    "development_samples": 170537,
+    "test_samples": 24932,
+    "channels": [
+      "EEG Fpz-Cz",
+      "EEG Pz-Oz"
+    ],
+    "sfreq": 200,
+    "class_map": {
+      "W": 0,
+      "N1": 1,
+      "N2": 2,
+      "N3": 3,
+      "REM": 4
+    }
+  },
+  "pretrained_sha256": null,
+  "environment": {
+    "gpu": "RTX 3090",
+    "evidence": "owner confirmation; observed package versions in environment.txt"
+  },
+  "historical_provenance": "provenance.json",
+  "test_predictions_available": false
+}

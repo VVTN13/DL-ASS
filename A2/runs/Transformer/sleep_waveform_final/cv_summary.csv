@@ -1,0 +1,4 @@
+,Overall,Overall,Overall,Overall,Overall,Overall,Overall,Per-class F1,Per-class F1,Per-class F1,Per-class F1,Per-class F1
+,Accuracy,Balanced Accuracy,F1,Kappa,MGm,Precision,Recall,W,N1,N2,N3,REM
+partition,,,,,,,,,,,,
+Mean ± SD,0.8056 ± 0.0079,0.7431 ± 0.0047,0.7498 ± 0.0039,0.7317 ± 0.0108,0.8358 ± 0.0029,0.7625 ± 0.0059,0.7431 ± 0.0047,0.9288 ± 0.0102,0.4510 ± 0.0150,0.8378 ± 0.0115,0.8064 ± 0.0193,0.7251 ± 0.0155

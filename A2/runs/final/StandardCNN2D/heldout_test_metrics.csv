@@ -1,2 +1,0 @@
-partition,accuracy,balanced_accuracy,macro_f1,kappa,mgm,macro_precision,macro_recall,f1_W,f1_N1,f1_N2,f1_N3,f1_REM
-Held-out test,0.763356,0.708754,0.706294,0.67654,0.809748,0.706078,0.708754,0.849991,0.374516,0.832001,0.819964,0.654999
