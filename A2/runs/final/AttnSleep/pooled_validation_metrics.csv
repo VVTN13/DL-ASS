@@ -1,0 +1,2 @@
+partition,accuracy,balanced_accuracy,macro_f1,kappa,mgm,macro_precision,macro_recall,f1_W,f1_N1,f1_N2,f1_N3,f1_REM
+Pooled validation (5/5 folds),0.795956,0.741126,0.74457,0.719765,0.834761,0.752448,0.741126,0.918619,0.445067,0.833837,0.821908,0.703417

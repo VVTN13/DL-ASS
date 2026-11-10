@@ -1,0 +1,100 @@
+{
+  "record_type": "retrospective export of saved experiment outputs, not a new training run",
+  "archived_on": "2026-11-10",
+  "experiment_id": "final/CBraModClassifier",
+  "original_notebook": "training-cbra.ipynb",
+  "original_notebook_sha256": "a53e7120a3e3aa0bb3349d87b3a122c70c4b552e2d18ba970533fee037c7d47c",
+  "config_origin": "reconstruction preset from notebook source; explicit architecture defaults confirmed for the report",
+  "training_commit": null,
+  "execution_timestamp": null,
+  "hardware": {
+    "gpu": "RTX 3090",
+    "evidence": "user confirmation 2026-11-10; not an archived device snapshot"
+  },
+  "dataset": "dataset/sleep_waveform.pt",
+  "dataset_shape": [
+    195469,
+    2,
+    30,
+    200
+  ],
+  "fold_manifest": "../cv_folds.csv",
+  "fold_manifest_sha256": "55ad72751ea3b114489f5e720b890a8de3d312bd24c09f10126f0eee82b1970c",
+  "model_source_sha256_observed_for_report": "3be1f44b8e619c858840afb5c39b3597794989c464dabcc32e7da1d27a9244f7",
+  "folds": [
+    {
+      "fold": 1,
+      "epochs": 29,
+      "best_epoch": 19,
+      "seconds": 2850.31,
+      "median_epoch_seconds": 98.38
+    },
+    {
+      "fold": 2,
+      "epochs": 19,
+      "best_epoch": 9,
+      "seconds": 1870.3600000000001,
+      "median_epoch_seconds": 98.32
+    },
+    {
+      "fold": 3,
+      "epochs": 25,
+      "best_epoch": 15,
+      "seconds": 2466.88,
+      "median_epoch_seconds": 98.63
+    },
+    {
+      "fold": 4,
+      "epochs": 22,
+      "best_epoch": 13,
+      "seconds": 2177.61,
+      "median_epoch_seconds": 98.845
+    },
+    {
+      "fold": 5,
+      "epochs": 28,
+      "best_epoch": 23,
+      "seconds": 2731.21,
+      "median_epoch_seconds": 97.52
+    }
+  ],
+  "checkpoints": [
+    {
+      "path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_1.pt",
+      "sha256": "a554650eb612471e78239e9913ab85866ebd314d9bb5a2e6bc5bad4d07e1c7fe",
+      "strict_load": true
+    },
+    {
+      "path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_2.pt",
+      "sha256": "cd6d3d82274f5817279c51cd6db98454e86bb0966031e56482106ba4e90efe3c",
+      "strict_load": true
+    },
+    {
+      "path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_3.pt",
+      "sha256": "d9a88c2691ab233633c47d298f859f697c5ed490667adf0c063008af5b4af364",
+      "strict_load": true
+    },
+    {
+      "path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_4.pt",
+      "sha256": "d49adccca04c25c66fa7ec04976946f6403e2e6f8e5223f1912587500003e1bb",
+      "strict_load": true
+    },
+    {
+      "path": "spec_model/CBraMod/CBraModClassifier_sleep_waveform_fold_5.pt",
+      "sha256": "27a6602d98ea524242588eb18fb8bf92633738d0c0748e02c2577ecce26e1477",
+      "strict_load": true
+    }
+  ],
+  "test_predictions": {
+    "file": "heldout_test_predictions.csv",
+    "source": "A2/spec_model/CBraModClassifier_sleep_waveform_heldout_test_soft_voting_5models_predictions.csv",
+    "sha256": "1b3c3890c7f1cd437f9956cdb8ce57c23ef03c4e86c093c477ae4b23284641e7"
+  },
+  "limitations": [
+    "Table and history values preserve notebook print precision.",
+    "Historical loss aggregation used batch-size-weighted batch means; the current notebook corrects this for future runs.",
+    "Training commit and execution timestamp were not recorded; no current commit is substituted.",
+    "Checkpoints listed by local path/hash need public access links or reconstruction using the supplied config.",
+    "Pooled matrix differs slightly from the sum of original fold matrices (L1 difference 14); both original outputs preserved."
+  ]
+}

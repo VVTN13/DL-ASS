@@ -1,0 +1,23 @@
+{
+  "model_name": "StandardCNN2D",
+  "model_kwargs": {
+    "in_channels": 2,
+    "num_classes": 5
+  },
+  "data_path": "dataset/sleep_waveform.pt",
+  "seed": 42,
+  "lr": 1e-05,
+  "batch_size": 64,
+  "weight_decay": 0.0001,
+  "n_splits": 5,
+  "max_epochs": 80,
+  "scheduler_name": "CosineAnnealingLR",
+  "scheduler_kwargs": {
+    "T_max": 80,
+    "eta_min": 1e-06
+  },
+  "num_workers": 4,
+  "prefetch_factor": 2,
+  "persistent_workers": true,
+  "pin_memory": true
+}
