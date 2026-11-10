@@ -454,6 +454,140 @@ The requester clarified that the 6,474-sample dataset and fold protocol have bee
 
 Added a concise comparison table identifying AUROC as the criterion for the existing results and Macro-F1 as an alternative without a completed comparison. Documented a validation-only comparison on a shared training trajectory, separating checkpoint choice from the stopping policy; removed wording that prematurely fixed the final choice to Macro-F1. Regenerated the Overleaf ZIP and checked LaTeX structure, references and archive contents. Existing result values, figures and training implementations were unchanged. No training, test-set evaluation, publication or PDF compilation was performed.
 
+### Temporal waveform Transformer, 10 November 2026
+
+**Tool:** OpenAI Codex (GPT-6 Astra). **Requested by:** repository requester;
+named group attribution and final experimental verification remain pending.
+
+**Prompt summary:** Review the proposed 30-time-token waveform Transformer,
+borrow a small idea from AttnSleep, and implement the revised `Transformer()`.
+
+**Contribution:** Added a custom two-branch Conv1d patch encoder inspired by
+AttnSleep's multi-resolution feature extraction. Each one-second patch jointly
+contains the two EEG channels; four ordered pooling bins per branch feed a
+128-dimensional token. Added temporal positions and CLS, with three existing
+Transformer encoder layers, four heads and dropout 0.1. The default classifier
+has 595,973 trainable parameters. Existing model definitions other than
+`Transformer` were preserved. This is an architectural adaptation, not a
+reproduction of AttnSleep or a claim of improved classification performance.
+
+**Verification:** Seven local model tests passed, including real development
+waveforms covering all five stages, finite cross-entropy/backward/optimizer
+steps, channel/time ordering, patch locality, configurable channels/classes,
+attention probabilities and agreement with the fast attention path. AST
+comparison confirmed the other existing model classes were unchanged. No
+full-dataset training or CUDA performance measurement was conducted.
+
+**Affected files:** `A2/model_lib.py`, `A2/tests/test_model_shapes.py`.
+**Verification source:** https://github.com/emadeldeen24/AttnSleep
+
+### A2 final report and full-cohort evidence audit, 10 November 2026
+
+**Tool:** OpenAI Codex; exact model identifier for this report-editing session
+not separately recorded. **Used by:** repository requester; named group
+verification responsibility remains for the authors to complete.
+
+**Request:** Finalize `A2/DL-ASS-A2/main.tex` against the handbook using the four
+completed CNN, temporal Transformer, AttnSleep and CBraMod notebooks; exclude
+ResCBAM/REVE and use method terminology rather than code/file walkthroughs.
+
+**Contribution:** Replaced the pilot M2 narrative with full-cohort methodology,
+EDA and all three evaluation summaries; added training-cost and separate CPU
+inference evidence, stage-specific error analysis and a recipe-level AttnSleep
+sensitivity comparison using the existing native-rate run. Preserved explicit
+limitations about test inspection, validation selection, weighted-loss logging,
+historical checkpoint/run provenance. The requester confirmed the new
+30-time-token Transformer and
+RTX 3090 hardware for all four main training runs.
+
+**Verification:** Recomputed the 12 reported metrics from all 28 main confusion
+matrices; checked full-data class counts, participant folds and partition
+supports. Verified identical held-out epoch identities/order and participant
+folds for the native-rate preparation, with ten additional development Wake
+epochs disclosed. Read the handbook directly and visually inspected its A2
+rubric. Checked dataset and model attribution against official sources.
+Measured CPU forward latency with initialized task weights (five warm-ups,
+20 repeats, float32, four CPU threads); these are not GPU measurements or new
+trained-model results. After the requester supplied the model archive, all 15
+CNN, Transformer and CBraMod checkpoints were strictly loaded, and all three
+test prediction CSVs were checked against their notebook confusion matrices.
+Recovered five-checkpoint Transformer probabilities for 192 fixed test
+candidates; all argmax predictions matched the original export. Added traceable
+correct, low-margin correct and confident-error waveform panels. A paired
+2,000-replicate participant bootstrap quantifies the Transformer-minus-CNN
+macro-F1 difference. AttnSleep uses the completed notebook's metrics and
+confusion matrices pending its epoch-level CSV, as explicitly requested.
+Model and training notebook sources were not edited.
+
+**Report validation:** Compiled the final LaTeX with Tectonic 0.17.0 (XeTeX and
+BibTeX), rendered all 26 pages with PDFKit, reviewed page layouts and inspected
+dense result tables and qualitative panels at page resolution. The final build
+has no LaTeX warnings, overfull boxes, missing citations or references. Supplied
+the PDF and a minimal Overleaf source bundle; older unused source sections and
+figures were preserved but are not part of the compiled report or final bundle.
+
+**Affected material:** final report source, bibliography, figures, supporting
+evidence and report README under `A2/DL-ASS-A2/`, plus this disclosure entry.
+No new training, publication, LMS submission, git staging, commit or push was
+performed. Trained-model inference was limited to the described 192 illustrative
+test candidates; full-test reported scores remain those of the saved experiments.
+
+### A2 notebook reproduction workflow — 10 November 2026
+
+**Request and scope:** Restore full waveform preparation, record per-run
+configuration/provenance, and provide notebook-based preparation, training and
+evaluation instructions. The assistant added an explicit full/small selection
+to preprocessing (default full), a preparation notebook, a small run-output
+helper, and targeted edits to the reusable training notebook's existing 11-cell
+structure. Historical model-specific result notebooks, model implementations,
+trained checkpoints and reported results were preserved.
+
+**Changes:** Saved participant folds are consumed directly; their full-data
+memberships match the original SGKF splits. New runs archive configuration,
+source snapshots, package versions, GPU/commit information, dataset/checkpoint
+hashes, epoch histories, selected checkpoints and probability CSVs. Weighted
+epoch loss now uses the sum of target weights. A retrospective inventory records
+only supported facts about the four historical runs, with unknown cloud commit
+and timestamps left null. Added preparation/training/evaluation instructions
+and updated the report's remaining-work checklist.
+
+**Verification:** Nine preprocessing tests passed. All 195,469 source epoch
+identities matched the existing full export. Re-exporting two real recordings
+produced 1,968 waveforms identical to the existing tensor; the 83-epoch sample
+also matched its corresponding full waveforms. A synthetic CPU smoke run
+executed five folds for one epoch each, checked weighted loss against a direct
+calculation, saved/reloaded checkpoints and completed pooled validation and
+soft-voting evaluation. The README evaluation-only reload reproduced exactly
+the same probabilities. No full-dataset retraining or rewrite of the existing
+9.4 GB dataset, git staging, commit, push or external publication was performed.
+The team remains responsible for final review and cloud execution.
+
+### A2 single-notebook submission layout — 10 November 2026
+
+**Request:** Compare the preprocessing function and CLI, check the handbook,
+and organize a single reusable training notebook instead of publishing four
+copies of the same workflow.
+
+**Work:** Read the handbook's reproducibility and A2 technical/experimental
+requirements (Sections 4.2, 20–21). Verified that the requested Python call and
+the default CLI resolve to the same preprocessing arguments when run alongside
+the existing checksum manifest; documented the missing-manifest difference.
+Made the reusable 11-cell notebook select one JSON config, defaulting to the
+temporal Transformer. Added presets for all four reported models. Archived
+their existing tables, matrices, printed-precision histories, logs, observed
+versions, available prediction CSVs and provenance under `A2/runs/final/`.
+Original experiment notebooks and trained weights were preserved. Historical
+commit/time gaps and the missing AttnSleep prediction CSV remain explicit.
+
+**Verification:** All four configs instantiate the expected parameter counts
+and return finite `(2, 5)` logits. Archived CNN/Transformer/CBraMod prediction
+CSVs reproduce their test confusion matrices. Fold histories and source hashes
+match the existing evidence. A config-driven synthetic five-fold CPU smoke run
+and evaluation-only reload passed, with identical reloaded probabilities.
+Git ignore rules expose the curated small evidence while excluding new run
+directories and checkpoint binaries. No git staging, untracking, commit, push,
+remote publication, full export or full-model retraining was performed.
+
 ## Assignment 3
 
 | Field | Value |

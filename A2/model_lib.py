@@ -4,6 +4,101 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+if __package__:
+    from .attnsleep import AttnSleep as _AuthorAttnSleep
+else:
+    from attnsleep import AttnSleep as _AuthorAttnSleep
+
+
+class AttnSleep(_AuthorAttnSleep):
+    """Author's single-channel AttnSleep for native or legacy waveform files.
+
+    Native: [B, C, 30, 100] or [B, C, 3000], at 100 Hz in microvolts.
+    Legacy: [B, C, 30, 200] or [B, C, 6000], at 200 Hz in microvolts/100.
+    channel_index=0 selects the sole channel of the native export, or Fpz-Cz
+    in the legacy two-channel export; 1 selects legacy Pz-Oz.
+    Output: [B, 5] raw logits for CrossEntropyLoss; trained from scratch.
+
+    Native 3000-point epochs pass through unchanged. Legacy 6000-point epochs
+    were low-pass filtered at 35 Hz before upsampling, so selecting every
+    second sample returns a 100 Hz epoch. This is not a general resampler.
+    Amplitude is preserved; use the same units/export for training and test.
+    Architecture is unchanged; project evaluation differs from paper 20-fold CV.
+    """
+
+    def __init__(self, channel_index=0):
+        super().__init__()
+        self.channel_index = channel_index
+
+    def forward(self, x):
+        x = x.float().flatten(start_dim=2)
+        x = x[:, self.channel_index:self.channel_index + 1]
+        assert x.shape[-1] in (3000, 6000), "Expected a 30-second epoch at 100 or 200 Hz."
+        if x.shape[-1] == 6000:
+            x = x[..., ::2]
+        return super().forward(x.contiguous())
+
+
+class REVEClassifier(nn.Module):
+    """Pretrained REVE with a mean-pooling head for five-stage sleep scoring.
+
+    Accepts waveform [B, C, 30, 200] or [B, C, T] at 200 Hz.
+    Default input_scale=1 preserves the saved sleep_waveform*.pt units (uV/100).
+    For unscaled microvolt input, explicitly use input_scale=100 instead.
+    channel_names must follow the input channel order. Returns [B, num_classes]
+    logits for CrossEntropyLoss.
+    """
+
+    def __init__(self, channel_names, freeze_encoder=False, num_classes=5,
+                 dropout=0.1, input_scale=1.0):
+        super().__init__()
+        from transformers import AutoModel
+
+        self.channel_names = tuple(channel_names)
+        self.in_channels = len(self.channel_names)
+        self.freeze_encoder = freeze_encoder
+        self.register_buffer("input_scale", torch.tensor(float(input_scale)))
+
+        position_bank = AutoModel.from_pretrained(
+            "brain-bzh/reve-positions", trust_remote_code=True)
+        positions = []
+        for channel in self.channel_names:
+            names = channel.removeprefix("EEG ").split("-")
+            indices = [position_bank.mapping[name] for name in names]
+            # Official REVE bipolar convention: midpoint of both electrodes.
+            # https://github.com/elouayas/reve_eeg/blob/main/src/downstream_tasks/position_utils.py
+            positions.append(position_bank.embedding[indices].mean(dim=0))
+        self.register_buffer("positions", torch.stack(positions).detach().float().clone())
+
+        self.backbone = AutoModel.from_pretrained(
+            "brain-bzh/reve-base", trust_remote_code=True)
+        if freeze_encoder:
+            self.backbone.requires_grad_(False)
+        self.classifier = nn.Sequential(
+            nn.Dropout(dropout), nn.Linear(self.backbone.embed_dim, num_classes))
+        self.model_config = {
+            "channel_names": list(self.channel_names),
+            "freeze_encoder": freeze_encoder, "num_classes": num_classes,
+            "dropout": dropout, "input_scale": float(input_scale),
+            "model_id": "brain-bzh/reve-base",
+            "position_id": "brain-bzh/reve-positions",
+            "pooling": "mean", "bipolar_positions": "electrode_midpoint",
+        }
+        self.train()
+
+    def train(self, mode=True):
+        super().train(mode)
+        if self.freeze_encoder:
+            self.backbone.eval()
+        return self
+
+    def forward(self, x):
+        # Join the one-second patches in time order; REVE patches internally.
+        x = x.float().flatten(start_dim=2) / self.input_scale
+        positions = self.positions.unsqueeze(0).expand(x.shape[0], -1, -1)
+        features = self.backbone(x, positions)
+        return self.classifier(features.mean(dim=(1, 2)))
+
 
 class CBraModClassifier(nn.Module):
     """Pretrained CBraMod for five-stage Sleep-EDF waveform classification."""
@@ -267,17 +362,67 @@ class ConvLSTMAttentionTransformer(nn.Module):
             return x, attn_matrices
         return x
     
-class Transformer(nn.Module):
-    def __init__(self, img_size: int = 112, in_channels: int = 2, emb_dim: int = 256,
-                 num_heads: int = 8, num_layers: int = 4, mlp_ratio: int = 3, num_classes: int = 5):
+class TemporalConvEmbedding(nn.Module):
+    """Encode each one-second, multichannel waveform patch as one time token.
+
+    Two Conv1d branches use short/long kernels, inspired by AttnSleep's MRCNN:
+    https://github.com/emadeldeen24/AttnSleep
+    This is a custom patch encoder, not the author's AttnSleep architecture.
+    Four ordered pooling bins retain within-second detail in each branch.
+    """
+
+    def __init__(self, in_channels, embed_dim, dropout=0.1):
         super().__init__()
-        # img_size is retained for earlier calls; adaptive pooling handles the grid size.
-        self.patch_embed = ConvEmbedding(in_channels=in_channels, embed_dim=emb_dim)
+        self.in_channels = in_channels
+        self.short_branch = nn.Sequential(
+            nn.Conv1d(in_channels, 32, kernel_size=25, stride=2, padding=12, bias=False),
+            nn.BatchNorm1d(32), nn.GELU(),
+            nn.Conv1d(32, 64, kernel_size=5, stride=2, padding=2, bias=False),
+            nn.BatchNorm1d(64), nn.GELU(),
+            nn.AdaptiveAvgPool1d(4),
+        )
+        self.long_branch = nn.Sequential(
+            nn.Conv1d(in_channels, 32, kernel_size=101, stride=4, padding=50, bias=False),
+            nn.BatchNorm1d(32), nn.GELU(),
+            nn.Conv1d(32, 64, kernel_size=5, stride=2, padding=2, bias=False),
+            nn.BatchNorm1d(64), nn.GELU(),
+            nn.AdaptiveAvgPool1d(4),
+        )
+        self.projection = nn.Sequential(
+            nn.Linear(2 * 64 * 4, embed_dim),
+            nn.LayerNorm(embed_dim),
+        )
+        self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
+        self.position_embedding = nn.Parameter(torch.zeros(1, 31, embed_dim))
+        self.dropout = nn.Dropout(dropout)
+        nn.init.trunc_normal_(self.cls_token, std=0.02)
+        nn.init.trunc_normal_(self.position_embedding, std=0.02)
+
+    def forward(self, x):
+        assert x.ndim == 4 and tuple(x.shape[1:]) == (self.in_channels, 30, 200), (
+            "Expected [B, in_channels, 30, 200]: 30-second EEG at 200 Hz."
+        )
+        batch_size, channels, seconds, samples = x.shape
+        # Both channels of the SAME second stay together, in chronological order.
+        patches = x.float().permute(0, 2, 1, 3).reshape(batch_size * seconds, channels, samples)
+        features = torch.cat((self.short_branch(patches), self.long_branch(patches)), dim=1)
+        tokens = self.projection(features.flatten(1)).reshape(batch_size, seconds, -1)
+        tokens = torch.cat((self.cls_token.expand(batch_size, -1, -1), tokens), dim=1)
+        return self.dropout(tokens + self.position_embedding)
+
+
+class Transformer(nn.Module):
+    def __init__(self, img_size: int = 112, in_channels: int = 2, emb_dim: int = 128,
+                 num_heads: int = 4, num_layers: int = 3, mlp_ratio: int = 3,
+                 num_classes: int = 5, dropout: float = 0.1):
+        super().__init__()
+        assert emb_dim % num_heads == 0, "emb_dim must be divisible by num_heads."
+        self.patch_embed = TemporalConvEmbedding(in_channels, emb_dim, dropout)
         self.encoder = nn.ModuleList(
-            [TransformerEncoderLayer(emb_dim, num_heads, mlp_ratio) for _ in range(num_layers)]
+            [TransformerEncoderLayer(emb_dim, num_heads, mlp_ratio, dropout) for _ in range(num_layers)]
         )
         self.norm = nn.LayerNorm(emb_dim)
-        self.head = nn.Linear(emb_dim, num_classes)
+        self.head = nn.Sequential(nn.Dropout(dropout), nn.Linear(emb_dim, num_classes))
 
     def forward(self, x, record_attn=False):
         x = self.patch_embed(x)
@@ -286,7 +431,7 @@ class Transformer(nn.Module):
         for layer in self.encoder:
             if record_attn:
                 x, attn_matrix = layer(x, record_attn=True)
-                attn_matrices.append(attn_matrix)
+                attn_matrices.append(attn_matrix.softmax(dim=-1))
             else:
                 x = layer(x)
 

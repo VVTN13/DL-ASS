@@ -9,6 +9,9 @@ Assignment 1 setup, saved-result checks and reproduction commands are in
 [A1/README.md](A1/README.md). See the [A1 overall workflow](A1/docs/overall.md)
 for the shared data pipeline, training loop, and model guides.
 
+Assignment 2's notebook-first full-waveform preparation, training, saved-run
+metadata and evaluation instructions are in [A2/README.md](A2/README.md).
+
 ```
 index.html          shared landing page (institution, course, group, AI disclosure)
 assignment1.html     Assignment 1 page

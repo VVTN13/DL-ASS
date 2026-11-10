@@ -19,4 +19,15 @@ __pycache__/
 # Local logs and temporary files
 *.log
 tmp/
+# New training runs stay local; the curated final evidence is versioned.
+/runs/*
+!/runs/README.md
+!/runs/final/
+!/runs/final/**/*.log
+/runs/final/**/*.pt
+/runs/final/**/*.pth
+
+# Local experiment notebooks; training.ipynb is the runnable entry point.
+# Already tracked notebooks need `git rm --cached` separately to stop tracking.
+/training-*.ipynb
 

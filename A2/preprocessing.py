@@ -1,9 +1,10 @@
-"""Prepare Sleep-EDF waveforms for CBraMod, independently of CNN spectrograms.
+"""Prepare the shared Sleep-EDF waveform dataset from the original EDF files.
 
 Run alongside this script: ``python preprocessing.py``.
 Input and output paths are relative to this script's directory.
-Selects up to 83 epochs per participant directly from EDF annotations.
-Writes dataset/sleep_waveform_small.pt and a matching selection CSV.
+Default: keep all eligible epochs and write dataset/sleep_waveform.pt.
+Notebook: preprocess(samples_per_participant=None) for full, or 83 for small.
+For small, explicitly choose output_file="dataset/sleep_waveform_small.pt".
 Each sample is (2 EEG channels, 30 one-second patches, 200 samples).
 """
 
@@ -27,7 +28,7 @@ from scipy.signal import resample_poly
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "sleep-cassette"
 OUTPUT_DIR = BASE_DIR / "dataset" / "sleep_cbramod"
-OUTPUT_FILE = BASE_DIR / "dataset" / "sleep_waveform_small.pt"
+OUTPUT_FILE = BASE_DIR / "dataset" / "sleep_waveform.pt"
 FOLDS_PATH = BASE_DIR / "sleep_exploration" / "cv_folds.csv"
 REFERENCE_PATH = BASE_DIR / "dataset" / "sleep_edf.pt"
 CHECKSUMS_PATH = BASE_DIR / "SHA256SUMS.txt"
@@ -108,25 +109,30 @@ def select_epochs(annotations, recording_seconds):
     return epochs
 
 
-def sample_participant_epochs(candidates):
-    """Share each person's 83-epoch quota across their available nights/stages."""
-    rng = np.random.default_rng(SEED)
+def sample_participant_epochs(candidates, samples_per_participant=SAMPLES_PER_PARTICIPANT,
+                              seed=SEED):
+    """None keeps all epochs; an integer shares a quota across nights/stages."""
+    if samples_per_participant is None:
+        return {night: sorted(candidates[night]) for night in sorted(candidates)}
+    assert samples_per_participant > 0, "Use None for full, or a positive sample quota."
+    rng = np.random.default_rng(seed)
     selected = {recording: [] for recording in sorted(candidates)}
     for person in sorted({recording[:5] for recording in candidates}):
         nights = sorted(recording for recording in candidates if recording[:5] == person)
         total = sum(len(candidates[night]) for night in nights)
-        if total <= SAMPLES_PER_PARTICIPANT:
+        if total <= samples_per_participant:
             for night in nights:
                 selected[night] = list(candidates[night])
             continue
         strata = [(night, [epoch for epoch in candidates[night] if epoch[1] == stage])
                   for night in nights for stage in CLASS_MAP.values()]
         strata = [(night, epochs) for night, epochs in strata if epochs]
+        assert samples_per_participant >= len(strata), "Quota must cover each available night/stage."
         counts = np.array([len(epochs) for _, epochs in strata])
         # Keep every available night/stage; allocate the rest proportionally.
-        extra = (SAMPLES_PER_PARTICIPANT - len(strata)) * (counts - 1) / (counts - 1).sum()
+        extra = (samples_per_participant - len(strata)) * (counts - 1) / (counts - 1).sum()
         quotas = 1 + np.floor(extra).astype(int)
-        remainder = SAMPLES_PER_PARTICIPANT - int(quotas.sum())
+        remainder = samples_per_participant - int(quotas.sum())
         order = np.argsort(-(extra - np.floor(extra)), kind="stable")
         quotas[order[:remainder]] += 1
         for (night, epochs), count in zip(strata, quotas):
@@ -205,11 +211,11 @@ def make_patches(signal, epochs):
 
 def preprocess_shards(data_dir=DATA_DIR, output_dir=OUTPUT_DIR, *, recordings=None,
                       folds_path=FOLDS_PATH, reference_path=None, checksums_path=None,
-                      overwrite=False):
+                      samples_per_participant=None, seed=SEED, overwrite=False):
     """Export waveform shards. Optional reference/checksums enable stricter validation.
 
     ``recordings`` is a list such as ["SC4001"] for a pilot. The CLI automatically
-    uses the existing CNN metadata and archive checksums when present.
+    uses archive checksums when present; the CNN metadata reference is opt-in.
     """
     started = time.perf_counter()
     data_dir, output_dir = Path(data_dir), Path(output_dir)
@@ -272,13 +278,15 @@ def preprocess_shards(data_dir=DATA_DIR, output_dir=OUTPUT_DIR, *, recordings=No
             raw.close()
         details[recording] = {"source_sha256": hashes,
                               "annotation_interval_counts": dict(Counter(annotations.description))}
-    sampled = sample_participant_epochs(candidates)
-    print(f"Selected {sum(map(len, sampled.values())):,} epochs: up to {SAMPLES_PER_PARTICIPANT} per participant (seed {SEED})", flush=True)
+    sampled = sample_participant_epochs(candidates, samples_per_participant, seed)
+    selection = "all eligible epochs" if samples_per_participant is None else f"up to {samples_per_participant} per participant (seed {seed})"
+    print(f"Selected {sum(map(len, sampled.values())):,} epochs: {selection}", flush=True)
     summary = {
         "status": "in_progress", "config": CONFIG, "recordings": [],
-        "sampling": {"samples_per_participant": SAMPLES_PER_PARTICIPANT, "seed": SEED,
+        "sampling": {"samples_per_participant": samples_per_participant,
+                     "seed": seed if samples_per_participant is not None else None,
                      "source": "EDF annotations before waveform patch extraction",
-                     "method": "proportional night/stage strata; minimum one; without replacement",
+                     "method": "all eligible epochs" if samples_per_participant is None else "proportional night/stage strata; minimum one; without replacement",
                      "eligible_epochs": sum(map(len, candidates.values()))},
         "fold_manifest_sha256": sha256(folds_path), "source_code_sha256": sha256(__file__),
         "cnn_reference": str(Path(reference_path).resolve()) if reference_path else None,
@@ -290,7 +298,7 @@ def preprocess_shards(data_dir=DATA_DIR, output_dir=OUTPUT_DIR, *, recordings=No
     counts = Counter()
     fields = ["shard", "row", "participant", "recording", "onset", "label", "stage", "split", "validation_fold"]
     index_tmp = output_dir / "index.csv.tmp"
-    print(f"CBraMod waveform export: {len(selected)} recordings -> {output_dir}", flush=True)
+    print(f"Shared waveform export: {len(selected)} recordings -> {output_dir}", flush=True)
     print(f"CNN epoch comparison: {reference is not None}; archive checksums: {checksums_path is not None}", flush=True)
     with index_tmp.open("w", newline="") as index_file:
         writer = csv.DictWriter(index_file, fieldnames=fields)
@@ -452,14 +460,23 @@ def merge_shards(shard_dir, output_file=OUTPUT_FILE, *, overwrite=False):
         writer = csv.DictWriter(target, fieldnames=fields)
         writer.writeheader()
         writer.writerows({key: row[key] for key in fields} for row in csv.DictReader(source))
+    summary["output_file"] = output_file.name
+    summary["output_bytes"] = output_file.stat().st_size
+    summary["output_sha256"] = sha256(output_file)
+    output_file.with_suffix(".json").write_text(json.dumps(summary, indent=2) + "\n")
     print(f"Selection CSV: {output_file.with_suffix('.csv')}", flush=True)
+    print(f"Export configuration/provenance: {output_file.with_suffix('.json')}", flush=True)
     return summary
 
 
 def preprocess(data_dir=DATA_DIR, output_file=OUTPUT_FILE, *, recordings=None,
                folds_path=FOLDS_PATH, reference_path=None, checksums_path=None,
-               overwrite=False):
-    """Process EDFs recording-by-recording, then export only one self-contained .pt."""
+               samples_per_participant=None, seed=SEED, overwrite=False):
+    """Export one .pt plus CSV/JSON; None = full, 83 = the small participant sample.
+
+    Full retains all eligible scored epochs after the existing wake/stage rules.
+    It does not remove the filtering, wake cropping or invalid-stage exclusion.
+    """
     output_file = Path(output_file)
     if output_file.suffix != ".pt":
         raise ValueError("The combined output file must have a .pt extension.")
@@ -468,7 +485,8 @@ def preprocess(data_dir=DATA_DIR, output_file=OUTPUT_FILE, *, recordings=None,
     output_file.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".sleep_waveform-preprocess-", dir=output_file.parent) as tmp:
         preprocess_shards(data_dir, tmp, recordings=recordings, folds_path=folds_path,
-                          reference_path=reference_path, checksums_path=checksums_path)
+                          reference_path=reference_path, checksums_path=checksums_path,
+                          samples_per_participant=samples_per_participant, seed=seed)
         return merge_shards(tmp, output_file, overwrite=overwrite)
 
 
@@ -479,10 +497,13 @@ def main():
     parser.add_argument("--merge-from", type=Path,
                         help="Combine an existing completed shard directory without reprocessing EDFs.")
     parser.add_argument("--folds", type=Path, default=FOLDS_PATH)
-    parser.add_argument("--reference", type=Path, default=REFERENCE_PATH if REFERENCE_PATH.is_file() else None,
+    parser.add_argument("--reference", type=Path, default=None,
                         help="Optional CNN tensor file: compare metadata only, never use spectrograms as EEG.")
     parser.add_argument("--checksums", type=Path, default=CHECKSUMS_PATH if CHECKSUMS_PATH.is_file() else None)
     parser.add_argument("--recording", action="append", help="Process only this six-character night ID; repeatable.")
+    parser.add_argument("--samples-per-participant", type=int, default=None,
+                        help="Omit for full; use 83 with a separate small output filename.")
+    parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     if args.merge_from:
@@ -491,7 +512,9 @@ def main():
         merge_shards(args.merge_from, args.output_file, overwrite=args.overwrite)
     else:
         preprocess(args.data_dir, args.output_file, recordings=args.recording, folds_path=args.folds,
-                   reference_path=args.reference, checksums_path=args.checksums, overwrite=args.overwrite)
+                   reference_path=args.reference, checksums_path=args.checksums,
+                   samples_per_participant=args.samples_per_participant, seed=args.seed,
+                   overwrite=args.overwrite)
 
 
 if __name__ == "__main__":
