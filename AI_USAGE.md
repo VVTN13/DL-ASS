@@ -588,6 +588,97 @@ Git ignore rules expose the curated small evidence while excluding new run
 directories and checkpoint binaries. No git staging, untracking, commit, push,
 remote publication, full export or full-model retraining was performed.
 
+### A2 checkpoint distribution preparation — 10 November 2026
+
+Prepared a local Release ZIP containing the 15 supplied CNN, Transformer and
+CBraMod checkpoints, plus SHA-256 manifests and upload/download instructions.
+Every source file matched its committed Git blob, and every decompressed ZIP
+entry matched the source SHA-256. Added ignore rules for local release packages
+and checkpoint binaries. The existing small `spec_model.zip` contains no `.pt`
+files and was preserved. No model bytes were changed; no Release upload,
+untracking, commit, push or history rewrite was performed. The guide explicitly
+notes that deleting files in a new commit does not shrink earlier Git history.
+
+### A2 consolidated run directories — 10 November 2026
+
+**Request:** Unify the manually organized `spec_model` weights and the separate
+`runs` metrics/logs so the final notebook has one clear output location.
+
+**Changes:** Consolidated each reported experiment under
+`runs/<model>/sleep_waveform_final/`, with weights named
+`checkpoints/fold_1.pt` through `fold_5.pt`. New notebook executions use the same
+layout with a timestamped run ID. All saving/evaluation uses `RUN_DIR`; removed
+the duplicate `MODEL_DIR` alias and standardized test filenames. Merged original
+CSVs, removed only byte-identical duplicate copies, retained original tables/logs
+in a local backup, and updated the artifact references and instructions.
+Historical run manifests explicitly identify imported evidence and unknown
+training commit/time; import-time hashes are not presented as cloud-time logs.
+Prepared a v2 Release bundle restoring the canonical run paths. AttnSleep's
+metrics are present, with its missing checkpoints/prediction CSV still explicit.
+
+**Verification:** All 15 checkpoint SHA-256 hashes were unchanged after moving
+and after ZIP round-trip verification. Every checkpoint strictly loads into its
+matching architecture. The same documented reload cell works for all three
+available historical checkpoint sets; an eight-epoch CPU probe per model agrees
+with the original soft-voting prediction records. Original complete test CSVs
+still reproduce their archived confusion matrices. A synthetic five-fold CPU
+training/checkpoint/evaluation run and a fresh reload reproduced identical
+probabilities in the new layout. No full-dataset training or evaluation rerun,
+git index mutation, commit, push, remote upload or history rewrite was performed.
+
+### A2 tracked checkpoint backup restored — 10 November 2026
+
+At the user's request, restored only the 24 tracked `A2/spec_model/` files from
+HEAD into the working tree: 15 checkpoints and 9 CSVs. All restored weights
+match both the canonical run copies and recorded SHA-256 hashes. The canonical
+run layout remains the notebook's active output location; the restored files
+remain tracked until a cloud Release is uploaded and its download verified.
+No staging, untracking, commit, push or remote publication was performed.
+
+### A2 fixed run paths and flat local checkpoints — 10 November 2026
+
+At the user's request, removed timestamped run names and the nested checkpoint
+folder. The existing eleven-cell notebook uses `runs/<model>/<dataset>_final/`
+and saves `fold_1.pt` through `fold_5.pt` directly beside the metrics. Rerunning
+the training cell replaces only that model/dataset run, clearing prior folds
+and evaluation outputs so a partial rerun cannot reuse stale weights. The
+pooled-validation and soft-voting cells load the same flat paths. Weights remain
+local and ignored in `runs/`; Release publication is no longer part of the
+instructions. The 24 restored `spec_model/` files were not changed or untracked.
+
+Verification: a synthetic CPU five-fold train/save/evaluate cycle and a fresh
+README reload reproduced identical probabilities. Repeating training in the
+same directory for one fold removed stale weights/results, preserved a sibling
+run and blocked the incomplete five-model ensemble. All 15 existing run weights
+retained their SHA-256 hashes after flattening; all 24 `spec_model/` file hashes
+are unchanged. No real-data training, staging, commit, push or publication was
+performed. Existing report numbers and PDF were not changed.
+
+### A2 local-only spec_model backup — 10 November 2026
+
+After the owner confirmed a cloud backup and requested removal of the old
+remote folder, removed the 24 `A2/spec_model/` files from the Git index using
+`git rm --cached`. Added `/spec_model/` to the A2 ignore rules. All 24 local
+file hashes remain unchanged; the current run directories are untouched.
+The deletion is staged for the owner's commit/push. Earlier commits still
+contain the original files; no remote publication or history rewrite was done.
+
+### A2 clone readiness and model citations — 10 November 2026
+
+Checked the committed tree and the proposed notebook support files in an
+isolated Git-archive copy. The current commit lacked `attnsleep.py` and
+`run_utils.py`; adding the proposed files resolved both import failures. All
+four JSON model configurations produced finite five-class logits for the
+waveform input, and the preprocessing CLI, 78-participant fold manifest,
+synthetic CPU train/evaluate/reload and fixed-directory overwrite checks passed
+without access to the workspace's datasets or fine-tuned checkpoints. This
+used installed dependencies, not a fresh environment installation or full-data
+training run. Added clone/data/training guidance and clarified that
+`run_records.json` documents historical evidence but is not a runtime input.
+Added the user-supplied CBraMod and AttnSleep BibTeX entries in
+`A2/references.bib` and attribution in the README, checked against the authors'
+official repositories. No staging, commit, push or model changes were made.
+
 ## Assignment 3
 
 | Field | Value |
