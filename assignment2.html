@@ -11,6 +11,7 @@
     caption { text-align: left; font-size: 0.9rem; margin-bottom: 8px; }
     td:not(:first-child) { white-space: nowrap; }
     .result-figure { width: 100%; height: auto; }
+    .video-frame { width: 100%; aspect-ratio: 16 / 9; border: 0; }
     @media (max-width: 640px) { .page { margin: 16px; padding: 24px 16px 32px; } header h1 { font-size: 1.7rem; } }
   </style>
 </head>
@@ -21,7 +22,7 @@
     <h1>Assignment 2 — Five-Stage Sleep Classification from EEG</h1>
     <p class="sub">Group G-09 &middot; CC01 &middot; Final full-cohort results</p>
     <p>Comparing compact waveform models and a pretrained EEG foundation model on participant-separated sleep recordings.</p>
-    <p><a href="A2/G09_A2_Report.pdf">Final report (PDF)</a> &middot; <a href="#results">Test results</a> &middot; <a href="A2/README.md">Reproduction guide</a></p>
+    <p><a href="A2/G09_A2_Report.pdf">Final report (PDF)</a> &middot; <a href="https://www.youtube.com/watch?v=A5MuQxxVxVA">Watch the presentation</a> &middot; <a href="#results">Test results</a> &middot; <a href="A2/README.md">Reproduction guide</a></p>
   </header>
   <section>
     <h2>Group and problem</h2>
@@ -122,12 +123,18 @@
     </ul>
     <p>A fresh clone contains results and code, but not raw EDFs, waveform tensors or fine-tuned fold weights. Follow the guide to download the data, preprocess and train, or obtain dataset/checkpoints separately for evaluation. The pretrained CBraMod initialization weights are tracked. Training again replaces the selected model/dataset run directory.</p>
   </section>
+  <section id="presentation">
+    <h2>Video presentation</h2>
+    <p><a href="https://www.youtube.com/watch?v=A5MuQxxVxVA">Watch Group 9's Assignment 2 presentation on YouTube</a>.</p>
+    <iframe class="video-frame" src="https://www.youtube-nocookie.com/embed/A5MuQxxVxVA" title="CO3133 Group 9 Assignment 2 presentation" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <p>If the embedded player is unavailable, use the YouTube link above.</p>
+  </section>
   <section>
     <h2>Citations and AI disclosure</h2>
     <p>CBraMod: Wang et al., ICLR 2025 (<a href="https://openreview.net/forum?id=NPNUHgHF2w">paper</a>, <a href="https://github.com/wjq-learning/CBraMod">source</a>). AttnSleep: Eldele et al., IEEE TNSRE 29, 809–818, 2021 (<a href="https://doi.org/10.1109/TNSRE.2021.3076234">paper</a>, <a href="https://github.com/emadeldeen24/AttnSleep">source</a>). <a href="A2/references.bib">BibTeX entries</a>.</p>
     <p>OpenAI Codex assisted with implementation, source inspection, reproducibility checks, metrics, figures, report drafting and this final page update. The group trained the models and remains responsible for reviewing claims. All updated AttnSleep metrics were checked against saved predictions and confusion matrices; report preparation did not retrain the model. See <a href="AI_USAGE.md">the AI usage record</a>.</p>
   </section>
-  <footer><p>Last updated: <time datetime="2026-11-10">10 November 2026</time> &middot; Final full-cohort results.</p></footer>
+  <footer><p>Last updated: <time datetime="2026-11-11">11 November 2026</time> &middot; Final full-cohort results.</p></footer>
 </div>
 </body>
 </html>
