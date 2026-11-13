@@ -8,7 +8,7 @@ The completed AttnSleep run is now in [runs/AttnSleep/sleep_waveform_final](runs
 ## 1. Start from a fresh clone
 
 ```bash
-git clone --depth 1 https://github.com/VVTN13/DL-ASS.git
+git clone --depth 1 https://github.com/quocthescaredycat/DL-ASS.git
 cd DL-ASS/A2
 python -m venv .venv
 source .venv/bin/activate
