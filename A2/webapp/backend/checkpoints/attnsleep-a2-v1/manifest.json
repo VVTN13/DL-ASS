@@ -1,0 +1,93 @@
+{
+  "id": "attnsleep-a2-v1",
+  "name": "AttnSleep",
+  "order": 2,
+  "network": "AttnSleep",
+  "network_kwargs": {
+    "channel_index": 0
+  },
+  "class_names": [
+    "W",
+    "N1",
+    "N2",
+    "N3",
+    "REM"
+  ],
+  "input_channels": [
+    "EEG Fpz-Cz"
+  ],
+  "ensemble": "mean of 5 softmax outputs",
+  "preprocessing": {
+    "version": "a2-waveform-v1",
+    "channels": [
+      "EEG Fpz-Cz",
+      "EEG Pz-Oz"
+    ],
+    "source_sfreq": 100,
+    "target_sfreq": 200,
+    "epoch_seconds": 30,
+    "filter": {
+      "low_hz": 0.3,
+      "high_hz": 35.0,
+      "method": "fir",
+      "phase": "zero",
+      "fir_window": "hamming",
+      "fir_design": "firwin",
+      "l_trans_bandwidth": 0.3,
+      "h_trans_bandwidth": 8.75,
+      "pad": "reflect_limited"
+    },
+    "resample": {
+      "method": "scipy.signal.resample_poly",
+      "up": 2,
+      "down": 1,
+      "window": [
+        "kaiser",
+        5.0
+      ],
+      "padtype": "line"
+    },
+    "amplitude": "microvolts / 100",
+    "epoch_grid": "consecutive 30 s windows from recording start; trailing remainder dropped"
+  },
+  "folds": [
+    {
+      "file": "fold_1.pt",
+      "sha256": "8f98f87cfeda9ac912c70ad1c4a12af93ec9ca2def512047c01507df4395d0be"
+    },
+    {
+      "file": "fold_2.pt",
+      "sha256": "e7586ba08aa0bee97c56aafaf08643c42647ea16bddbaa84cfb8d800bca31eb5"
+    },
+    {
+      "file": "fold_3.pt",
+      "sha256": "0f721bd2ee9482d6827ee6de154dd4391d689f36581cc52aec3406276890e746"
+    },
+    {
+      "file": "fold_4.pt",
+      "sha256": "a55aa71a7f11da3e643296a2f7a868613b897bd03101907e5ddc3554be521ba1"
+    },
+    {
+      "file": "fold_5.pt",
+      "sha256": "a6cbaba92ad7205de13b12b4489e1d86912c727bff35bf04e716a99ad9459216"
+    }
+  ],
+  "published_metrics": {
+    "split": "A2 held-out test participants, 5-model soft voting",
+    "accuracy": 0.797,
+    "balanced_accuracy": 0.761,
+    "macro_f1": 0.7506,
+    "kappa": 0.725,
+    "per_class_f1": {
+      "W": 0.8842,
+      "N1": 0.408,
+      "N2": 0.8473,
+      "N3": 0.8362,
+      "REM": 0.7773
+    }
+  },
+  "source": {
+    "run": "A2/runs/AttnSleep/sleep_waveform_final",
+    "config": "A2/configs/AttnSleep.json"
+  }
+}

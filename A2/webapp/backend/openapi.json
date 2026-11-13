@@ -1,0 +1,1237 @@
+{
+  "components": {
+    "schemas": {
+      "Body_recordings-create_recording": {
+        "properties": {
+          "edf": {
+            "contentMediaType": "application/octet-stream",
+            "description": "Sleep-EDF compatible PSG recording",
+            "title": "Edf",
+            "type": "string"
+          },
+          "hypnogram": {
+            "anyOf": [
+              {
+                "contentMediaType": "application/octet-stream",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional EDF+ hypnogram",
+            "title": "Hypnogram"
+          },
+          "model_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Models to run right away",
+            "title": "Model Ids"
+          }
+        },
+        "required": [
+          "edf"
+        ],
+        "title": "Body_recordings-create_recording",
+        "type": "object"
+      },
+      "ChannelPublic": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "sampling_rate": {
+            "title": "Sampling Rate",
+            "type": "number"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "sampling_rate",
+          "unit"
+        ],
+        "title": "ChannelPublic",
+        "type": "object"
+      },
+      "ClassMetrics": {
+        "properties": {
+          "f1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "F1"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "precision": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precision"
+          },
+          "recall": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recall"
+          },
+          "support": {
+            "title": "Support",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "precision",
+          "recall",
+          "f1",
+          "support"
+        ],
+        "title": "ClassMetrics",
+        "type": "object"
+      },
+      "EpochChannel": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "samples": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Samples",
+            "type": "array"
+          }
+        },
+        "required": [
+          "label",
+          "samples"
+        ],
+        "title": "EpochChannel",
+        "type": "object"
+      },
+      "EpochPublic": {
+        "properties": {
+          "channels": {
+            "items": {
+              "$ref": "#/components/schemas/EpochChannel"
+            },
+            "title": "Channels",
+            "type": "array"
+          },
+          "epoch_index": {
+            "title": "Epoch Index",
+            "type": "integer"
+          },
+          "onset_seconds": {
+            "title": "Onset Seconds",
+            "type": "number"
+          },
+          "recording_id": {
+            "format": "uuid",
+            "title": "Recording Id",
+            "type": "string"
+          },
+          "reference_stage": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Stage"
+          },
+          "sampling_rate": {
+            "title": "Sampling Rate",
+            "type": "number"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "recording_id",
+          "epoch_index",
+          "onset_seconds",
+          "sampling_rate",
+          "unit",
+          "channels",
+          "reference_stage"
+        ],
+        "title": "EpochPublic",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthPublic": {
+        "properties": {
+          "database": {
+            "const": "ok",
+            "title": "Database",
+            "type": "string"
+          },
+          "models_available": {
+            "title": "Models Available",
+            "type": "integer"
+          },
+          "status": {
+            "const": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "database",
+          "models_available"
+        ],
+        "title": "HealthPublic",
+        "type": "object"
+      },
+      "JobCreate": {
+        "properties": {
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "recording_id": {
+            "format": "uuid",
+            "title": "Recording Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "recording_id",
+          "model_id"
+        ],
+        "title": "JobCreate",
+        "type": "object"
+      },
+      "JobPublic": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "progress": {
+            "title": "Progress",
+            "type": "number"
+          },
+          "recording_id": {
+            "format": "uuid",
+            "title": "Recording Id",
+            "type": "string"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "succeeded",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "recording_id",
+          "model_id",
+          "status",
+          "stage",
+          "progress",
+          "error_code",
+          "error_message",
+          "created_at",
+          "started_at",
+          "finished_at"
+        ],
+        "title": "JobPublic",
+        "type": "object"
+      },
+      "MetricsPublic": {
+        "properties": {
+          "accuracy": {
+            "title": "Accuracy",
+            "type": "number"
+          },
+          "balanced_accuracy": {
+            "title": "Balanced Accuracy",
+            "type": "number"
+          },
+          "class_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Class Names",
+            "type": "array"
+          },
+          "confusion_matrix": {
+            "items": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "title": "Confusion Matrix",
+            "type": "array"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "kappa": {
+            "title": "Kappa",
+            "type": "number"
+          },
+          "macro_f1": {
+            "title": "Macro F1",
+            "type": "number"
+          },
+          "n_epochs": {
+            "title": "N Epochs",
+            "type": "integer"
+          },
+          "n_scored_epochs": {
+            "title": "N Scored Epochs",
+            "type": "integer"
+          },
+          "per_class": {
+            "items": {
+              "$ref": "#/components/schemas/ClassMetrics"
+            },
+            "title": "Per Class",
+            "type": "array"
+          },
+          "scope": {
+            "enum": [
+              "all",
+              "benchmark"
+            ],
+            "title": "Scope",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "scope",
+          "n_epochs",
+          "n_scored_epochs",
+          "accuracy",
+          "balanced_accuracy",
+          "macro_f1",
+          "kappa",
+          "class_names",
+          "per_class",
+          "confusion_matrix"
+        ],
+        "title": "MetricsPublic",
+        "type": "object"
+      },
+      "ModelPublic": {
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "input_channels": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Input Channels",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "network": {
+            "title": "Network",
+            "type": "string"
+          },
+          "preprocessing_version": {
+            "title": "Preprocessing Version",
+            "type": "string"
+          },
+          "published_metrics": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published Metrics"
+          },
+          "synthetic": {
+            "title": "Synthetic",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "network",
+          "input_channels",
+          "preprocessing_version",
+          "available",
+          "synthetic",
+          "published_metrics"
+        ],
+        "title": "ModelPublic",
+        "type": "object"
+      },
+      "PredictionsPublic": {
+        "properties": {
+          "class_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Class Names",
+            "type": "array"
+          },
+          "epoch_seconds": {
+            "title": "Epoch Seconds",
+            "type": "integer"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "probabilities": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Probabilities",
+            "type": "array"
+          },
+          "recording_id": {
+            "format": "uuid",
+            "title": "Recording Id",
+            "type": "string"
+          },
+          "reference_stages": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Stages"
+          },
+          "stages": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Stages",
+            "type": "array"
+          }
+        },
+        "required": [
+          "job_id",
+          "recording_id",
+          "model_id",
+          "class_names",
+          "epoch_seconds",
+          "stages",
+          "probabilities",
+          "reference_stages"
+        ],
+        "title": "PredictionsPublic",
+        "type": "object"
+      },
+      "RecordingPublic": {
+        "properties": {
+          "channels": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelPublic"
+            },
+            "title": "Channels",
+            "type": "array"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "dropped_seconds": {
+            "title": "Dropped Seconds",
+            "type": "number"
+          },
+          "duration_seconds": {
+            "title": "Duration Seconds",
+            "type": "number"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "has_hypnogram": {
+            "title": "Has Hypnogram",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_sample": {
+            "title": "Is Sample",
+            "type": "boolean"
+          },
+          "jobs": {
+            "items": {
+              "$ref": "#/components/schemas/JobPublic"
+            },
+            "title": "Jobs",
+            "type": "array"
+          },
+          "n_epochs": {
+            "title": "N Epochs",
+            "type": "integer"
+          },
+          "sha256": {
+            "title": "Sha256",
+            "type": "string"
+          },
+          "size_bytes": {
+            "title": "Size Bytes",
+            "type": "integer"
+          },
+          "waveform_ready": {
+            "title": "Waveform Ready",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "filename",
+          "sha256",
+          "size_bytes",
+          "duration_seconds",
+          "n_epochs",
+          "dropped_seconds",
+          "channels",
+          "has_hypnogram",
+          "is_sample",
+          "waveform_ready",
+          "created_at",
+          "expires_at",
+          "jobs"
+        ],
+        "title": "RecordingPublic",
+        "type": "object"
+      },
+      "RecordingsPublic": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RecordingPublic"
+            },
+            "title": "Data",
+            "type": "array"
+          }
+        },
+        "required": [
+          "data",
+          "count"
+        ],
+        "title": "RecordingsPublic",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Research prototype. Not a medical device and not for clinical use.",
+    "summary": "Upload a Sleep-EDF recording, run the A2 models and inspect the hypnogram.",
+    "title": "A2 Sleep Staging",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/health": {
+      "get": {
+        "description": "Ready when the database answers. Reports how many model releases have checkpoints.",
+        "operationId": "health-health_check",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Check",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/jobs": {
+      "post": {
+        "description": "Queue one model on one recording. The worker picks it up; poll the job for progress.",
+        "operationId": "jobs-create_job",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Job",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "jobs-read_job",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Job",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}/export": {
+      "get": {
+        "description": "Download every epoch's stage and probabilities as CSV, or as JSON with provenance.",
+        "operationId": "jobs-export_job",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "json"
+              ],
+              "title": "Format",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/csv": {}
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Export Job",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}/metrics": {
+      "get": {
+        "description": "Agreement with the uploaded hypnogram.\n\n``all`` scores every epoch the hypnogram labels. ``benchmark`` keeps only epochs within\n30 minutes of scored sleep, the window used for the metrics published in the A2 report.",
+        "operationId": "jobs-read_job_metrics",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "required": false,
+            "schema": {
+              "default": "all",
+              "enum": [
+                "all",
+                "benchmark"
+              ],
+              "title": "Scope",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricsPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Job Metrics",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}/predictions": {
+      "get": {
+        "description": "All epochs as column arrays: ``stages[i]`` and ``probabilities[i]`` describe epoch ``i``.",
+        "operationId": "jobs-read_job_predictions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionsPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Job Predictions",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/models": {
+      "get": {
+        "description": "Model releases that can be run, with the metrics published in the A2 report.",
+        "operationId": "models-list_models",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ModelPublic"
+                  },
+                  "title": "Response Models-List Models",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Models",
+        "tags": [
+          "models"
+        ]
+      }
+    },
+    "/api/v1/recordings": {
+      "get": {
+        "description": "Every recording, samples first, then newest uploads.",
+        "operationId": "recordings-list_recordings",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingsPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Recordings",
+        "tags": [
+          "recordings"
+        ]
+      },
+      "post": {
+        "description": "Upload a recording, optionally with its hypnogram, and queue the selected models.\n\nUploading the same file again returns the existing recording and only queues models\nthat have not been run on it yet.",
+        "operationId": "recordings-create_recording",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_recordings-create_recording"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "This file was uploaded before; it is reused."
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Recording",
+        "tags": [
+          "recordings"
+        ]
+      }
+    },
+    "/api/v1/recordings/{recording_id}": {
+      "delete": {
+        "description": "Delete an uploaded recording with its jobs, predictions and files.",
+        "operationId": "recordings-delete_recording",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recording_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Recording Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Recording",
+        "tags": [
+          "recordings"
+        ]
+      },
+      "get": {
+        "operationId": "recordings-read_recording",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recording_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Recording Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Recording",
+        "tags": [
+          "recordings"
+        ]
+      }
+    },
+    "/api/v1/recordings/{recording_id}/epochs/{epoch_index}": {
+      "get": {
+        "description": "Thirty seconds of the filtered EEG that the models saw, at 100 Hz in microvolts.",
+        "operationId": "recordings-read_epoch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recording_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Recording Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "epoch_index",
+            "required": true,
+            "schema": {
+              "title": "Epoch Index",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EpochPublic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Epoch",
+        "tags": [
+          "recordings"
+        ]
+      }
+    }
+  }
+}

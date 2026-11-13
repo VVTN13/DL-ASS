@@ -1,0 +1,20 @@
+# Runtime data and secrets
+data/
+.env
+
+# Trained weights stay out of Git; manifests (with SHA-256) are committed.
+backend/checkpoints/**/*.pt
+backend/checkpoints/**/*.part
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Node and Playwright
+node_modules/
+dist/
+*.tsbuildinfo
+test-results/
+playwright-report/

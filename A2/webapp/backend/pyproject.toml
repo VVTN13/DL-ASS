@@ -1,0 +1,51 @@
+[project]
+name = "sleep-webapp-backend"
+version = "0.1.0"
+description = "FastAPI service and inference worker for the A2 sleep-staging web app"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi[standard]>=0.115",
+    "sqlalchemy>=2.0.30",
+    "alembic>=1.13",
+    "psycopg[binary]>=3.2",
+    "pydantic-settings>=2.4",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "mne>=1.6,<2",
+    "torch>=2.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "scikit-learn>=1.4",
+    "edfio>=0.4",
+]
+
+# Linux (Docker, CI) installs the CPU-only wheel; macOS uses the default PyPI wheel.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["app/ml/networks/attnsleep_author.py", "alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "published: compares against A2 research outputs; needs real checkpoints and the Sleep-EDF files",
+]

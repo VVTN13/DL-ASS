@@ -1,0 +1,100 @@
+{
+  "id": "transformer-a2-v1",
+  "name": "Transformer",
+  "order": 1,
+  "network": "Transformer",
+  "network_kwargs": {
+    "in_channels": 2,
+    "num_classes": 5,
+    "emb_dim": 128,
+    "num_heads": 4,
+    "num_layers": 3,
+    "mlp_ratio": 3,
+    "dropout": 0.1
+  },
+  "class_names": [
+    "W",
+    "N1",
+    "N2",
+    "N3",
+    "REM"
+  ],
+  "input_channels": [
+    "EEG Fpz-Cz",
+    "EEG Pz-Oz"
+  ],
+  "ensemble": "mean of 5 softmax outputs",
+  "preprocessing": {
+    "version": "a2-waveform-v1",
+    "channels": [
+      "EEG Fpz-Cz",
+      "EEG Pz-Oz"
+    ],
+    "source_sfreq": 100,
+    "target_sfreq": 200,
+    "epoch_seconds": 30,
+    "filter": {
+      "low_hz": 0.3,
+      "high_hz": 35.0,
+      "method": "fir",
+      "phase": "zero",
+      "fir_window": "hamming",
+      "fir_design": "firwin",
+      "l_trans_bandwidth": 0.3,
+      "h_trans_bandwidth": 8.75,
+      "pad": "reflect_limited"
+    },
+    "resample": {
+      "method": "scipy.signal.resample_poly",
+      "up": 2,
+      "down": 1,
+      "window": [
+        "kaiser",
+        5.0
+      ],
+      "padtype": "line"
+    },
+    "amplitude": "microvolts / 100",
+    "epoch_grid": "consecutive 30 s windows from recording start; trailing remainder dropped"
+  },
+  "folds": [
+    {
+      "file": "fold_1.pt",
+      "sha256": "4256bd20dfa32d61a9f7760ed2968e9148db3f4b5c4ceef7a388dcb62013911a"
+    },
+    {
+      "file": "fold_2.pt",
+      "sha256": "2b996a9ca9a998f98a165e958e91995659c3bbfca0002d0a155551a3a4de52f3"
+    },
+    {
+      "file": "fold_3.pt",
+      "sha256": "86c10c14480d98a3103fdf46383c517ddb0e830fdd6ce7ab8916115a22496f15"
+    },
+    {
+      "file": "fold_4.pt",
+      "sha256": "f3c6dbeda17dcb0ea6fdd1c81893e0761021078dd21345bf3b5e72b12da0696a"
+    },
+    {
+      "file": "fold_5.pt",
+      "sha256": "b2ec8b7bdf77e3b66ad85084dc3b74386bbacae5044794f5f15e7fc1f9d6b2e0"
+    }
+  ],
+  "published_metrics": {
+    "split": "A2 held-out test participants, 5-model soft voting",
+    "accuracy": 0.7989,
+    "balanced_accuracy": 0.7666,
+    "macro_f1": 0.7564,
+    "kappa": 0.727,
+    "per_class_f1": {
+      "W": 0.8763,
+      "N1": 0.4429,
+      "N2": 0.8498,
+      "N3": 0.8235,
+      "REM": 0.7896
+    }
+  },
+  "source": {
+    "run": "A2/runs/Transformer/sleep_waveform_final",
+    "config": "A2/configs/Transformer.json"
+  }
+}
