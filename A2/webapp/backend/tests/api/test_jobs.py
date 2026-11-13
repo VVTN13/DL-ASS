@@ -1,5 +1,6 @@
 import csv
 import io
+import re
 from datetime import timedelta
 
 import numpy as np
@@ -270,12 +271,34 @@ def test_expired_uploads_are_purged_but_samples_stay(client, settings, monkeypat
     assert not storage.recording_dir(old["id"]).exists()
 
 
-def test_export_filename_is_safe_for_any_uploaded_name(client, worker):
+@pytest.mark.parametrize("export_format", ["csv", "json"])
+def test_export_filename_is_safe_for_any_uploaded_name(client, worker, export_format):
     recording = upload(client, model_ids=(TRANSFORMER,),
                        filename='gi\u1ea5c ng\u1ee7 "1"\r\nX-Evil: 1.edf').json()
     worker.run_pending()
-    response = client.get(f"/api/v1/jobs/{recording['jobs'][0]['id']}/export")
+    response = client.get(f"/api/v1/jobs/{recording['jobs'][0]['id']}/export",
+                          params={"format": export_format})
+    assert response.status_code == 200
+    # Multipart clients may percent-encode quotes and CR/LF before the API sees them.
+    # The download header must be safe regardless of that transport representation.
+    assert re.fullmatch(
+        rf'attachment; filename="[A-Za-z0-9._-]+_{TRANSFORMER}\.{export_format}"',
+        response.headers["content-disposition"],
+    )
+    assert "x-evil" not in response.headers
+
+
+@pytest.mark.parametrize("export_format", ["csv", "json"])
+def test_export_sanitizes_raw_stored_filename(client, finished, export_format):
+    # Set the stored value directly so multipart escaping cannot hide unsafe characters.
+    with get_sessionmaker()() as session:
+        session.execute(update(Recording).where(Recording.id == finished["id"]).values(
+            filename='gi\u1ea5c ng\u1ee7 "1"\r\nX-Evil: 1.edf'))
+        session.commit()
+    job = job_of(finished, TRANSFORMER)
+    response = client.get(f"/api/v1/jobs/{job['id']}/export",
+                          params={"format": export_format})
     assert response.status_code == 200
     assert response.headers["content-disposition"] == (
-        'attachment; filename="gi_c_ng_1_X-Evil_1_transformer-a2-v1.csv"')
+        f'attachment; filename="gi_c_ng_1_X-Evil_1_{TRANSFORMER}.{export_format}"')
     assert "x-evil" not in response.headers
